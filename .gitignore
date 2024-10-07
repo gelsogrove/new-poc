@@ -12,3 +12,7 @@ node_modules
 
 
  
+src/client/models/scratches.onnx
+src/client/models/vin.onnx
+src/client/easyocr/models/craft_mlt_25k.pth
+src/client/easyocr/models/english_g2.pth
