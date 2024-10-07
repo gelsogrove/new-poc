@@ -1,12 +1,12 @@
-# Ignore all files in specific directories
-src/client/*
-src/client/models/*
-src/client/output/*
-src/client/tmp/*
-src/client/easyocr/models/*
-src/server/backend/src/data/
-src/server/backend/src/images/
+
 node_modules/
+
+src/client/easyocr/
+src/client/models/
+src/client/output/
+# src/server/backend/src/data/
+src/server/backend/src/images/
+
 
 # Exclude .DS_Store files in all directories
 **/.DS_Store
