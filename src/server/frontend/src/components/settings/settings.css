@@ -1,0 +1,111 @@
+.settings-list {
+  margin-top: 30px;
+  width: 400px;
+  padding: 10px;
+  font-size: 18px;
+}
+
+.block {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  width: 440px;
+  cursor: pointer; /* Applicabile agli elementi cliccabili */
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.block:hover {
+  background-color: #f0f0f0; /* Colore di sfondo al passaggio del mouse */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra leggera per l'effetto di sollevamento */
+}
+
+.block a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  flex: 1; /* Occupy available space */
+}
+
+.block a:hover {
+  background-color: #f0f0f0; /* Colore di sfondo al passaggio del mouse */
+}
+
+.block b {
+  margin-right: 10px;
+}
+
+.status {
+  margin-left: auto; /* Spinge lo stato verso destra */
+  font-weight: bold;
+  color: green; /* Colore verde per lo stato attivo */
+}
+
+.status.inactive {
+  color: gray; /* Colore per lo stato inattivo se necessario */
+}
+
+.block a .status {
+  cursor: pointer; /* Cursore a mano solo per gli elementi cliccabili */
+}
+
+.block .status {
+  cursor: default; /* Cursore normale per lo stato non cliccabile */
+}
+
+/* Rimuove l'effetto hover per lo stato non cliccabile */
+.block .status:not(.active) {
+  background-color: transparent;
+}
+
+.settings-Modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  width: 80%;
+  max-width: 1700px;
+  height: 90%;
+  max-height: 800px;
+}
+
+.settings-Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.close-button {
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.close-button:hover {
+  background-color: #0056b3; /* Colore di sfondo al passaggio del mouse */
+  transform: scale(1.05); /* Effetto di ingrandimento al passaggio del mouse */
+}
+
+/* Stile per la frase Last Update */
+.last-update {
+  margin-top: 30px;
+  margin-left: 230px;
+  font-size: 16px;
+  color: #666; /* Colore del testo per la data */
+}

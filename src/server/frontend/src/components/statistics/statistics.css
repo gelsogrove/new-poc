@@ -1,0 +1,34 @@
+/* settings.css */
+
+/* Stile per il contenitore dei blocchi */
+.block {
+  display: flex; /* Usa flexbox per allineare gli elementi */
+  justify-content: space-between; /* Spaziatura tra gli elementi */
+  align-items: center; /* Allineamento verticale al centro */
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid #ddd; /* Aggiungi un bordo se necessario */
+  border-radius: 5px; /* Aggiungi un angolo arrotondato se necessario */
+}
+
+/* Stile per l'etichetta "Active" a destra */
+.status-label {
+  font-weight: bold;
+  color: green; /* Colore verde per l'etichetta "Active" */
+  margin-left: 20px; /* Spazio a sinistra dell'etichetta "Active" */
+}
+
+/* Stile per il testo "Status" */
+.block div {
+  display: flex;
+  align-items: center;
+}
+
+.green {
+  color: green; /* Colore verde per lo status */
+  font-weight: bold; /* Testo in grassetto */
+}
+
+.chart-container {
+  cursor: pointer;
+}

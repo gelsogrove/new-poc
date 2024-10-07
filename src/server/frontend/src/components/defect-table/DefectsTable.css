@@ -1,0 +1,112 @@
+/* Container for the table */
+.defects-table-container {
+  width: 58vw;
+  height: 830px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  overflow: hidden;
+}
+
+/* Style for the table */
+.defects-table {
+  width: 100%; /* Fit the width to the container size */
+  height: 100%; /* Occupy the full height of the container */
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Table headers */
+.defects-table thead {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  height: 40px;
+  background-color: #f4f4f4;
+  z-index: 1;
+}
+
+/* Table columns */
+.defects-table th,
+.defects-table td {
+  padding: 16px;
+  border: 1px solid #ddd;
+}
+
+.defects-table td:first-child {
+  width: 370px;
+}
+
+/* Table column for images */
+.defects-table th.detection {
+  width: 200px;
+}
+
+.defects-table th.details {
+  width: 400px;
+}
+
+/* Table body with vertical scroll */
+.defects-table tbody {
+  display: block;
+  width: 1040px;
+  font-size: 18px;
+  height: calc(100% - 40px); /* Total height minus header height */
+  overflow-y: auto;
+}
+
+/* Table rows */
+.defects-table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Alternating row colors */
+.defects-table tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* White for odd rows */
+}
+
+.defects-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Light gray for even rows */
+}
+
+/* Thumbnails */
+.thumbnail {
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+/* Highlighting for new rows */
+.highlight-new {
+  background: linear-gradient(
+    90deg,
+    rgba(139, 0, 0, 0.5) 0%,
+    rgba(255, 255, 255, 0.5) 100%
+  );
+  animation: highlight-animation 3s ease-in-out forwards;
+}
+
+/* Animation for new row */
+@keyframes highlight-animation {
+  from {
+    background: linear-gradient(
+      90deg,
+      rgba(139, 0, 0, 0.5) 0%,
+      rgba(255, 255, 255, 0.5) 100%
+    );
+  }
+  to {
+    background: none;
+  }
+}
+
+.loading {
+  width: 100px; /* Adjust width if needed */
+  margin: 0px 400px; /* Center the image horizontally */
+  display: block; /* Make sure it takes up its own line */
+  padding: 15px;
+}

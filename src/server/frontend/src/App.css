@@ -1,0 +1,63 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.App {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f0f0f0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+  position: relative; /* Per assicurare che il contenuto delle card non venga coperto */
+}
+
+.title-container {
+  width: 100%;
+}
+
+h1 {
+  color: #333;
+  text-align: left;
+}
+
+.defects-table-container {
+  flex: 3;
+  margin-right: 20px; /* Aggiungi spazio tra tabella e card */
+  max-height: 880px; /* Imposta l'altezza massima della tabella */
+  overflow-y: auto; /* Aggiungi scrollbar verticale se necessario */
+}
+
+.cards-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Spazio tra le card */
+  margin-top: 80px; /* Sposta le card verso il basso di 80px */
+  position: relative; /* Assicurati che le card non siano sopra la patina della popup */
+}
+
+/* CSS per le card */
+.card {
+  margin-left: 30px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 360px; /* Altezza fissa per le card */
+  width: 500px;
+  position: relative;
+  z-index: 0; /* Assicurati che le card siano sotto l'overlay e la modale */
+}
+
+.card h2 {
+  margin-top: 0;
+}
