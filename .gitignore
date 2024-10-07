@@ -1,5 +1,5 @@
 # Ignore all files in specific directories
-src/client/easyocr/*
+src/client/*
 src/client/models/*
 src/client/output/*
 src/client/tmp/*
