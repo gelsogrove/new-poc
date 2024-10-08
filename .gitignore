@@ -4,7 +4,8 @@ node_modules/
 src/client/easyocr/
 src/client/models/
 src/client/output/
-# src/server/backend/src/data/
+src/client/defects/
+src/server/backend/src/data/
 src/server/backend/src/images/
 
 
