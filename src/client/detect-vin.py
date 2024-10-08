@@ -2,10 +2,20 @@ import os
 import cv2
 import numpy as np
 import base64
-from ultralytics import YOLO
 import easyocr
+import logging
+import warnings
+import onnxruntime as ort
+from ultralytics import YOLO
 from concurrent.futures import ThreadPoolExecutor
 import time
+
+# Imposta il livello di log su "FATAL" per mostrare solo errori critici
+# Disabilita completamente il logger di ONNX Runtime
+logging.getLogger('onnxruntime').setLevel(logging.CRITICAL)
+warnings.filterwarnings("ignore", message="Metadata not found for.*")
+ort.set_default_logger_severity(4)  # 3 = ERROR, 4 = FATAL
+logging.basicConfig(level=logging.INFO)
 
 def resize_image(image, target_size=(640, 640)):
     """Resize the input image to the target size."""
@@ -46,7 +56,7 @@ def convert_image_to_base64(image):
 
 def perform_ocr(image_base64, ocr_confidence_threshold=0.7):
     """Perform OCR on the given Base64 image and return the extracted text."""
-    model_storage_directory = 'easyocr/models'
+    model_storage_directory = 'src/client/easyocr/models'
     reader = easyocr.Reader(['en'], download_enabled=False, model_storage_directory=model_storage_directory)
     
     try:
@@ -65,7 +75,7 @@ def perform_ocr(image_base64, ocr_confidence_threshold=0.7):
                 detected_texts.append(text.strip())
     
         vin_number = ''.join(detected_texts).replace('.', '').replace(',', '')
-        print("vin_number:", vin_number)
+        print("VIN number:", vin_number)
     
         return vin_number
     except Exception as e:
@@ -86,7 +96,7 @@ def process_image(filepath, model, confidence_threshold, ocr_confidence_threshol
         boxes = results[0].boxes.xyxy.tolist()
         confidences = results[0].boxes.conf.tolist()
 
-        print("boxes:", boxes)
+        print("Boxes:", boxes)
 
         if not boxes:
             print(f"No boxes detected in {filepath}.")
@@ -100,12 +110,10 @@ def process_image(filepath, model, confidence_threshold, ocr_confidence_threshol
                 zoom_start = time.time()
                 zoomed_img = zoom_into_bbox(resized_frame, (x1, y1, x2, y2), margin, zoom_level=4.0)
                 zoom_end = time.time()
-                # print(f"Zoom time: {zoom_end - zoom_start:.2f} seconds")
 
                 base64_start = time.time()
                 zoomed_image_base64 = convert_image_to_base64(zoomed_img)
                 base64_end = time.time()
-                # print(f"Base64 conversion time: {base64_end - base64_start:.2f} seconds")
 
                 ocr_start = time.time()
                 vin_number = perform_ocr(zoomed_image_base64, ocr_confidence_threshold)
@@ -139,12 +147,15 @@ def run_yolo_detection(model_path, input_dir, output_dir, confidence_threshold=0
             except Exception as e:
                 print(f"Error in thread: {e}")
 
-model_path = "models/vin.onnx"
-input_dir = "defects/scratches"
-output_dir = "output"
+ 
+ 
+model_path = "src/client/models/vin.onnx"
+input_dir = "src/client/defects/scratches"
+output_dir = "src/client/output"
 confidence_threshold = 0.7
 ocr_confidence_threshold = 0.1
 margin = 10
 delete_original = True
 
+ 
 run_yolo_detection(model_path, input_dir, output_dir, confidence_threshold, ocr_confidence_threshold, margin, delete_original=delete_original)

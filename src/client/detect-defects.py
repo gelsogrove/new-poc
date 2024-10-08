@@ -102,10 +102,10 @@ def analyze_images_in_folder(folder_path, model_path, input_shape, output_folder
     return defects_found
 
 def main():
-    input_dir = "defects/scratches"
-    model_path = 'models/scratches.onnx'
+    input_dir = "src/client/defects/scratches"
+    model_path = 'src/client/models/scratches.onnx'
     input_shape = [1, 3, 640, 640]
-    output_folder = './output'
+    output_folder = 'src/client/output'
     confidence_threshold = 0.85
 
     clear_output_folder(output_folder)
@@ -113,7 +113,7 @@ def main():
     defects_found = analyze_images_in_folder(input_dir, model_path, input_shape, output_folder, confidence_threshold)
 
     if defects_found:
-        command = "cd /Users/gelso/workspace/PoC/src/client && python3 detect-vin.py"
+        command = "python3 src/client/detect-vin.py"
         subprocess.run(command, shell=True)
     else:
         clear_input_folder(input_dir)
