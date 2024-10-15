@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "python:dependency": "cd src/client && python3 -m pip install --upgrade requests",
     "start:watch": "python3 src/client/watch.py",
     "start:backend": "cd src/server/backend && npm run dev",
     "start:frontend": "cd src/server/frontend && PORT=4000 npm start npm run start",

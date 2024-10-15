@@ -5,9 +5,9 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 # Configurazioni
-FOLDER_TO_WATCH = '/Users/gelso/workspace/PoC/src/client/defects/scratches'
-SCRIPT1 = '/Users/gelso/workspace/PoC/src/client/detect-vin.py'
-SCRIPT2 = '/Users/gelso/workspace/PoC/src/client/detect-defects.py'
+FOLDER_TO_WATCH = 'src/client/defects/scratches'
+SCRIPT1 = 'src/client/detect-vin.py'
+SCRIPT2 = 'src/client/detect-defects.py'
 IMAGE_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.bmp', '.tiff'}
 
 class MyHandler(FileSystemEventHandler):
