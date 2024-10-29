@@ -1,0 +1,55 @@
+/* src/components/Navbar.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f8ff; /* Colore di sfondo */
+  padding: 20px 40px; /* Maggiore padding per la navbar */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  color: #dc3545; /* Colore del logo */
+  font-size: 1.5rem;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px; /* Maggiore spaziatura tra i link */
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #333; /* Colore del testo */
+  font-weight: bold;
+  padding: 10px 15px; /* Padding per aumentare l'area cliccabile */
+  transition: color 0.3s; /* Transizione per l'effetto hover */
+}
+
+.nav-links li a:hover {
+  color: #dc3545; /* Cambia colore al passaggio del mouse */
+  text-decoration: underline; /* Sottolinea il testo */
+}
+
+.language-selector button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Media query per responsività */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Cambia in colonna su schermi piccoli */
+    align-items: flex-start; /* Allinea a sinistra */
+  }
+  .nav-links {
+    flex-direction: column; /* I link si impilano verticalmente */
+    gap: 10px; /* Spaziatura verticale */
+  }
+}

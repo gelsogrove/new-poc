@@ -1,0 +1,16 @@
+/* index.css o App.css */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Assicura che il contenitore principale occupi almeno l'altezza della viewport */
+}
+
+.main {
+  flex: 1; /* Permette al contenitore principale di espandersi */
+}
