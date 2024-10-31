@@ -1,0 +1,41 @@
+/* src/components/Info.css */
+
+.info-container {
+  width: 100%; /* Full width of the viewport */
+  height: 300px; /* Height of the Info component */
+  background: linear-gradient(
+    to top,
+    white,
+    rgb(241, 194, 107)
+  ); /* Gradient from orange to red */
+  display: flex; /* Use flexbox for centering content */
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  color: white; /* Text color */
+  padding: 20px; /* Padding for some spacing */
+  text-align: center; /* Center text */
+  box-sizing: border-box; /* Include padding in the total width/height */
+}
+
+.info-title {
+  font-size: 2.5rem; /* Title font size */
+  margin-bottom: 20px; /* Space below the title */
+  color: black;
+}
+
+.info-text {
+  font-size: 1.4rem; /* Text font size */
+  width: 1000px; /* Max width for text */
+  color: black;
+  margin-right: -240px;
+  text-align: justify;
+  margin-top: 40px;
+}
+
+.info-image > img {
+  width: 350px; /* Full width */
+  margin-top: -190px;
+  margin-left: -1140px;
+  border: 1px solid black;
+}

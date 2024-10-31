@@ -1,22 +1,29 @@
 .home-container {
-  padding: 50px;
+  padding: 30px;
   text-align: center;
 }
 
 .header {
-  margin-bottom: 40px;
+  margin-bottom: 0px;
 }
 
 .header h1 {
   color: #ffffff;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .header p {
   color: rgb(241, 194, 107);
   font-size: 2.7rem;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.subtitle {
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 0px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -25,17 +32,16 @@
   flex-wrap: wrap; /* Permette alle card di andare a capo */
   justify-content: center;
   align-items: flex-start;
-  gap: 40px; /* Maggiore spazio tra le card */
-  margin-top: 100px;
+  gap: 50px;
+  margin-top: 40px;
 }
 
 .feature-item {
-  background: white;
-  padding: 20px;
+  background: #eee961;
+  padding: 1px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  flex: 1 1 300px; /* Larghezza flessibile e minima di 300px */
-  max-width: 570px;
+  max-width: 500px;
+  flex: 1 1 60px; /* Larghezza flessibile e minima di 300px */
   position: relative;
   overflow: hidden; /* Nasconde eventuali parti che fuoriescono */
   transition: transform 0.3s ease; /* Transizione per il zoom */
@@ -49,7 +55,7 @@
 
 .feature-image {
   width: 100%; /* Rende l'immagine larga quanto il contenitore */
-  height: 450px; /* Altezza fissa per l'immagine */
+  height: 330px; /* Altezza fissa per l'immagine */
   object-fit: cover; /* Copre l'area senza distorcere l'immagine */
   transition: transform 0.3s ease; /* Transizione per il zoom */
 }
@@ -63,21 +69,21 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 1);
   padding: 15px;
   text-align: left; /* Allinea il testo a sinistra */
 }
 
 .overlay h3 {
   margin: 0;
-  color: #dc3545;
-  font-size: 1.7rem;
+  color: rgb(241, 194, 107);
+  font-size: 1rem;
 }
 
 .overlay p {
   margin: 0;
-  color: #333;
-  font-size: 1rem;
+  color: #fff;
+  font-size: 0rem;
 }
 
 /* Media Queries per la Responsività */

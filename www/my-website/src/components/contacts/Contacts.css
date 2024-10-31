@@ -1,0 +1,84 @@
+/* src/components/contacts/Contacts.css */
+
+.contact-section {
+  background-color: rgb(241, 194, 107); /* Colore di sfondo per il modulo */
+  color: black; /* Colore del testo della sezione di contatto */
+  padding: 20px; /* Spaziatura interna */
+  border-radius: 8px; /* Angoli arrotondati */
+  min-width: 450px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombra per il modulo */
+}
+
+.contact-title {
+  text-align: center; /* Centra il titolo */
+  margin-bottom: 20px; /* Spazio sotto il titolo */
+}
+
+.form-group {
+  margin-bottom: 15px; /* Spazio tra i gruppi di input */
+}
+
+.form-group label {
+  display: block; /* Rende l'etichetta un blocco per la corretta visualizzazione */
+  margin-bottom: 5px; /* Distanza sotto l'etichetta */
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%; /* Larghezza completa per gli input */
+  padding: 10px; /* Padding per un'area di input più ampia */
+  border: 1px solid #ccc; /* Bordo standard */
+  border-radius: 5px; /* Angoli arrotondati */
+}
+
+.form-group textarea {
+  resize: vertical; /* Consente il ridimensionamento verticale */
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center; /* Allinea verticalmente l'etichetta del checkbox */
+  margin-top: 10px; /* Spazio sopra il checkbox */
+  margin-bottom: 15px; /* Distanza sotto il checkbox per l'allineamento */
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 20px; /* Larghezza del checkbox */
+  height: 20px; /* Altezza del checkbox */
+  margin-right: 10px; /* Spazio tra checkbox e etichetta */
+  cursor: pointer; /* Cambia il cursore quando si passa sopra il checkbox */
+}
+
+.checkbox-group label {
+  font-size: 1rem; /* Dimensione del testo dell'etichetta */
+  color: black; /* Colore del testo dell'etichetta */
+}
+
+/* Aggiunta di uno stile hover per il checkbox */
+.checkbox-group input[type="checkbox"]:hover {
+  transform: scale(1.1); /* Ingrandisce il checkbox al passaggio del mouse */
+}
+
+/* Aggiunta di uno stile per rendere il checkbox più evidente */
+.checkbox-group input[type="checkbox"]:checked {
+  accent-color: rgb(
+    241,
+    194,
+    107
+  ); /* Cambia il colore del checkbox quando selezionato (supportato in Firefox) */
+}
+
+.submit-button {
+  background-color: black; /* Colore di sfondo per il pulsante di invio */
+  color: white; /* Colore del testo */
+  padding: 10px 20px; /* Padding per il pulsante */
+  border: none; /* Rimuove il bordo */
+  border-radius: 5px; /* Angoli arrotondati */
+  cursor: pointer; /* Cambia il cursore quando si passa sopra il pulsante */
+  font-size: 1rem; /* Dimensione del testo */
+  transition: background-color 0.3s; /* Transizione per il colore di sfondo */
+}
+
+.submit-button:hover {
+  background-color: #444; /* Colore di sfondo scuro al passaggio del mouse */
+}

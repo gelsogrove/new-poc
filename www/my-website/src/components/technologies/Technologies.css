@@ -1,0 +1,45 @@
+/* src/components/Technologies.css */
+
+.technologies-container {
+  width: 100vw; /* Larghezza intera della finestra */
+  background-color: white; /* Sfondo bianco */
+  display: flex; /* Usa Flexbox per disporre le card */
+  justify-content: center; /* Centra le card orizzontalmente */
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.technology-card {
+  background-color: white; /* Sfondo bianco per la card */
+  transition: transform 0.2s; /* Transizione per l'effetto hover */
+  border: none; /* Rimuovi il bordo per uno stile pulito */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per la card */
+  margin: 10px; /* Margine attorno a ciascuna card */
+  width: 150px; /* Larghezza fissa per le card */
+  height: 150px; /* Altezza fissa per le card */
+  display: flex; /* Flexbox per centrare il logo */
+  justify-content: center; /* Centra orizzontalmente */
+  align-items: center; /* Centra verticalmente */
+}
+
+.technology-card:hover {
+  transform: scale(1.05); /* Effetto di ingrandimento al passaggio del mouse */
+}
+
+.tech-logo {
+  width: 80%; /* Assicura che l'immagine occupi gran parte della card */
+  height: auto; /* Mantiene le proporzioni dell'immagine */
+  filter: grayscale(100%); /* Rende il logo in bianco e nero */
+  transition: filter 0.2s; /* Transizione per il cambiamento del filtro */
+}
+
+.technology-card:hover .tech-logo {
+  filter: grayscale(0%); /* Rimuove il filtro al passaggio del mouse */
+}
+
+.row {
+  width: 100%;
+  margin-left: 11%;
+}

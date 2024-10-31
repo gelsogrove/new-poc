@@ -1,0 +1,76 @@
+/* src/components/Landing.css */
+
+.landing-container {
+  display: flex;
+  flex-direction: row; /* Dispone gli elementi su una riga */
+  justify-content: space-between; /* Spaziatura tra le sezioni */
+  align-items: flex-start; /* Allinea le sezioni in alto */
+  padding: 40px;
+  background-color: transparent;
+  color: white;
+  min-height: 100vh; /* Almeno l'altezza dello schermo */
+  width: 80%; /* Larghezza fissa per l'elemento */
+  margin: 0 auto; /* Centra orizzontalmente */
+  margin-top: 90px; /* Spazio superiore */
+  margin-left: 5rem;
+}
+
+.text-section {
+  flex: 0 0 70%; /* Occupa il 70% della larghezza */
+  margin-right: 20px; /* Spazio tra le sezioni */
+  text-align: left; /* Allinea il testo a sinistra */
+}
+
+.contact-section {
+  flex: 0 0 30%; /* Occupa il 30% della larghezza */
+  background-color: rgb(241, 194, 107); /* Colore di sfondo per il modulo */
+  color: black; /* Colore del testo della sezione di contatto */
+  padding: 20px; /* Spaziatura interna */
+  border-radius: 8px; /* Angoli arrotondati */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombra per il modulo */
+  text-align: left; /* Allinea il testo a sinistra */
+  min-height: 400px; /* Altezza minima per il contatto */
+  margin-top: -20px;
+}
+
+.bulleted-list {
+  list-style-type: none; /* Rimuove i punti elenco predefiniti */
+  padding-left: 0; /* Rimuove il padding a sinistra */
+}
+
+.larger-text {
+  font-size: 2rem; /* Aumenta la dimensione del testo (puoi regolarla secondo le tue necessità) */
+  line-height: 1.5; /* Aggiungi un po' di spazio tra le righe per migliorare la leggibilità */
+}
+
+.bulleted-list li {
+  display: flex; /* Rende il contenuto flessibile */
+  align-items: center; /* Centra verticalmente */
+  margin-bottom: 10px; /* Distanza tra gli elementi della lista */
+  font-size: 2rem;
+}
+
+.smart-title {
+  font-size: 3.6rem; /* Adjusts the font size of the title */
+  font-weight: bold; /* Makes the title bold */
+  color: rgb(241, 194, 107); /* Optional: change the color */
+  text-align: left; /* Aligns the title to the left */
+  margin-bottom: 40px; /* Adds some space below the title */
+}
+
+.bulleted-list svg {
+  width: 35px; /* Larghezza dell'icona */
+  height: 35px; /* Altezza dell'icona */
+  margin-right: 25px; /* Distanza tra l'icona e il testo */
+  border-radius: 50%; /* Bordo arrotondato per l'icona */
+  background-color: rgb(241, 194, 107); /* Colore di sfondo per l'icona */
+  padding: 5px; /* Padding per aumentare la dimensione del cerchio */
+}
+
+/* Update SVG styles to make the bullet black and larger */
+.bulleted-list svg path {
+  fill: black; /* Colore della spunta nera */
+  width: 24px; /* Larghezza dell'icona */
+  height: 24px; /* Altezza dell'icona */
+  margin-right: 10px; /* Margine a destra per spazio */
+}
