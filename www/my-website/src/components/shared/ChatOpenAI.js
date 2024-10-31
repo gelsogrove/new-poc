@@ -3,11 +3,18 @@
 import React, { useState } from "react"
 import "./ChatOpenAI.css"
 
-const ChatOpenAI = () => {
-  const [messages, setMessages] = useState([
-    { id: 1, sender: "user", text: "Hello, how can I help you?" },
-    { id: 2, sender: "bot", text: "Hi! I need assistance with my order." },
-  ])
+const ChatOpenAI = ({ type }) => {
+  // Messaggio di benvenuto diverso in base al tipo di chatbot
+  let welcomeMessage
+  if (type === "custom-chatbot") {
+    welcomeMessage = "Hello! How can I help you?"
+  } else if (type === "generative") {
+    welcomeMessage = "Welcome to Generative AI Chat!"
+  }
+
+  const initialMessages = [{ id: 1, sender: "bot", text: welcomeMessage }]
+
+  const [messages, setMessages] = useState(initialMessages)
   const [inputValue, setInputValue] = useState("")
 
   const handleSend = () => {
@@ -20,12 +27,18 @@ const ChatOpenAI = () => {
     setMessages([...messages, newMessage])
     setInputValue("")
 
-    // Simulazione risposta bot
+    // Risposta simulata del bot
     setTimeout(() => {
+      let botResponse = "I'm here to help!"
+      if (type === "custom") {
+        botResponse = "This is a response from the Custom Chatbot."
+      } else if (type === "generative") {
+        botResponse = "Generating a response for you..."
+      }
       const botMessage = {
         id: messages.length + 2,
         sender: "bot",
-        text: "This is a bot response.",
+        text: botResponse,
       }
       setMessages((prevMessages) => [...prevMessages, botMessage])
     }, 1000)
@@ -33,7 +46,7 @@ const ChatOpenAI = () => {
 
   return (
     <div className="chat-openai">
-      <h3>Custom Chatbot</h3>
+      <h3>{type === "custom" ? "Custom Chatbot" : "Generative AI Chatbot"}</h3>
       <div className="chat-messages">
         {messages.map((msg) => (
           <div

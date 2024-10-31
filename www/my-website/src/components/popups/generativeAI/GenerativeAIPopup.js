@@ -19,7 +19,7 @@ const GenerativeAIPopup = ({ onClose }) => {
 
       {/* Sezione Chat (più larga) */}
       <div className="chat-section">
-        <ChatOpenAI />
+        <ChatOpenAI type="generative" />
       </div>
 
       {/* Sezione Lista File */}

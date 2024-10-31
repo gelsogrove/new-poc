@@ -26,7 +26,7 @@ const ChatbotPopup = ({ onClose }) => {
 
       {/* Sezione Chat */}
       <div className="chat-section">
-        <ChatOpenAI />
+        <ChatOpenAI type="custom-chatbot" />
       </div>
     </div>
   )

@@ -20,11 +20,6 @@ const Technologies = () => {
       alt: "Ultralytics",
     },
     {
-      src: "../images/logos/opencv.png", // Assicurati che il percorso sia corretto
-      alt: "OPEN CV",
-    },
-
-    {
       src: "../images/logos/google-colab.svg",
       alt: "Google Colab",
     },
