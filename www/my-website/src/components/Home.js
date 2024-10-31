@@ -1,36 +1,76 @@
-import React from "react"
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState } from "react"
 import "./Home.css" // Assicurati che questo file CSS esista
 import Info from "./info/Info"
 import Landing from "./landing/Landing"
+import Popup from "./popups/Popup" // Import del componente Popup
 import Technologies from "./technologies/Technologies"
 
+// Import aggiuntivo
+import ChatbotPopup from "./popups/chatbot/ChatbotPopup"
+import GenerativeAIPopup from "./popups/generativeAI/GenerativeAIPopup"
+
 const Home = () => {
+  // Stato per tenere traccia della popup attiva
+  const [activePopup, setActivePopup] = useState(null)
+
+  // Funzione per aprire la popup
+  const openPopup = (popupType) => {
+    setActivePopup(popupType)
+  }
+
+  // Funzione per chiudere la popup
+  const closePopup = () => {
+    setActivePopup(null)
+  }
+
   return (
     <div>
+      {/* Popup per Custom Vision */}
+      <Popup isOpen={activePopup === "customVision"} onClose={closePopup}>
+        <div style={{ padding: "20px" }}>
+          <h2>Custom Vision</h2>
+          <p>Contenuto per la popup di Custom Vision...</p>
+        </div>
+      </Popup>
+
+      {/* Popup per Chatbot */}
+      <Popup isOpen={activePopup === "chatbot"} onClose={closePopup}>
+        <ChatbotPopup onClose={closePopup} />
+      </Popup>
+
+      {/* Popup per Generative AI */}
+      <Popup isOpen={activePopup === "generativeAI"} onClose={closePopup}>
+        <GenerativeAIPopup onClose={closePopup} />
+      </Popup>
+
       <div className="home-container">
         <header className="header">
           <p> AI Solutions</p>
         </header>
         <section className="features">
-          <div className="feature-item">
+          {/* Sezione Custom Vision */}
+          <div
+            className="feature-item"
+            onClick={() => openPopup("customVision")}
+          >
             <div className="image-container">
               <img
-                src="../images/dalle.webp" // Assicurati che il percorso sia corretto
+                src="../images/dalle.webp"
                 alt="Custom Vision"
                 className="feature-image"
               />
               <div className="overlay">
                 <h3>Custom Vision</h3>
-                <p>
-                  <div className="subtitle">
-                    Enhance your quality control process with AI vision
-                    solutions.
-                  </div>
-                </p>
+                <div className="subtitle">
+                  Enhance your quality control process with AI vision solutions.
+                </div>
               </div>
             </div>
           </div>
-          <div className="feature-item">
+
+          {/* Sezione Chatbot */}
+          <div className="feature-item" onClick={() => openPopup("chatbot")}>
             <div className="image-container">
               <img
                 src="../images/chatbot.webp"
@@ -39,41 +79,39 @@ const Home = () => {
               />
               <div className="overlay">
                 <h3>Custom Chatbots</h3>
-                <p>
-                  <div className="subtitle">
-                    Transform your company with Intelligent AI Conversations.
-                  </div>
-                </p>
+                <div className="subtitle">
+                  Transform your company with Intelligent AI Conversations.
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="feature-item">
+          {/* Sezione Generative AI */}
+          <div
+            className="feature-item"
+            onClick={() => openPopup("generativeAI")}
+          >
             <div className="image-container">
               <img
-                src="../images/generativeAI.webp" // Assicurati che il percorso sia corretto
-                alt="Voice Assistance"
+                src="../images/generativeAI.webp"
+                alt="Generative AI"
                 className="feature-image"
               />
               <div className="overlay">
                 <h3>Generative AI</h3>
-                <p>
-                  <div className="subtitle">
-                    Generate report, invoices, contract, agreements, quotes
-                  </div>
-                </p>
+                <div className="subtitle">
+                  Generate reports, invoices, contracts, agreements, quotes.
+                </div>
               </div>
             </div>
           </div>
         </section>
-        <br />
 
         <Landing />
       </div>
 
       <Info />
       <Technologies />
-      {/*  <ChatBase /> */}
     </div>
   )
 }
