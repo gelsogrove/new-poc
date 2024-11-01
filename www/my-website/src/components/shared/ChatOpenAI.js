@@ -14,14 +14,13 @@ const ChatOpenAI = () => {
     },
   ])
 
-  // Carica i dati embedding una volta
   useEffect(() => {
     const loadEmbeddingData = async () => {
       try {
         const response = await fetch("/embedding/washing-machine-001.json")
         if (!response.ok) throw new Error("Failed to load embedding data")
         const data = await response.json()
-        setEmbeddingData(data) // Salva gli embedding caricati
+        setEmbeddingData(data)
       } catch (error) {
         console.error("Embedding loading error:", error)
       }
@@ -29,7 +28,6 @@ const ChatOpenAI = () => {
     loadEmbeddingData()
   }, [])
 
-  // Converte la domanda in embedding
   const convertQuestionToEmbedding = async (questionText) => {
     try {
       const response = await fetch("https://api.openai.com/v1/embeddings", {
@@ -54,22 +52,22 @@ const ChatOpenAI = () => {
     }
   }
 
-  // Trova la corrispondenza migliore
   const findBestMatchInEmbeddings = (questionEmbedding) => {
     let bestMatch = null
     let highestSimilarity = -Infinity
 
     embeddingData.forEach((item) => {
       const similarity = cosineSimilarity(questionEmbedding, item.embedding)
-      if (similarity > highestSimilarity) {
+      if (similarity > highestSimilarity && similarity >= 0.7) {
+        // Soglia di similarità
         highestSimilarity = similarity
         bestMatch = item
       }
     })
+
     return bestMatch
   }
 
-  // Funzione di similarità coseno
   const cosineSimilarity = (vecA, vecB) => {
     const dotProduct = vecA.reduce((acc, val, i) => acc + val * vecB[i], 0)
     const magnitudeA = Math.sqrt(vecA.reduce((acc, val) => acc + val * val, 0))
@@ -77,10 +75,9 @@ const ChatOpenAI = () => {
     return dotProduct / (magnitudeA * magnitudeB)
   }
 
-  // Genera risposta con contesto
   const generateResponseWithContext = async (bestMatch, questionText) => {
     if (!bestMatch) {
-      return "Sorry, I cannot find an answer for your question."
+      return "I'm sorry, I couldn't find relevant information to answer your question. Please try rephrasing or asking something else."
     }
 
     const contextText = bestMatch.text
@@ -100,15 +97,15 @@ const ChatOpenAI = () => {
               {
                 role: "system",
                 content:
-                  "You are a helpful assistant knowledgeable about washing machines.",
+                  "You are a highly courteous and professional assistant representing a customer support team for a product. Please ensure your responses are polite, supportive, and maintain a friendly tone suitable for customer assistance. website: https://www.lg.com/cac/soporte/producto/lg-WF-T1477TP",
               },
               {
                 role: "user",
-                content: `Context: ${contextText}\n\nQuestion: ${questionText}\n\nAnswer:`,
+                content: `Context from document: ${contextText}\n\nQuestion: ${questionText}\n\nAnswer only with information from the context above.`,
               },
             ],
             max_tokens: 150,
-            temperature: 0.5,
+            temperature: 0.3,
           }),
         }
       )
@@ -116,7 +113,7 @@ const ChatOpenAI = () => {
       return data.choices[0].message.content.trim()
     } catch (error) {
       console.error("Errore nella generazione della risposta:", error)
-      return "There was an error generating the response."
+      return "There was an error generating the response. Please try again."
     }
   }
 
@@ -140,6 +137,35 @@ const ChatOpenAI = () => {
     setMessages((prevMessages) => [...prevMessages, loadingMessage])
 
     try {
+      // Controllo per situazioni di emergenza
+      const urgentPatterns = [
+        /emergenza/i,
+        /fuoco/i,
+        /incendio/i,
+        /aiuto/i,
+        /pericolo/i,
+        /scoppia/i,
+        /allagando/i,
+        /difficoltà/i,
+        /situazione critica/i,
+      ]
+
+      const isUrgent = urgentPatterns.some((pattern) =>
+        pattern.test(inputValue)
+      )
+
+      if (isUrgent) {
+        setMessages((prevMessages) =>
+          prevMessages.slice(0, -1).concat({
+            id: crypto.randomUUID(),
+            sender: "bot",
+            text: "For urgent assistance, please contact Pino la Lavatrice at 657457575.",
+          })
+        )
+        setIsLoading(false)
+        return // Termina la funzione per non continuare
+      }
+
       // 1. Converte la domanda in embedding
       const questionEmbedding = await convertQuestionToEmbedding(inputValue)
       if (!questionEmbedding)
