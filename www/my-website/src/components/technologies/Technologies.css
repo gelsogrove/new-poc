@@ -17,8 +17,8 @@
   border: none; /* Rimuovi il bordo per uno stile pulito */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per la card */
   margin: 10px; /* Margine attorno a ciascuna card */
-  width: 150px; /* Larghezza fissa per le card */
-  height: 150px; /* Altezza fissa per le card */
+  width: 130px; /* Larghezza fissa per le card */
+  height: 130px; /* Altezza fissa per le card */
   display: flex; /* Flexbox per centrare il logo */
   justify-content: center; /* Centra orizzontalmente */
   align-items: center; /* Centra verticalmente */
@@ -40,6 +40,10 @@
 }
 
 .row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Permette alle card di andare a capo se necessario */
   width: 100%;
-  margin-left: 11%;
+  margin: 0 auto;
 }

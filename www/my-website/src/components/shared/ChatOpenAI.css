@@ -58,3 +58,14 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+@media only screen and (max-width: 768px) {
+  .bot-message {
+    max-width: 300px;
+    border: 1px solid #ddd;
+  }
+
+  .chat-input input {
+    max-width: 220px;
+  }
+}

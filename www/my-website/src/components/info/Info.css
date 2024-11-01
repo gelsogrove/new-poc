@@ -1,41 +1,70 @@
 /* src/components/Info.css */
 
 .info-container {
-  width: 100%; /* Full width of the viewport */
-  height: 300px; /* Height of the Info component */
+  width: 100vw;
+  display: flex;
+  flex-direction: column; /* Imposta in colonna per più righe */
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
   background: linear-gradient(
     to top,
-    white,
-    rgb(241, 194, 107)
-  ); /* Gradient from orange to red */
-  display: flex; /* Use flexbox for centering content */
-  flex-direction: column; /* Stack children vertically */
-  justify-content: center; /* Center vertically */
-  align-items: center; /* Center horizontally */
-  color: white; /* Text color */
-  padding: 20px; /* Padding for some spacing */
-  text-align: center; /* Center text */
-  box-sizing: border-box; /* Include padding in the total width/height */
+    white 20%,
+    rgba(241, 194, 107, 0.8) 100%,
+    rgb(241, 194, 107) 100%
+  );
 }
 
-.info-title {
-  font-size: 2.5rem; /* Title font size */
-  margin-bottom: 20px; /* Space below the title */
-  color: black;
+.logo {
+  width: 180px;
+  border: 2px solid rgba(241, 194, 107, 0.8);
+  margin-top: -30px;
+}
+
+.info-row {
+  display: flex; /* Layout affiancato per ogni riga */
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 0px; /* Spazio tra le righe */
+  align-items: center;
+}
+
+hr {
+  width: 80%;
+  border: 0.5px solid #ccc;
+  margin: 20px 0;
+}
+
+.info-image {
+  flex: 1;
+  max-width: 40vw;
+  padding: 20px;
+}
+
+.info-image img {
+  width: 310px;
+  height: auto;
+  border: 1px solid black;
+  border-radius: 8px;
 }
 
 .info-text {
-  font-size: 1.4rem; /* Text font size */
-  width: 1000px; /* Max width for text */
+  flex: 2;
+  padding: 20px;
   color: black;
-  margin-right: -240px;
+  font-size: 1.2rem;
   text-align: justify;
-  margin-top: 40px;
+  max-width: 850px !important;
+  margin-left: -70px;
 }
 
-.info-image > img {
-  width: 350px; /* Full width */
-  margin-top: -190px;
-  margin-left: -1140px;
-  border: 1px solid black;
+@media only screen and (max-width: 768px) {
+  .info-image {
+    display: none;
+  }
+
+  .info-text p {
+    margin-left: 20%;
+    width: 79% !important;
+  }
 }

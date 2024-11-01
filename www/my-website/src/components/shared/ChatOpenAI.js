@@ -1,52 +1,183 @@
-// src/components/shared/ChatOpenAI.js
-
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import "./ChatOpenAI.css"
 
-const ChatOpenAI = ({ type }) => {
-  // Messaggio di benvenuto diverso in base al tipo di chatbot
-  let welcomeMessage
-  if (type === "custom-chatbot") {
-    welcomeMessage = "Hello! How can I help you?"
-  } else if (type === "generative") {
-    welcomeMessage = "Welcome to Generative AI Chat!"
+const ChatOpenAI = () => {
+  const [inputValue, setInputValue] = useState("")
+  const [embeddingData, setEmbeddingData] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  const [messages, setMessages] = useState([
+    {
+      id: crypto.randomUUID(),
+      sender: "bot",
+      text: "Hello! Feel free to ask any questions related to washing machines.",
+    },
+  ])
+
+  // Carica i dati embedding una volta
+  useEffect(() => {
+    const loadEmbeddingData = async () => {
+      try {
+        const response = await fetch("/embedding/washing-machine-001.json")
+        if (!response.ok) throw new Error("Failed to load embedding data")
+        const data = await response.json()
+        setEmbeddingData(data) // Salva gli embedding caricati
+      } catch (error) {
+        console.error("Embedding loading error:", error)
+      }
+    }
+    loadEmbeddingData()
+  }, [])
+
+  // Converte la domanda in embedding
+  const convertQuestionToEmbedding = async (questionText) => {
+    try {
+      const response = await fetch("https://api.openai.com/v1/embeddings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: "text-embedding-ada-002",
+          input: questionText,
+        }),
+      })
+      const data = await response.json()
+      return data.data[0].embedding
+    } catch (error) {
+      console.error(
+        "Errore nella conversione della domanda in embedding:",
+        error
+      )
+      return null
+    }
   }
 
-  const initialMessages = [{ id: 1, sender: "bot", text: welcomeMessage }]
+  // Trova la corrispondenza migliore
+  const findBestMatchInEmbeddings = (questionEmbedding) => {
+    let bestMatch = null
+    let highestSimilarity = -Infinity
 
-  const [messages, setMessages] = useState(initialMessages)
-  const [inputValue, setInputValue] = useState("")
+    embeddingData.forEach((item) => {
+      const similarity = cosineSimilarity(questionEmbedding, item.embedding)
+      if (similarity > highestSimilarity) {
+        highestSimilarity = similarity
+        bestMatch = item
+      }
+    })
+    return bestMatch
+  }
 
-  const handleSend = () => {
-    if (inputValue.trim() === "") return
-    const newMessage = {
-      id: messages.length + 1,
+  // Funzione di similarità coseno
+  const cosineSimilarity = (vecA, vecB) => {
+    const dotProduct = vecA.reduce((acc, val, i) => acc + val * vecB[i], 0)
+    const magnitudeA = Math.sqrt(vecA.reduce((acc, val) => acc + val * val, 0))
+    const magnitudeB = Math.sqrt(vecB.reduce((acc, val) => acc + val * val, 0))
+    return dotProduct / (magnitudeA * magnitudeB)
+  }
+
+  // Genera risposta con contesto
+  const generateResponseWithContext = async (bestMatch, questionText) => {
+    if (!bestMatch) {
+      return "Sorry, I cannot find an answer for your question."
+    }
+
+    const contextText = bestMatch.text
+
+    try {
+      const response = await fetch(
+        "https://api.openai.com/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [
+              {
+                role: "system",
+                content:
+                  "You are a helpful assistant knowledgeable about washing machines.",
+              },
+              {
+                role: "user",
+                content: `Context: ${contextText}\n\nQuestion: ${questionText}\n\nAnswer:`,
+              },
+            ],
+            max_tokens: 150,
+            temperature: 0.5,
+          }),
+        }
+      )
+      const data = await response.json()
+      return data.choices[0].message.content.trim()
+    } catch (error) {
+      console.error("Errore nella generazione della risposta:", error)
+      return "There was an error generating the response."
+    }
+  }
+
+  const handleSend = async () => {
+    if (!inputValue.trim()) return
+
+    const userMessage = {
+      id: crypto.randomUUID(),
       sender: "user",
       text: inputValue,
     }
-    setMessages([...messages, newMessage])
+    setMessages((prevMessages) => [...prevMessages, userMessage])
     setInputValue("")
+    setIsLoading(true)
 
-    // Risposta simulata del bot
-    setTimeout(() => {
-      let botResponse = "I'm here to help!"
-      if (type === "custom") {
-        botResponse = "This is a response from the Custom Chatbot."
-      } else if (type === "generative") {
-        botResponse = "Generating a response for you..."
-      }
-      const botMessage = {
-        id: messages.length + 2,
-        sender: "bot",
-        text: botResponse,
-      }
-      setMessages((prevMessages) => [...prevMessages, botMessage])
-    }, 1000)
+    const loadingMessage = {
+      id: crypto.randomUUID(),
+      sender: "bot",
+      text: "Generating a response for you...",
+    }
+    setMessages((prevMessages) => [...prevMessages, loadingMessage])
+
+    try {
+      // 1. Converte la domanda in embedding
+      const questionEmbedding = await convertQuestionToEmbedding(inputValue)
+      if (!questionEmbedding)
+        throw new Error("Failed to generate question embedding")
+
+      // 2. Trova la corrispondenza migliore
+      const bestMatch = findBestMatchInEmbeddings(questionEmbedding)
+
+      // 3. Genera risposta usando il contesto
+      const botResponse = await generateResponseWithContext(
+        bestMatch,
+        inputValue
+      )
+
+      setMessages((prevMessages) =>
+        prevMessages.slice(0, -1).concat({
+          id: crypto.randomUUID(),
+          sender: "bot",
+          text: botResponse,
+        })
+      )
+    } catch (error) {
+      console.error("Error in handling send:", error)
+      setMessages((prevMessages) =>
+        prevMessages.slice(0, -1).concat({
+          id: crypto.randomUUID(),
+          sender: "bot",
+          text: "There was an error processing your request. Please try again.",
+        })
+      )
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
     <div className="chat-openai">
-      <h3>{type === "custom" ? "Custom Chatbot" : "Generative AI Chatbot"}</h3>
+      <h3>Chatbot Washing Machine Assistant</h3>
       <div className="chat-messages">
         {messages.map((msg) => (
           <div
@@ -65,8 +196,11 @@ const ChatOpenAI = ({ type }) => {
           placeholder="Type a message..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
+          disabled={isLoading}
         />
-        <button onClick={handleSend}>Send</button>
+        <button onClick={handleSend} disabled={isLoading}>
+          Send
+        </button>
       </div>
     </div>
   )

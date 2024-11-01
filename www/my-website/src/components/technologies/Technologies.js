@@ -4,11 +4,7 @@ import "./Technologies.css"
 const Technologies = () => {
   const logos = [
     {
-      src: "../images/logos/nodered.png", // Assicurati che il percorso sia corretto
-      alt: "NodeJS",
-    },
-    {
-      src: "../images/logos/python.webp", // Assicurati che il percorso sia corretto
+      src: "../images/logos/Python.svg", // Assicurati che il percorso sia corretto
       alt: "python",
     },
     {
@@ -20,7 +16,7 @@ const Technologies = () => {
       alt: "Ultralytics",
     },
     {
-      src: "../images/logos/google-colab.svg",
+      src: "../images/logos/google-colab.webp",
       alt: "Google Colab",
     },
     {
@@ -30,6 +26,10 @@ const Technologies = () => {
     {
       src: "../images/logos/skikit-learn.png", // Assicurati che il percorso sia corretto
       alt: "SCi-kitlearn",
+    },
+    {
+      src: "../images/logos/nodejs.svg", // Assicurati che il percorso sia corretto
+      alt: "nodeJs",
     },
 
     // https://eleks.com/services/data-science-services/

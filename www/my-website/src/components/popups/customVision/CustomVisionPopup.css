@@ -1,0 +1,52 @@
+/* src/components/popups/customVision/CustomVisionPopup.css */
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 800px;
+  height: 80%;
+  max-height: 600px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.video-container {
+  width: 93%;
+  max-width: 800px;
+
+  margin: 40px auto 0 10px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+@media only screen and (max-width: 768px) {
+  .video-container {
+    margin-top: -20px;
+  }
+
+  .text {
+    margin-top: 10px;
+    font-size: 0.76rem;
+  }
+
+  .pdf-section {
+    display: none;
+  }
+}

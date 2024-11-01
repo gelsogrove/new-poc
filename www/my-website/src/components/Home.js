@@ -8,6 +8,7 @@ import Technologies from "./technologies/Technologies"
 
 // Import aggiuntivo
 import ChatbotPopup from "./popups/chatbot/ChatbotPopup"
+import CustomVisionPopup from "./popups/customVision/CustomVisionPopup"
 import GenerativeAIPopup from "./popups/generativeAI/GenerativeAIPopup"
 
 const Home = () => {
@@ -28,25 +29,21 @@ const Home = () => {
     <div>
       {/* Popup per Custom Vision */}
       <Popup isOpen={activePopup === "customVision"} onClose={closePopup}>
-        <div style={{ padding: "20px" }}>
-          <h2>Custom Vision</h2>
-          <p>Contenuto per la popup di Custom Vision...</p>
-        </div>
+        <CustomVisionPopup onClose={closePopup} />
       </Popup>
-
       {/* Popup per Chatbot */}
       <Popup isOpen={activePopup === "chatbot"} onClose={closePopup}>
         <ChatbotPopup onClose={closePopup} />
       </Popup>
-
       {/* Popup per Generative AI */}
       <Popup isOpen={activePopup === "generativeAI"} onClose={closePopup}>
         <GenerativeAIPopup onClose={closePopup} />
       </Popup>
-
       <div className="home-container">
         <header className="header">
-          <p> AI Solutions</p>
+          <p>
+            <img className="logo" src="../images/logo.png"></img>
+          </p>
         </header>
         <section className="features">
           {/* Sezione Custom Vision */}
@@ -109,8 +106,11 @@ const Home = () => {
 
         <Landing />
       </div>
-
       <Info />
+
+      <div className="tecnology">
+        <div className="rowt">Technologies we use</div>
+      </div>
       <Technologies />
     </div>
   )
