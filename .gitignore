@@ -11,3 +11,5 @@ src/server/backend/src/images/
 
 # Exclude .DS_Store files in all directories
 **/.DS_Store
+
+*.env

@@ -5,12 +5,18 @@ const ChatOpenAI = () => {
   const [inputValue, setInputValue] = useState("")
   const [embeddingData, setEmbeddingData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-
   const [messages, setMessages] = useState([
     {
       id: crypto.randomUUID(),
       sender: "bot",
       text: "Hello! Feel free to ask any questions related to washing machines.",
+    },
+  ])
+  const [conversationHistory, setConversationHistory] = useState([
+    {
+      role: "assistant",
+      content:
+        "Hello! Feel free to ask any questions related to washing machines.",
     },
   ])
 
@@ -27,6 +33,14 @@ const ChatOpenAI = () => {
     }
     loadEmbeddingData()
   }, [])
+
+  // Funzione per formattare testo numerato e puntato
+  const formatText = (text) => {
+    const formattedText = text
+      .replace(/(?:\n)?(\d+)\.\s+/g, "\n$1. ") // Nuova riga per ogni numero seguito da punto
+      .replace(/•\s*/g, "\n• ") // Nuova riga per ogni punto elenco
+    return formattedText.trim()
+  }
 
   const convertQuestionToEmbedding = async (questionText) => {
     try {
@@ -59,7 +73,6 @@ const ChatOpenAI = () => {
     embeddingData.forEach((item) => {
       const similarity = cosineSimilarity(questionEmbedding, item.embedding)
       if (similarity > highestSimilarity && similarity >= 0.7) {
-        // Soglia di similarità
         highestSimilarity = similarity
         bestMatch = item
       }
@@ -92,20 +105,21 @@ const ChatOpenAI = () => {
             Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
           },
           body: JSON.stringify({
-            model: "gpt-3.5-turbo",
+            model: "gpt-4",
             messages: [
               {
                 role: "system",
                 content:
-                  "You are a highly courteous and professional assistant representing a customer support team for a product. Please ensure your responses are polite, supportive, and maintain a friendly tone suitable for customer assistance. website: https://www.lg.com/cac/soporte/producto/lg-WF-T1477TP",
+                  "You are a highly courteous and professional assistant representing a customer support team for a product. Please ensure your responses are polite, supportive, and maintain a friendly tone suitable for customer assistance. website: https://www.lg.com/cac/soporte/producto/lg-WF-T1477TP please provide short answer between 30 and 80 words.",
               },
+              ...conversationHistory,
               {
                 role: "user",
                 content: `Context from document: ${contextText}\n\nQuestion: ${questionText}\n\nAnswer only with information from the context above.`,
               },
             ],
-            max_tokens: 150,
-            temperature: 0.3,
+            max_tokens: 250,
+            temperature: 0.7,
           }),
         }
       )
@@ -117,6 +131,10 @@ const ChatOpenAI = () => {
     }
   }
 
+  const updateConversationHistory = (role, content) => {
+    setConversationHistory((prevHistory) => [...prevHistory, { role, content }])
+  }
+
   const handleSend = async () => {
     if (!inputValue.trim()) return
 
@@ -126,6 +144,7 @@ const ChatOpenAI = () => {
       text: inputValue,
     }
     setMessages((prevMessages) => [...prevMessages, userMessage])
+    updateConversationHistory("user", inputValue)
     setInputValue("")
     setIsLoading(true)
 
@@ -137,44 +156,12 @@ const ChatOpenAI = () => {
     setMessages((prevMessages) => [...prevMessages, loadingMessage])
 
     try {
-      // Controllo per situazioni di emergenza
-      const urgentPatterns = [
-        /emergenza/i,
-        /fuoco/i,
-        /incendio/i,
-        /aiuto/i,
-        /pericolo/i,
-        /scoppia/i,
-        /allagando/i,
-        /difficoltà/i,
-        /situazione critica/i,
-      ]
-
-      const isUrgent = urgentPatterns.some((pattern) =>
-        pattern.test(inputValue)
-      )
-
-      if (isUrgent) {
-        setMessages((prevMessages) =>
-          prevMessages.slice(0, -1).concat({
-            id: crypto.randomUUID(),
-            sender: "bot",
-            text: "For urgent assistance, please contact Pino la Lavatrice at 657457575.",
-          })
-        )
-        setIsLoading(false)
-        return // Termina la funzione per non continuare
-      }
-
-      // 1. Converte la domanda in embedding
       const questionEmbedding = await convertQuestionToEmbedding(inputValue)
       if (!questionEmbedding)
         throw new Error("Failed to generate question embedding")
 
-      // 2. Trova la corrispondenza migliore
       const bestMatch = findBestMatchInEmbeddings(questionEmbedding)
 
-      // 3. Genera risposta usando il contesto
       const botResponse = await generateResponseWithContext(
         bestMatch,
         inputValue
@@ -184,18 +171,22 @@ const ChatOpenAI = () => {
         prevMessages.slice(0, -1).concat({
           id: crypto.randomUUID(),
           sender: "bot",
-          text: botResponse,
+          text: formatText(botResponse),
         })
       )
+      updateConversationHistory("assistant", botResponse)
     } catch (error) {
       console.error("Error in handling send:", error)
+      const errorMessage =
+        "There was an error processing your request. Please try again."
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: crypto.randomUUID(),
           sender: "bot",
-          text: "There was an error processing your request. Please try again.",
+          text: errorMessage,
         })
       )
+      updateConversationHistory("assistant", errorMessage)
     } finally {
       setIsLoading(false)
     }
@@ -212,7 +203,9 @@ const ChatOpenAI = () => {
               msg.sender === "user" ? "user-message" : "bot-message"
             }`}
           >
-            <span className="message-text">{msg.text}</span>
+            <span className="message-text">
+              {msg.sender === "bot" ? formatText(msg.text) : msg.text}
+            </span>
           </div>
         ))}
       </div>
