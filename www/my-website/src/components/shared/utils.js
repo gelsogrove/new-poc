@@ -37,11 +37,11 @@ export const generateResponseWithContext = async (
           },
           {
             role: "system",
-            content: settings.system_prompt, // Use system prompt from settings
+            content: settings.system_prompt,
           },
         ],
-        max_tokens: settings.max_tokens, // Use max_tokens from settings
-        temperature: settings.temperature, // Use temperature from settings
+        max_tokens: settings.max_tokens,
+        temperature: settings.temperature,
       }),
     })
 
@@ -63,15 +63,20 @@ export const generateResponseWithContext = async (
       content.substring(jsonStartIndex, jsonEndIndex)
     )
 
+    // Aggiungere un campo per la pagina se presente
+    const page = jsonResponse.page || null // Assicurati che tu stia restituendo un campo "page"
+
     return {
-      response: jsonResponse.response, // The main bot response
-      options: jsonResponse.options, // The dynamically generated options
+      response: jsonResponse.response,
+      options: jsonResponse.options,
+      page: page, // Aggiungi il numero di pagina qui
     }
   } catch (error) {
     console.error("Error generating response:", error)
     return {
-      response: settings.error_message, // Use error message from settings
+      response: settings.error_message,
       options: ["Other", "Exit"],
+      page: null, // Assicurati che in caso di errore non ci sia un numero di pagina
     }
   }
 }

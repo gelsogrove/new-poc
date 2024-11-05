@@ -2,9 +2,9 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import React, { useEffect, useState } from "react"
 import "./ChatOpenAI.css"
 import settings from "./settings.json"
-import { formatText, generateResponseWithContext } from "./utils" // Ensure formatText is imported
+import { formatText, generateResponseWithContext } from "./utils" // Assicurati che formatText sia importato
 
-const ChatOpenAI = () => {
+const ChatOpenAI = ({ onNavigateToPage }) => {
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [isCustomInput, setIsCustomInput] = useState(false)
@@ -17,16 +17,16 @@ const ChatOpenAI = () => {
   const [showMainMenu, setShowMainMenu] = useState(true)
   const [hasExited, setHasExited] = useState(false)
   const [quickReplies, setQuickReplies] = useState(settings.first_options)
-  const [embeddingData, setEmbeddingData] = useState([]) // Keep this if you plan to use it
+  const [embeddingData, setEmbeddingData] = useState([]) // Mantieni questo se prevedi di usarlo
 
-  // Load embedding data
+  // Carica i dati di embedding
   useEffect(() => {
     const loadEmbeddingData = async () => {
       try {
         const response = await fetch(settings.embedding)
         if (!response.ok) throw new Error("Failed to load embedding data")
         const data = await response.json()
-        setEmbeddingData(data) // Store the fetched data
+        setEmbeddingData(data) // Memorizza i dati recuperati
       } catch (error) {
         console.error("Embedding loading error:", error)
       }
@@ -66,6 +66,15 @@ const ChatOpenAI = () => {
         process.env.REACT_APP_OPENAI_API_KEY
       )
 
+      console.log("Bot Response:", botResponse) // Mostra la risposta del bot
+
+      // Logica per navigare al documento in base alla risposta
+      if (botResponse.page) {
+        console.log(`Navigating to page: ${botResponse.page}`) // Controlla il numero di pagina qui
+        onNavigateToPage(botResponse.page) // Passa il numero di pagina se presente
+      }
+
+      // Aggiungi il messaggio del bot
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: crypto.randomUUID(),
@@ -74,7 +83,30 @@ const ChatOpenAI = () => {
         })
       )
 
-      const updatedOptions = [...botResponse.options, "Other", "Exit"]
+      /* Aggiungi un messaggio per la pagina se presente 
+      if (botResponse.page) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            id: crypto.randomUUID(),
+            sender: "bot",
+            text: `Page: ${botResponse.page}`,
+          },
+        ])
+      }
+         */
+
+      // Aggiungi "Other" e "Exit" solo se non presenti
+      const additionalOptions = []
+      if (!botResponse.options.includes("Other")) {
+        additionalOptions.push("Other")
+      }
+      if (!botResponse.options.includes("Exit")) {
+        additionalOptions.push("Exit")
+      }
+
+      const updatedOptions = [...botResponse.options, ...additionalOptions]
+
       setQuickReplies(updatedOptions)
       updateConversationHistory("assistant", botResponse.response)
       setShowMainMenu(true)
