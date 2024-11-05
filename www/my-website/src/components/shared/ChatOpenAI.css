@@ -1,5 +1,3 @@
-/* src/components/shared/ChatOpenAI.css */
-
 .chat-openai {
   display: flex;
   flex-direction: column;
@@ -59,7 +57,31 @@
   cursor: pointer;
 }
 
+.quick-reply-buttons .col-6 {
+  padding: 0 5px;
+  margin-bottom: 10px;
+}
+
+.quick-reply-buttons .btn {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.quick-reply-buttons .btn:not(:last-child) {
+  margin-bottom: 10px;
+}
+
 @media only screen and (max-width: 768px) {
+  .btn-wide {
+    width: 100%;
+    height: 60px;
+  }
+
   .bot-message {
     max-width: 300px;
     border: 1px solid #ddd;
