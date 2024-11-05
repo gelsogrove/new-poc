@@ -1,46 +1,32 @@
 import "bootstrap/dist/css/bootstrap.min.css"
 import React, { useEffect, useState } from "react"
 import "./ChatOpenAI.css"
-import { formatText, generateResponseWithContext } from "./utils"
-
-// Definisco il messaggio iniziale come costante
-const INITIAL_BOT_MESSAGE = {
-  id: crypto.randomUUID(),
-  sender: "bot",
-  text: "Hello! Feel free to ask any questions related to washing machines.",
-}
+import settings from "./settings.json"
+import { formatText, generateResponseWithContext } from "./utils" // Ensure formatText is imported
 
 const ChatOpenAI = () => {
   const [inputValue, setInputValue] = useState("")
-  const [embeddingData, setEmbeddingData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [isCustomInput, setIsCustomInput] = useState(false) // Stato per gestire l'input manuale
-  const [messages, setMessages] = useState([INITIAL_BOT_MESSAGE]) // Usa il messaggio iniziale
-  const [conversationHistory, setConversationHistory] = useState([
-    {
-      role: "assistant",
-      content: INITIAL_BOT_MESSAGE.text, // Usa il testo del messaggio iniziale
-    },
+  const [isCustomInput, setIsCustomInput] = useState(false)
+  const [messages, setMessages] = useState([
+    { id: crypto.randomUUID(), sender: "bot", text: settings.first_message },
   ])
-  const [showMainMenu, setShowMainMenu] = useState(true) // Stato per mostrare il menu principale
+  const [conversationHistory, setConversationHistory] = useState([
+    { role: "assistant", content: settings.first_message },
+  ])
+  const [showMainMenu, setShowMainMenu] = useState(true)
   const [hasExited, setHasExited] = useState(false)
-  const [quickReplies, setQuickReplies] = useState([
-    "My washing machine is leaking.",
-    "The display shows a red light.",
-    "How do I change the filter?",
-    "Give me the safety instructions.",
-    "Other",
-    "Exit",
-  ]) // Opzioni predefinite iniziali
+  const [quickReplies, setQuickReplies] = useState(settings.first_options)
+  const [embeddingData, setEmbeddingData] = useState([]) // Keep this if you plan to use it
 
-  // Carica i dati di embedding dal server
+  // Load embedding data
   useEffect(() => {
     const loadEmbeddingData = async () => {
       try {
-        const response = await fetch("/embedding/washing-machine-001.json")
+        const response = await fetch(settings.embedding)
         if (!response.ok) throw new Error("Failed to load embedding data")
         const data = await response.json()
-        setEmbeddingData(data)
+        setEmbeddingData(data) // Store the fetched data
       } catch (error) {
         console.error("Embedding loading error:", error)
       }
@@ -48,12 +34,10 @@ const ChatOpenAI = () => {
     loadEmbeddingData()
   }, [])
 
-  // Funzione per aggiornare lo storico della conversazione
   const updateConversationHistory = (role, content) => {
     setConversationHistory((prevHistory) => [...prevHistory, { role, content }])
   }
 
-  // Funzione per gestire l'invio del messaggio
   const handleSend = async (message = inputValue) => {
     if (typeof message !== "string") return
     if (!message.trim()) return
@@ -76,15 +60,12 @@ const ChatOpenAI = () => {
     setMessages((prevMessages) => [...prevMessages, loadingMessage])
 
     try {
-      // Ottieni la risposta e le opzioni dal modello
       const botResponse = await generateResponseWithContext(
-        null, // Se non usiamo embedding possiamo passare null qui
         message,
         conversationHistory,
         process.env.REACT_APP_OPENAI_API_KEY
       )
 
-      // Imposta il messaggio del bot e le nuove opzioni di risposta
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: crypto.randomUUID(),
@@ -93,47 +74,43 @@ const ChatOpenAI = () => {
         })
       )
 
-      // Aggiungi sempre "Other" e "Exit" alle opzioni dinamiche restituite dall'API
       const updatedOptions = [...botResponse.options, "Other", "Exit"]
-      setQuickReplies(updatedOptions) // Aggiorna le opzioni di risposta dinamiche
+      setQuickReplies(updatedOptions)
       updateConversationHistory("assistant", botResponse.response)
-      setShowMainMenu(true) // Riporta i bottoni di risposta rapida
-      setIsCustomInput(false) // Nasconde l'input manuale
+      setShowMainMenu(true)
+      setIsCustomInput(false)
     } catch (error) {
       console.error("Error in handling send:", error)
-      const errorMessage =
-        "There was an error processing your request. Please try again."
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: crypto.randomUUID(),
           sender: "bot",
-          text: errorMessage,
+          text: settings.error_message,
         })
       )
-      updateConversationHistory("assistant", errorMessage)
+      updateConversationHistory("assistant", settings.error_message)
     } finally {
       setIsLoading(false)
     }
   }
 
-  // Funzione per gestire la selezione dei bottoni predefiniti
   const handleQuickReply = (text) => {
     if (text === "Other") {
-      setIsCustomInput(true) // Mostra il campo di input manuale
-      setShowMainMenu(false) // Nasconde i bottoni fino al prossimo invio
+      setIsCustomInput(true)
+      setShowMainMenu(false)
     } else if (text === "Exit") {
       setMessages((prevMessages) => [
         ...prevMessages,
         {
           id: crypto.randomUUID(),
           sender: "bot",
-          text: "Thank you for using the Washing Machine Assistant. Goodbye!",
+          text: settings.goodbye_message,
         },
       ])
-      setHasExited(true) // Imposta l'uscita dalla chat
+      setHasExited(true)
     } else {
       setInputValue(text)
-      handleSend(text) // Invia automaticamente la domanda
+      handleSend(text)
     }
   }
 
@@ -141,7 +118,6 @@ const ChatOpenAI = () => {
     <div className="chat-openai">
       <h3>Chatbot Washing Machine Assistant</h3>
 
-      {/* Sezione dei messaggi della chat */}
       <div className="chat-messages">
         {messages.map((msg) => (
           <div
@@ -157,7 +133,6 @@ const ChatOpenAI = () => {
         ))}
       </div>
 
-      {/* Sezione dei bottoni predefiniti */}
       {!isCustomInput && showMainMenu && !isLoading && !hasExited && (
         <div className="quick-reply-buttons d-flex flex-wrap">
           {quickReplies.map((reply, index) => (
@@ -173,7 +148,6 @@ const ChatOpenAI = () => {
         </div>
       )}
 
-      {/* Sezione di input manuale */}
       {isCustomInput && !hasExited && (
         <div className="chat-input input-group mb-3">
           <input

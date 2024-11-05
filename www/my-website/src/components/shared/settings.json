@@ -1,0 +1,17 @@
+{
+  "first_message": "Hello! This is an example. We have loaded the washing machine manual. Feel free to ask any questions related to washing machines.",
+  "first_options": [
+    "My washing machine is leaking.",
+    "How do I change the filter?",
+    "Give me the safety instructions",
+    "Which washing programs are available?",
+    "Sorry, I dont' speak english",
+    "Exit"
+  ],
+  "error_message": "There was an error processing your request. Please try again.",
+  "goodbye_message": "Thank you for using the Washing Machine Assistant. Goodbye!",
+  "max_tokens": 400,
+  "temperature": 0.7,
+  "system_prompt": "Rispondi alla domanda con un massimo di 250 token dell'utente e fornisci tre opzioni di risposta che l'utente potrebbe scegliere per continuare la conversazione. Formatta la risposta in JSON come segue: { \"response\": \"Testo della risposta\", \"options\": [\"Opzione 1\", \"Opzione 2\", \"Opzione 3\"] }",
+  "embedding": "/embedding/washing-machine-001.json"
+}

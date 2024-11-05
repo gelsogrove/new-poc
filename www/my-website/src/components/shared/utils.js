@@ -1,5 +1,18 @@
+// utils.js
+import settings from "./settings.json" // Import settings
+
+// Function to format text by splitting it into paragraphs
+export const formatText = (text) => {
+  if (typeof text !== "string") {
+    console.error("formatText: Expected string but received", typeof text)
+    return text
+  }
+
+  return text.split("\n").map((str, index) => <p key={index}>{str}</p>)
+}
+
+// Function to generate a response with context from OpenAI
 export const generateResponseWithContext = async (
-  bestMatch,
   userQuestion,
   conversationHistory,
   apiKey
@@ -24,11 +37,11 @@ export const generateResponseWithContext = async (
           },
           {
             role: "system",
-            content: `Rispondi alla domanda  con un massimo di 250 token dell'utente e fornisci tre opzioni di risposta che l'utente potrebbe scegliere per continuare la conversazione. Formatta la risposta in JSON come segue: { "response": "Testo della risposta", "options": ["Opzione 1", "Opzione 2", "Opzione 3"] }`,
+            content: settings.system_prompt, // Use system prompt from settings
           },
         ],
-        max_tokens: 400,
-        temperature: 0.7,
+        max_tokens: settings.max_tokens, // Use max_tokens from settings
+        temperature: settings.temperature, // Use temperature from settings
       }),
     })
 
@@ -38,10 +51,7 @@ export const generateResponseWithContext = async (
       throw new Error(`Error: ${data.error.message}`)
     }
 
-    // Estrazione del JSON dal testo
     const content = data.choices[0].message.content
-
-    // Trova la parte della risposta che contiene il JSON
     const jsonStartIndex = content.indexOf("{")
     const jsonEndIndex = content.lastIndexOf("}") + 1
 
@@ -49,30 +59,19 @@ export const generateResponseWithContext = async (
       throw new Error("No JSON found in the response")
     }
 
-    // Estrai e fai il parsing del JSON
     const jsonResponse = JSON.parse(
       content.substring(jsonStartIndex, jsonEndIndex)
     )
 
     return {
-      response: jsonResponse.response, // La risposta principale del bot
-      options: jsonResponse.options, // Le opzioni generate dinamicamente
+      response: jsonResponse.response, // The main bot response
+      options: jsonResponse.options, // The dynamically generated options
     }
   } catch (error) {
     console.error("Error generating response:", error)
     return {
-      response: "I encountered an error. Please try again later.",
+      response: settings.error_message, // Use error message from settings
       options: ["Other", "Exit"],
     }
   }
-}
-
-// Funzione per formattare il testo
-export const formatText = (text) => {
-  if (typeof text !== "string") {
-    console.error("formatText: Expected string but received", typeof text)
-    return text
-  }
-
-  return text.split("\n").map((str, index) => <p key={index}>{str}</p>)
 }

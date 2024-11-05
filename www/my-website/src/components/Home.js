@@ -82,26 +82,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
-          {/* Sezione Generative AI */}
-          <div
-            className="feature-item"
-            onClick={() => openPopup("generativeAI")}
-          >
-            <div className="image-container">
-              <img
-                src="../images/generativeAI.webp"
-                alt="Generative AI"
-                className="feature-image"
-              />
-              <div className="overlay">
-                <h3>Generative AI</h3>
-                <div className="subtitle">
-                  Generate reports, invoices, contracts, agreements, quotes.
-                </div>
-              </div>
-            </div>
-          </div>
         </section>
 
         <Landing />
