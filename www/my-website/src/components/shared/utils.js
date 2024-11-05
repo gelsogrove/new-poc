@@ -12,6 +12,8 @@ export const formatText = (text) => {
 }
 
 // Function to generate a response with context from OpenAI
+
+// Function to generate a response with context from OpenAI
 export const generateResponseWithContext = async (
   userQuestion,
   conversationHistory,
@@ -48,35 +50,51 @@ export const generateResponseWithContext = async (
     const data = await response.json()
 
     if (response.status !== 200) {
+      console.error(`Error from OpenAI: ${data.error.message}`)
       throw new Error(`Error: ${data.error.message}`)
     }
 
-    const content = data.choices[0].message.content
-    const jsonStartIndex = content.indexOf("{")
-    const jsonEndIndex = content.lastIndexOf("}") + 1
+    // Controlla la struttura della risposta
+    if (!data.choices || data.choices.length === 0) {
+      throw new Error("No choices returned from the response")
+    }
+
+    const messageContent = data.choices[0].message.content
+    const jsonStartIndex = messageContent.indexOf("{")
+    const jsonEndIndex = messageContent.lastIndexOf("}") + 1
 
     if (jsonStartIndex === -1 || jsonEndIndex === -1) {
-      throw new Error("No JSON found in the response")
+      throw new Error("No JSON found in the response content")
     }
 
     const jsonResponse = JSON.parse(
-      content.substring(jsonStartIndex, jsonEndIndex)
+      messageContent.substring(jsonStartIndex, jsonEndIndex)
     )
 
-    // Aggiungere un campo per la pagina se presente
-    const page = jsonResponse.page || null // Assicurati che tu stia restituendo un campo "page"
+    // Assicurati che jsonResponse contenga i dati previsti
+    console.log(jsonResponse.options)
+    debugger
+
+    const options = jsonResponse.options || []
+    // TODO : FAI UNA FUNZIONE
+    if (!options.includes("Other")) {
+      options.push("Other")
+    }
+    if (!options.includes("Menu")) {
+      options.push("Menu")
+    }
 
     return {
-      response: jsonResponse.response,
-      options: jsonResponse.options,
-      page: page, // Aggiungi il numero di pagina qui
+      response: jsonResponse.response || "No response provided",
+      options: options,
+      page: jsonResponse.page || null,
     }
   } catch (error) {
     console.error("Error generating response:", error)
     return {
       response: settings.error_message,
-      options: ["Other", "Exit"],
-      page: null, // Assicurati che in caso di errore non ci sia un numero di pagina
+      options: ["Other", "Menu"], // Assicurati di avere un fallback
+      page: null,
     }
   }
 }

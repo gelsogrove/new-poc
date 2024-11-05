@@ -1,17 +1,77 @@
 {
+  "system_prompt": "Answer the question with a maximum of 300 tokens and provide four possible related questions that the user might ask to continue the conversation, each with a maximum of 14 words. Additionally, include the page number where the information was found. Format the response in JSON as follows: { \"response\": \"Response text\", \"options\": [\"Option 1\", \"Option 2\", \"Option 3\", \"Option 4\"], \"page\": 1 }",
   "first_message": "Hello! This is an example. We have loaded the washing machine manual. Feel free to ask any questions related to washing machines.",
   "first_options": [
-    "My washing machine is leaking.",
-    "How do I change the filter?",
-    "Give me the safety instructions",
-    "Which washing programs are available?",
-    "Sorry, I dont' speak english",
+    "How can I keep it in good condition ?",
+    "How can I connect to the water ?",
+    "Show me the Terms of Warranty",
+    "Which washing programs are available ?",
+    "I have an emergency",
+    "Sorry, I don't speak English",
+    "Other",
     "Exit"
   ],
   "error_message": "There was an error processing your request. Please try again.",
   "goodbye_message": "Thank you for using the Washing Machine Assistant. Goodbye!",
   "max_tokens": 400,
-  "temperature": 0.7,
-  "system_prompt": "Rispondi alla domanda con un massimo di 250 token dell'utente e fornisci tre opzioni di risposta che l'utente potrebbe scegliere per continuare la conversazione. Inoltre, se pertinente, restituisci un numero di pagina del documento a cui fare riferimento. Formatta la risposta in JSON come segue ma senza fare domande e senza mettere nel testo la pagina di riferimento: { \"response\": \"Testo della risposta\", \"options\": [\"Opzione 1\", \"Opzione 2\", \"Opzione 3\"], \"page\": <numero di pagina> }",
+  "temperature": 0.6,
+  "overrides": [
+    {
+      "question": "How can I keep it in good condition ?",
+      "answer": "You should clean the washing machine regularly. Please refer to the user manual for more information.",
+      "page": 33,
+      "options": [
+        "How often should I clean it?",
+        "What cleaning products should I use ?",
+        "Can I schedule regular maintenance ?",
+        "Where can I find the user manual ?"
+      ]
+    },
+    {
+      "question": "Which washing programs are available ?",
+      "answer": "Your washing machine has the following programs: Normal, Delicate, Heavy Duty, and Quick Wash.",
+      "page": 16,
+      "options": [
+        "What is the difference between these programs ?",
+        "Which program should I use for delicate fabrics ?",
+        "How long does each program take ?",
+        "Can I customize the washing programs ?"
+      ]
+    },
+    {
+      "question": "How can I connect to the water ?",
+      "answer": "Please follow the sequence in the documentation.",
+      "page": 28,
+      "options": [
+        "What tools do I need to connect the water ?",
+        "Who can I contact if I need help with the installation ?",
+        "Where can I find the documentation ?"
+      ]
+    },
+    {
+      "question": "Show me the Terms of Warranty",
+      "answer": "Plese read careffully the document what is not covered by the warranty",
+      "page": 36,
+      "options": []
+    },
+    {
+      "question": "I have an emergency",
+      "answer": "Please contact Pino la Lavatrice at 1-800-123-4567 he is available 24/7",
+      "page": null,
+      "options": ["Menu"]
+    },
+    {
+      "question": "Sorry, I don't speak English",
+      "answer": "No problem! I can help you in other languages. Please let me know which language you prefer.",
+      "page": null,
+      "options": ["Italian", "Spanish", "French", "German"]
+    },
+    {
+      "question": "What is the maximum load capacity ?",
+      "answer": "Wash capacity 14 kg  ",
+      "page": 37,
+      "options": []
+    }
+  ],
   "embedding": "/embedding/washing-machine-001.json"
 }
