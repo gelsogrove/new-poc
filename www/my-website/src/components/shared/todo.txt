@@ -1,4 +1,3 @@
-- big error on the automatic answer
 - sscrollbar deve andare fino alla fine
 - Problema della lingua
 - la navigazone non funziona
