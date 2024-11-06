@@ -1,5 +1,3 @@
-// src/components/shared/ChatOpenAI.js
-
 import "bootstrap/dist/css/bootstrap.min.css"
 import React, { useEffect, useState } from "react"
 import "./ChatOpenAI.css"
@@ -7,11 +5,14 @@ import "./ChatOpenAI.css"
 import settings from "./settings.json"
 import {
   addBotLoadingMessage,
+  cleanText,
+  convertQuestionToEmbedding,
+  findBestMatchInEmbeddings,
   formatText,
   generateResponseWithContext,
   loadEmbeddingData,
+  navigateToPDFPage,
   replaceBotMessageWithError,
-  updateQuickReplies,
 } from "./utils"
 
 const ChatOpenAI = () => {
@@ -24,11 +25,23 @@ const ChatOpenAI = () => {
   const [conversationHistory, setConversationHistory] = useState([
     { role: "assistant", content: settings.first_message },
   ])
-  let [quickReplies, setQuickReplies] = useState(settings.first_options)
+  const [quickReplies, setQuickReplies] = useState(settings.first_options)
+  const [embeddingData, setEmbeddingData] = useState(null) // State to store embedding data
 
   useEffect(() => {
-    loadEmbeddingData(settings.embedding)
-  }, [])
+    const fetchData = async () => {
+      console.log("Fetching embedding data from:", settings.embedding)
+      try {
+        const data = await loadEmbeddingData(settings.embedding)
+        setEmbeddingData(data) // Store embedding data in state
+        console.log("Embedding data loaded successfully:", data) // For debugging
+      } catch (error) {
+        console.error("Error loading embedding data:", error)
+      }
+    }
+
+    fetchData()
+  }, []) // Runs once on mount
 
   const updateConversationHistory = (role, content) => {
     setConversationHistory((prevHistory) => [...prevHistory, { role, content }])
@@ -50,41 +63,41 @@ const ChatOpenAI = () => {
     addBotLoadingMessage(setMessages)
 
     try {
-      const matchedEntry = settings.overrides.find(
-        (item) => item.question.toLowerCase() === message.toLowerCase()
+      const questionEmbedding = await convertQuestionToEmbedding(message)
+      const bestMatch = findBestMatchInEmbeddings(
+        embeddingData,
+        questionEmbedding
       )
 
-      if (matchedEntry) {
-        setMessages((prevMessages) =>
-          prevMessages.slice(0, -1).concat({
-            id: crypto.randomUUID(),
-            sender: "bot",
-            text: matchedEntry.answer,
-          })
-        )
-        setQuickReplies(updateQuickReplies(matchedEntry.options))
-      } else {
-        const botResponse = await generateResponseWithContext(
-          message,
-          conversationHistory,
-          process.env.REACT_APP_OPENAI_API_KEY
-        )
+      // Generate response with context based on the best match
+      const botResponse = await generateResponseWithContext(
+        bestMatch,
+        message,
+        conversationHistory
+      )
 
-        setMessages((prevMessages) =>
-          prevMessages.slice(0, -1).concat({
-            id: crypto.randomUUID(),
-            sender: "bot",
-            text: formatText(botResponse.response),
-          })
-        )
+      // Format the bot response to get the response text and options
+      const { formattedResponse, options, page } = formatText(botResponse)
 
-        setQuickReplies(botResponse.options)
+      const cleanedResponse = cleanText(formattedResponse)
+      const updatedOptions = Array.from(new Set([...options, "Other", "Menu"]))
+
+      if (page) {
+        navigateToPDFPage(page) // Naviga alla pagina specificata
       }
 
-      updateConversationHistory(
-        "assistant",
-        matchedEntry ? matchedEntry.answer : "No response available"
+      // Update messages with the formatted response
+      setMessages((prevMessages) =>
+        prevMessages.slice(0, -1).concat({
+          id: crypto.randomUUID(),
+          sender: "bot",
+          text: cleanedResponse, // Only the response text
+        })
       )
+
+      // Update quick replies with the options
+      setQuickReplies(updatedOptions)
+      updateConversationHistory("assistant", formattedResponse)
     } catch (error) {
       console.error("Error in handling send:", error)
       replaceBotMessageWithError(setMessages, settings.error_message)
@@ -121,9 +134,11 @@ const ChatOpenAI = () => {
               msg.sender === "user" ? "user-message" : "bot-message"
             }`}
           >
-            <span className="message-text">
-              {msg.sender === "bot" ? formatText(msg.text) : msg.text}
-            </span>
+            <span
+              className="message-text"
+              dangerouslySetInnerHTML={{ __html: msg.text }}
+            />
+            {/* The above line renders the HTML content correctly */}
           </div>
         ))}
       </div>
@@ -136,7 +151,7 @@ const ChatOpenAI = () => {
                 className="btn btn-primary btn-wide"
                 onClick={() => handleQuickReply(reply)}
               >
-                {reply}
+                {reply} {/* The reply text from options */}
               </button>
             </div>
           ))}
