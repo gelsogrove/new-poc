@@ -196,3 +196,11 @@ export const cleanText = (text) => {
     .replace(/\s+/g, " ") // Riduce spazi bianchi multipli a uno
     .trim() // Rimuove spazi all'inizio e alla fine
 }
+
+export const formatBoldText = (text) => {
+  // Sostituisci le interruzioni di riga con <br>
+  text = text.replace(/\n/g, "<br>")
+
+  // Sostituisci **testo** con <b>testo</b>
+  return text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
+}

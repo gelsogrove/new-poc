@@ -8,6 +8,7 @@ import {
   cleanText,
   convertQuestionToEmbedding,
   findBestMatchInEmbeddings,
+  formatBoldText,
   formatText,
   generateResponseWithContext,
   loadEmbeddingData,
@@ -80,7 +81,9 @@ const ChatOpenAI = () => {
       const { formattedResponse, options, page } = formatText(botResponse)
 
       // Clean the response text to remove any unwanted characters
-      const cleanedResponse = cleanText(formattedResponse)
+      let cleanedResponse = cleanText(formattedResponse)
+
+      cleanedResponse = formatBoldText(cleanedResponse)
 
       // Add "Other" and "Menu" options to the quick replies
       const updatedOptions = Array.from(new Set([...options, "Other", "Menu"]))
