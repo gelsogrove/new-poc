@@ -15,7 +15,7 @@ const ChatOpenAI = () => {
   const [conversationHistory, setConversationHistory] = useState([
     { role: "assistant", content: settings.first_message },
   ])
-  const [quickReplies, setQuickReplies] = useState(settings.first_options) // Initialize quickReplies
+  let [quickReplies, setQuickReplies] = useState(settings.first_options) // Initialize quickReplies
 
   // Load embedding data if necessary
   useEffect(() => {
@@ -123,6 +123,9 @@ const ChatOpenAI = () => {
   const handleQuickReply = (text) => {
     if (text === "Other") {
       setIsCustomInput(true) // Show the custom input field
+    } else if (text === "Menu") {
+      setQuickReplies(settings.first_options)
+      setIsCustomInput(false) // Show the quick replies
     } else {
       setInputValue(text)
       handleSend(text)
@@ -131,7 +134,10 @@ const ChatOpenAI = () => {
 
   return (
     <div className="chat-openai">
-      <h3>Chatbot Washing Machine Assistant</h3>
+      <h3>
+        Chatbot Washing Machine Assistant Chatbot Washing Machine Assistant{" "}
+        {isCustomInput ? " - true" : " - false"}
+      </h3>
 
       <div className="chat-messages">
         {messages.map((msg) => (
@@ -192,7 +198,7 @@ export default ChatOpenAI
 
 // TODO:
 // FARE GIT PIU CORTI
-// deve andare il MENU
+// deve andare EXIT
 // deve andare la pagination
-// Clen code
+// CLEAN code
 // dividere in compoenti

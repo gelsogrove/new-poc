@@ -12,8 +12,6 @@ export const formatText = (text) => {
 }
 
 // Function to generate a response with context from OpenAI
-
-// Function to generate a response with context from OpenAI
 export const generateResponseWithContext = async (
   userQuestion,
   conversationHistory,
