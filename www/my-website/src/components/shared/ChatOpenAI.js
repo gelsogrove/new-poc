@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import "./ChatOpenAI.css"
 
 import settings from "./settings.json"
-import { formatText, generateResponseWithContext } from "./utils" // Ensure formatText is imported
+import { formatText, generateResponseWithContext } from "./utils"
 
 const ChatOpenAI = () => {
   const [inputValue, setInputValue] = useState("")
@@ -15,7 +15,7 @@ const ChatOpenAI = () => {
   const [conversationHistory, setConversationHistory] = useState([
     { role: "assistant", content: settings.first_message },
   ])
-  let [quickReplies, setQuickReplies] = useState(settings.first_options) // Initialize quickReplies
+  let [quickReplies, setQuickReplies] = useState(settings.first_options)
 
   // Load embedding data if necessary
   useEffect(() => {
@@ -23,7 +23,7 @@ const ChatOpenAI = () => {
       try {
         const response = await fetch(settings.embedding)
         if (!response.ok) throw new Error("Failed to load embedding data")
-        await response.json() // Not using this currently
+        await response.json()
       } catch (error) {
         console.error("Embedding loading error:", error)
       }
@@ -122,10 +122,13 @@ const ChatOpenAI = () => {
 
   const handleQuickReply = (text) => {
     if (text === "Other") {
-      setIsCustomInput(true) // Show the custom input field
+      setIsCustomInput(true)
     } else if (text === "Menu") {
       setQuickReplies(settings.first_options)
-      setIsCustomInput(false) // Show the quick replies
+      setIsCustomInput(false)
+    } else if (text === "Exit") {
+      handleSend(settings.goodbye_message)
+      setIsCustomInput(true)
     } else {
       setInputValue(text)
       handleSend(text)
@@ -135,7 +138,7 @@ const ChatOpenAI = () => {
   return (
     <div className="chat-openai">
       <h3>
-        Chatbot Washing Machine Assistant Chatbot Washing Machine Assistant{" "}
+        Chatbot Washing Machine Assistant
         {isCustomInput ? " - true" : " - false"}
       </h3>
 
@@ -198,7 +201,6 @@ export default ChatOpenAI
 
 // TODO:
 // FARE GIT PIU CORTI
-// deve andare EXIT
 // deve andare la pagination
 // CLEAN code
 // dividere in compoenti

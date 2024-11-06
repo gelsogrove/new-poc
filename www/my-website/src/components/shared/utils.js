@@ -69,10 +69,6 @@ export const generateResponseWithContext = async (
       messageContent.substring(jsonStartIndex, jsonEndIndex)
     )
 
-    // Assicurati che jsonResponse contenga i dati previsti
-    console.log(jsonResponse.options)
-    debugger
-
     const options = jsonResponse.options || []
     // TODO : FAI UNA FUNZIONE
     if (!options.includes("Other")) {
