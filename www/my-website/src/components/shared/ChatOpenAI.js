@@ -79,11 +79,25 @@ const ChatOpenAI = () => {
       // Format the bot response to get the response text and options
       const { formattedResponse, options, page } = formatText(botResponse)
 
+      // Clean the response text to remove any unwanted characters
       const cleanedResponse = cleanText(formattedResponse)
+
+      // Add "Other" and "Menu" options to the quick replies
       const updatedOptions = Array.from(new Set([...options, "Other", "Menu"]))
 
+      // Check if any word overrides are present in the response
+      settings.overrides.forEach((override) => {
+        // Convert both the formatted response and the keyword to lowercase
+        if (
+          formattedResponse.toLowerCase().includes(override.word.toLowerCase())
+        ) {
+          navigateToPDFPage(override.page)
+        }
+      })
+
+      // Navigate to the specified page
       if (page) {
-        navigateToPDFPage(page) // Naviga alla pagina specificata
+        navigateToPDFPage(page)
       }
 
       // Update messages with the formatted response
@@ -113,6 +127,7 @@ const ChatOpenAI = () => {
     } else if (text === "Menu") {
       setQuickReplies(settings.first_options)
       setIsCustomInput(false)
+      navigateToPDFPage(0)
     } else if (text === "Exit") {
       handleSend(settings.goodbye_message)
       setIsCustomInput(true)

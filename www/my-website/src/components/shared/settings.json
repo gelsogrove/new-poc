@@ -15,5 +15,22 @@
   "goodbye_message": "Thank you for using the Washing Machine Assistant. Goodbye!",
   "max_tokens": 350,
   "temperature": 0.6,
-  "model": "gpt-4o-mini"
+  "model": "gpt-4o-mini",
+  "overrides": [
+    { "word": "Washing programs", "page": 16 },
+    { "word": "Hand Wash", "page": 18 },
+    { "word": "Water Supply", "page": 27 },
+    { "word": "Cleaning", "page": 32 },
+    { "word": "Maintainance", "page": 32 },
+    { "word": "Wasshing program", "page": 34 },
+    { "word": "Troubleshooting", "page": 35 },
+    { "word": "Warranty", "page": 35 },
+    { "word": "Weight", "page": 35 },
+    { "word": "Eco", "page": 19 },
+    { "word": "Detergent", "page": 12 },
+    { "word": "Additives", "page": 12 },
+    { "word": "Warning", "page": 11 },
+    { "word": "Warnings", "page": 11 },
+    { "word": "Before Washing", "page": 9 }
+  ]
 }
