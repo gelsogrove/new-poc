@@ -64,6 +64,12 @@
   padding: 10px 0;
 }
 
+.input-group {
+  width: 100% !important;
+}
+.btn-menu {
+  margin-left: 5px !important;
+}
 .chat-input input {
   flex-grow: 1;
   padding: 8px;

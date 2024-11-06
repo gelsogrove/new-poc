@@ -1,17 +1,55 @@
-// utils.js
-import settings from "./settings.json" // Import settings
+// src/utils.js
+import settings from "./settings.json"
 
-// Function to format text by splitting it into paragraphs
-export const formatText = (text) => {
-  if (typeof text !== "string") {
-    console.error("formatText: Expected string but received", typeof text)
-    return text
-  }
-
-  return text.split("\n").map((str, index) => <p key={index}>{str}</p>)
+export const updateQuickReplies = (options) => {
+  const updatedOptions = [...options]
+  if (!updatedOptions.includes("Other")) updatedOptions.push("Other")
+  if (!updatedOptions.includes("Menu")) updatedOptions.push("Menu")
+  return updatedOptions
 }
 
-// Function to generate a response with context from OpenAI
+export const loadEmbeddingData = async (url) => {
+  try {
+    const response = await fetch(url)
+    if (!response.ok) throw new Error("Failed to load embedding data")
+    return await response.json()
+  } catch (error) {
+    console.error("Embedding loading error:", error)
+    return null
+  }
+}
+
+export const addBotLoadingMessage = (setMessages) => {
+  const loadingMessage = {
+    id: crypto.randomUUID(),
+    sender: "bot",
+    text: "Generating a response for you...",
+  }
+  setMessages((prevMessages) => [...prevMessages, loadingMessage])
+}
+
+export const replaceBotMessageWithError = (setMessages, errorMessage) => {
+  setMessages((prevMessages) =>
+    prevMessages.slice(0, -1).concat({
+      id: crypto.randomUUID(),
+      sender: "bot",
+      text: errorMessage,
+    })
+  )
+}
+
+export const navigateToPDFPage = (pageNumber) => {
+  const pdfViewer = document.getElementById("pdfViewer")
+  if (pdfViewer) {
+    pdfViewer.src = ""
+    setTimeout(() => {
+      pdfViewer.src = `http://localhost:3000/embedding/washing-machine-001.pdf#page=${pageNumber}`
+    }, 500)
+  } else {
+    console.error("PDF viewer not found!")
+  }
+}
+
 export const generateResponseWithContext = async (
   userQuestion,
   conversationHistory,
@@ -91,4 +129,13 @@ export const generateResponseWithContext = async (
       page: null,
     }
   }
+}
+
+export const formatText = (text) => {
+  if (typeof text !== "string") {
+    console.error("formatText: Expected string but received", typeof text)
+    return text
+  }
+
+  return text.split("\n").map((str, index) => <p key={index}>{str}</p>)
 }

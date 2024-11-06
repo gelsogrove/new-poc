@@ -1,9 +1,18 @@
+// src/components/shared/ChatOpenAI.js
+
 import "bootstrap/dist/css/bootstrap.min.css"
 import React, { useEffect, useState } from "react"
 import "./ChatOpenAI.css"
 
 import settings from "./settings.json"
-import { formatText, generateResponseWithContext } from "./utils"
+import {
+  addBotLoadingMessage,
+  formatText,
+  generateResponseWithContext,
+  loadEmbeddingData,
+  replaceBotMessageWithError,
+  updateQuickReplies,
+} from "./utils"
 
 const ChatOpenAI = () => {
   const [inputValue, setInputValue] = useState("")
@@ -17,18 +26,8 @@ const ChatOpenAI = () => {
   ])
   let [quickReplies, setQuickReplies] = useState(settings.first_options)
 
-  // Load embedding data if necessary
   useEffect(() => {
-    const loadEmbeddingData = async () => {
-      try {
-        const response = await fetch(settings.embedding)
-        if (!response.ok) throw new Error("Failed to load embedding data")
-        await response.json()
-      } catch (error) {
-        console.error("Embedding loading error:", error)
-      }
-    }
-    loadEmbeddingData()
+    loadEmbeddingData(settings.embedding)
   }, [])
 
   const updateConversationHistory = (role, content) => {
@@ -36,8 +35,7 @@ const ChatOpenAI = () => {
   }
 
   const handleSend = async (message) => {
-    if (typeof message !== "string") return
-    if (!message.trim()) return
+    if (typeof message !== "string" || !message.trim()) return
 
     const userMessage = {
       id: crypto.randomUUID(),
@@ -49,20 +47,14 @@ const ChatOpenAI = () => {
     setInputValue("")
     setIsLoading(true)
 
-    const loadingMessage = {
-      id: crypto.randomUUID(),
-      sender: "bot",
-      text: "Generating a response for you...",
-    }
-    setMessages((prevMessages) => [...prevMessages, loadingMessage])
+    addBotLoadingMessage(setMessages)
 
     try {
-      // Check against predefined questions
       const matchedEntry = settings.overrides.find(
         (item) => item.question.toLowerCase() === message.toLowerCase()
       )
+
       if (matchedEntry) {
-        // If a match is found, display the predefined answer and options
         setMessages((prevMessages) =>
           prevMessages.slice(0, -1).concat({
             id: crypto.randomUUID(),
@@ -70,25 +62,14 @@ const ChatOpenAI = () => {
             text: matchedEntry.answer,
           })
         )
-
-        // TODO : FAI UNA FUNZIONE
-        if (!matchedEntry.options.includes("Other")) {
-          matchedEntry.options.push("Other")
-        }
-        if (!matchedEntry.options.includes("Menu")) {
-          matchedEntry.options.push("Menu")
-        }
-
-        setQuickReplies(matchedEntry.options)
+        setQuickReplies(updateQuickReplies(matchedEntry.options))
       } else {
-        // If no match is found, call OpenAI API
         const botResponse = await generateResponseWithContext(
           message,
           conversationHistory,
           process.env.REACT_APP_OPENAI_API_KEY
         )
 
-        // Add bot response to messages
         setMessages((prevMessages) =>
           prevMessages.slice(0, -1).concat({
             id: crypto.randomUUID(),
@@ -97,8 +78,7 @@ const ChatOpenAI = () => {
           })
         )
 
-        // Set quick replies based on the options from the bot response
-        setQuickReplies(botResponse.options) // Update quick replies
+        setQuickReplies(botResponse.options)
       }
 
       updateConversationHistory(
@@ -107,13 +87,7 @@ const ChatOpenAI = () => {
       )
     } catch (error) {
       console.error("Error in handling send:", error)
-      setMessages((prevMessages) =>
-        prevMessages.slice(0, -1).concat({
-          id: crypto.randomUUID(),
-          sender: "bot",
-          text: settings.error_message,
-        })
-      )
+      replaceBotMessageWithError(setMessages, settings.error_message)
       updateConversationHistory("assistant", settings.error_message)
     } finally {
       setIsLoading(false)
@@ -137,7 +111,7 @@ const ChatOpenAI = () => {
 
   return (
     <div className="chat-openai">
-      <h3>Chatbot Washing Machine Assistant</h3>
+      <h3>{settings.title}</h3>
 
       <div className="chat-messages">
         {messages.map((msg) => (
@@ -170,10 +144,10 @@ const ChatOpenAI = () => {
       )}
 
       {isCustomInput && (
-        <div className="chat-input input-group mb-3">
+        <div className="chat-input input-group">
           <input
             type="text"
-            className="form-control"
+            className="form-control input-wide"
             placeholder="Type a message..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
@@ -182,10 +156,16 @@ const ChatOpenAI = () => {
           <div className="input-group-append">
             <button
               className="btn btn-primary"
-              onClick={() => handleSend(inputValue)} // Send typed message
+              onClick={() => handleSend(inputValue)}
               disabled={isLoading}
             >
               Send
+            </button>
+            <button
+              className="btn btn-primary btn-wide btn-menu"
+              onClick={() => handleQuickReply("Menu")}
+            >
+              {"Menu"}
             </button>
           </div>
         </div>
@@ -195,10 +175,3 @@ const ChatOpenAI = () => {
 }
 
 export default ChatOpenAI
-
-// TODO:
-// FARE GIT PIU CORTI
-// deve andare la pagination
-// CLEAN code
-// dividere in compoenti
-// store the language, menu should be in english

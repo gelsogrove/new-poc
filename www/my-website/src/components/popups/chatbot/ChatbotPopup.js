@@ -2,22 +2,11 @@
 
 import React from "react"
 import ChatOpenAI from "../../shared/ChatOpenAI" // Componente per la chat
+import { navigateToPDFPage } from "../../shared/utils"
 import "./ChatbotPopup.css"
 
 const ChatbotPopup = ({ onClose }) => {
-  const handleNavigateToPage = (pageNumber) => {
-    const pdfViewer = document.getElementById("pdfViewer")
-    if (pdfViewer) {
-      // Forza il caricamento della nuova pagina
-      pdfViewer.src = "" // Temporaneamente svuota l'iframe
-      setTimeout(() => {
-        pdfViewer.src = `http://localhost:3000/embedding/washing-machine-001.pdf#page=${pageNumber}`
-        console.log(`Page IFRAME: ${pdfViewer.src}`) // Log per il debug
-      }, 500) // Aggiungi un piccolo ritardo prima di ripristinare l'URL
-    } else {
-      console.error("PDF viewer not found!")
-    }
-  }
+  const handleNavigateToPage = (pageNumber) => navigateToPDFPage(pageNumber)
 
   return (
     <div className="chatbot-popup">
