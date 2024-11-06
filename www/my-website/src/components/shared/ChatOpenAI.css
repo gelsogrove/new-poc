@@ -7,11 +7,32 @@
 
 .chat-messages {
   flex-grow: 1;
-  overflow-y: auto;
+  overflow-y: scroll; /* Forza la scrollbar sempre visibile */
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  border-right: 1px solid #ddd;
+
+  margin-bottom: 10px;
+  height: 300px;
+
+  /* Forza la scrollbar a comparire su tutti i sistemi operativi */
+  -webkit-overflow-scrolling: touch;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 12px; /* Aumenta la larghezza per maggiore visibilità */
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: #888; /* Colore del "pollice" della scrollbar */
+  border-radius: 6px; /* Arrotondamento del "pollice" */
+  border: 3px solid #f1f1f1; /* Spazio per contrasto */
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Sfondo della traccia della scrollbar */
 }
 
 .chat-message {
@@ -19,6 +40,7 @@
   padding: 10px;
   border-radius: 15px;
   font-size: 1rem;
+  border: 2px solid #ccc;
 }
 
 .user-message {
@@ -26,6 +48,7 @@
   background-color: #007bff;
   color: white;
   border-top-right-radius: 0;
+  border: 2px solid #ccc;
 }
 
 .bot-message {
@@ -76,10 +99,15 @@
   margin-bottom: 10px;
 }
 
+.btn-wide {
+  width: 100%;
+  max-height: 40px !important;
+  height: 40px !important;
+}
+
 @media only screen and (max-width: 768px) {
   .btn-wide {
     width: 100%;
-    height: 60px;
   }
 
   .bot-message {

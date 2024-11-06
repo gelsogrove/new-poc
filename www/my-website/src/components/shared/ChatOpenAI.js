@@ -137,10 +137,7 @@ const ChatOpenAI = () => {
 
   return (
     <div className="chat-openai">
-      <h3>
-        Chatbot Washing Machine Assistant
-        {isCustomInput ? " - true" : " - false"}
-      </h3>
+      <h3>Chatbot Washing Machine Assistant</h3>
 
       <div className="chat-messages">
         {messages.map((msg) => (
@@ -204,3 +201,4 @@ export default ChatOpenAI
 // deve andare la pagination
 // CLEAN code
 // dividere in compoenti
+// store the language, menu should be in english

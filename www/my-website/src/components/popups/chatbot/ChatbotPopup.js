@@ -29,7 +29,7 @@ const ChatbotPopup = ({ onClose }) => {
       <div className="pdf-section">
         <iframe
           id="pdfViewer"
-          src="http://localhost:3000/embedding/washing-machine-001.pdf"
+          src="/embedding/washing-machine-001.pdf"
           width="100%"
           height="600"
           title="PDF Viewer"

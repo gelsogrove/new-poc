@@ -2,10 +2,8 @@
   "system_prompt": "Answer the question with a maximum of 300 tokens and provide four possible related questions that the user might ask to continue the conversation, each with a maximum of 14 words. Additionally, include the page number where the information was found. Format the response in JSON as follows: { \"response\": \"Response text\", \"options\": [\"Option 1\", \"Option 2\", \"Option 3\", \"Option 4\"], \"page\": 1 }",
   "first_message": "Hello! This is an example. We have loaded the washing machine manual. Feel free to ask any questions related to washing machines.",
   "first_options": [
-    "How can I keep it in good condition ?",
     "How can I connect to the water ?",
     "Show me the Terms of Warranty",
-    "Which washing programs are available ?",
     "I have an emergency",
     "Sorry, I don't speak English",
     "Other",
