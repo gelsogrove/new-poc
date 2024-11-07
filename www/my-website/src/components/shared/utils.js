@@ -53,6 +53,50 @@ export const convertQuestionToEmbedding = async (questionText) => {
   }
 }
 
+// Function to generate a response with context using OpenAI's API
+export const generateResponseWithContext = async (
+  bestMatch,
+  questionText,
+  conversationHistory
+) => {
+  if (!bestMatch) {
+    return "I'm sorry, I couldn't find relevant information to answer your question. Please try rephrasing or asking something else."
+  }
+  const contextText = bestMatch.text // Assuming bestMatch has a `text` property
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: settings.model,
+        messages: [
+          {
+            role: "system",
+            content: settings.system_prompt, // Use the system prompt from settings
+          },
+          ...conversationHistory,
+          {
+            role: "user",
+            content: `Context from document: ${contextText}\n\nQuestion: ${questionText}\n\nAnswer only with information from the context above.`,
+          },
+        ],
+        max_tokens: settings.max_tokens, // Use value from settings
+        temperature: settings.temperature, // Use value from settings
+      }),
+    })
+
+    const data = await response.json()
+    console.log("API Response:", data.choices[0].message.content.trim())
+    return data.choices[0].message.content.trim()
+  } catch (error) {
+    console.error("Error generating response:", error)
+    return "There was an error generating the response. Please try again."
+  }
+}
+
 export const formatText = (data) => {
   console.log("Input Data Type:", typeof data) // Log the type of input data
   console.log("Input Data:", data) // Log the entire input data for debugging
@@ -121,50 +165,6 @@ export const findBestMatchInEmbeddings = (embeddingData, questionEmbedding) => {
     }
   })
   return bestMatch
-}
-
-// Function to generate a response with context using OpenAI's API
-export const generateResponseWithContext = async (
-  bestMatch,
-  questionText,
-  conversationHistory
-) => {
-  if (!bestMatch) {
-    return "I'm sorry, I couldn't find relevant information to answer your question. Please try rephrasing or asking something else."
-  }
-  const contextText = bestMatch.text // Assuming bestMatch has a `text` property
-  try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: settings.model,
-        messages: [
-          {
-            role: "system",
-            content: settings.system_prompt, // Use the system prompt from settings
-          },
-          ...conversationHistory,
-          {
-            role: "user",
-            content: `Context from document: ${contextText}\n\nQuestion: ${questionText}\n\nAnswer only with information from the context above.`,
-          },
-        ],
-        max_tokens: settings.max_tokens, // Use value from settings
-        temperature: settings.temperature, // Use value from settings
-      }),
-    })
-
-    const data = await response.json()
-    console.log("API Response:", data.choices[0].message.content.trim())
-    return data.choices[0].message.content.trim()
-  } catch (error) {
-    console.error("Error generating response:", error)
-    return "There was an error generating the response. Please try again."
-  }
 }
 
 export const navigateToPDFPage = (pageNumber) => {

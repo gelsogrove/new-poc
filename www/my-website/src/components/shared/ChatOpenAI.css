@@ -1,3 +1,6 @@
+/* ChatOpenAI.css */
+
+/* Chat OpenAI Layout */
 .chat-openai {
   display: flex;
   flex-direction: column;
@@ -5,59 +8,7 @@
   width: 100%;
 }
 
-.chat-messages {
-  flex-grow: 1;
-  overflow-y: scroll; /* Forza la scrollbar sempre visibile */
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  border-right: 1px solid #ddd;
-
-  margin-bottom: 10px;
-  height: 300px;
-
-  /* Forza la scrollbar a comparire su tutti i sistemi operativi */
-  -webkit-overflow-scrolling: touch;
-}
-
-.chat-messages::-webkit-scrollbar {
-  width: 12px; /* Aumenta la larghezza per maggiore visibilità */
-}
-
-.chat-messages::-webkit-scrollbar-thumb {
-  background-color: #888; /* Colore del "pollice" della scrollbar */
-  border-radius: 6px; /* Arrotondamento del "pollice" */
-  border: 3px solid #f1f1f1; /* Spazio per contrasto */
-}
-
-.chat-messages::-webkit-scrollbar-track {
-  background-color: #f1f1f1; /* Sfondo della traccia della scrollbar */
-}
-
-.chat-message {
-  max-width: 70%;
-  padding: 10px;
-  border-radius: 15px;
-  font-size: 1rem;
-  border: 2px solid #ccc;
-}
-
-.user-message {
-  align-self: flex-end;
-  background-color: #007bff;
-  color: white;
-  border-top-right-radius: 0;
-  border: 2px solid #ccc;
-}
-
-.bot-message {
-  align-self: flex-start;
-  background-color: #e0e0e0;
-  color: black;
-  border-top-left-radius: 0;
-}
-
+/* Chat Input */
 .chat-input {
   display: flex;
   gap: 10px;
@@ -67,9 +18,7 @@
 .input-group {
   width: 100% !important;
 }
-.btn-menu {
-  margin-left: 5px !important;
-}
+
 .chat-input input {
   flex-grow: 1;
   padding: 8px;
@@ -86,31 +35,11 @@
   cursor: pointer;
 }
 
-.quick-reply-buttons .col-6 {
-  padding: 0 5px;
-  margin-bottom: 10px;
+.btn-menu {
+  margin-left: 5px !important;
 }
 
-.quick-reply-buttons .btn {
-  width: 100%;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-  border-radius: 4px;
-}
-
-.quick-reply-buttons .btn:not(:last-child) {
-  margin-bottom: 10px;
-}
-
-.btn-wide {
-  width: 100%;
-  max-height: 40px !important;
-  height: 40px !important;
-}
-
+/* Media Queries */
 @media only screen and (max-width: 768px) {
   .btn-wide {
     width: 100%;
@@ -124,4 +53,19 @@
   .chat-input input {
     max-width: 220px;
   }
+}
+
+/* Scrollbar Customization */
+.chat-messages::-webkit-scrollbar {
+  width: 12px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+  border: 3px solid #f1f1f1;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
 }
