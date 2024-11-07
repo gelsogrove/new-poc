@@ -2,6 +2,8 @@ import React from "react"
 import "./MessageList.css"
 
 const MessageList = ({ messages }) => {
+  console.log("messages input:", messages) // Aggiungi questo log per vedere i valori di input
+
   return (
     <div className="chat-messages">
       {messages.map((msg) => (

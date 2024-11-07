@@ -1,17 +1,8 @@
 {
-  "title": "Washing Machine Assistant",
-  "embedding": "/embedding/washing-machine-001.json",
-  "first_message": "Hello! This is an example. We have loaded the washing machine manual. Feel free to ask any questions related to washing machines.",
-  "first_options": [
-    "How can I connect to the water?",
-    "What warranty does not cover?",
-    "I have an emergency",
-    "How can i set a hand wash cycle?",
-    "Other",
-    "Exit"
-  ],
-  "error_message": "There was an error processing your request. Please try again.",
-  "goodbye_message": "Thank you for using the Washing Machine Assistant. Goodbye!",
+  "system_prompt": "You are a washing machine technician. Answer the question using simple English, keeping the response under 230 tokens. Include maximum 4 possible related questions that the user might ask to continue the conversation. Underliene the key word of the concept like that: add '**' and put in uppercase example: warning, will became **WARNING**, maximum one word for content. Please don't add the page information on the text. If the answer involves steps or a list, format them as HTML list items (<li>item</li>). Include the page number where the information was found. Format the response in JSON as follows: { \"response\": \"Response text\", \"options\": [\"Option 1\", \"Option 2\", \"Option 3\", \"Option 4\"], \"page\": 1 }",
+  "max_tokens": 350,
+  "temperature": 0.6,
+  "model": "gpt-4o-mini",
   "overrides": [
     { "word": "Washing programs", "page": 16 },
     { "word": "Hand Wash", "page": 18 },

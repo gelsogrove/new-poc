@@ -6,15 +6,18 @@ import settings from "./settings.json"
 import {
   addBotLoadingMessage,
   cleanText,
-  convertQuestionToEmbedding,
   findBestMatchInEmbeddings,
   formatBoldText,
   formatText,
-  generateResponseWithContext,
   loadEmbeddingData,
   navigateToPDFPage,
   replaceBotMessageWithError,
 } from "./utils"
+
+import {
+  convertQuestionToEmbedding,
+  generateResponseWithContext,
+} from "./utils_api"
 
 import ChatInput from "./components/chatinput/ChatInput"
 import MessageList from "./components/messagelist/MessageList"
@@ -44,7 +47,7 @@ const ChatOpenAI = () => {
     }
 
     fetchData()
-  }, []) // Runs once on mount
+  }, [])
 
   const updateConversationHistory = (role, content) => {
     setConversationHistory((prevHistory) => [...prevHistory, { role, content }])
@@ -92,16 +95,16 @@ const ChatOpenAI = () => {
       // Navigate to the specified page
       if (page) {
         navigateToPDFPage(page)
-      } else {
-        // Update messages with the formatted response
-        setMessages((prevMessages) =>
-          prevMessages.slice(0, -1).concat({
-            id: crypto.randomUUID(),
-            sender: "bot",
-            text: cleanedResponse, // Only the response text
-          })
-        )
       }
+
+      // Update messages with the formatted response
+      setMessages((prevMessages) =>
+        prevMessages.slice(0, -1).concat({
+          id: crypto.randomUUID(),
+          sender: "bot",
+          text: cleanedResponse, // Only the response text
+        })
+      )
 
       // Check if any word overrides are present in the response
       settings.overrides.forEach((override) => {
