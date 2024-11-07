@@ -1,4 +1,5 @@
 // Funzione per convertire una domanda in un embedding (chiamata al server backend)
+import settings from "./settings.json"
 
 export const convertQuestionToEmbedding = async (questionText) => {
   if (!questionText) {
@@ -7,7 +8,7 @@ export const convertQuestionToEmbedding = async (questionText) => {
   }
 
   try {
-    const response = await fetch("http://localhost:4999/api/embedding", {
+    const response = await fetch(settings.server + "/api/embedding", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,16 +40,13 @@ export const generateResponseWithContext = async (
   }
 
   try {
-    const response = await fetch(
-      "http://localhost:4999/api/generate-response",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ bestMatch, questionText, conversationHistory }),
-      }
-    )
+    const response = await fetch(settings.server + "/api/generate-response", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ bestMatch, questionText, conversationHistory }),
+    })
 
     if (!response.ok) {
       console.error("Error generating response:", response.statusText)

@@ -1,5 +1,7 @@
 {
   "title": "Washing Machine Assistant",
+  "server": "https://human-in-the-loops-688b23930fa9.herokuapp.com",
+  "local": "http://localhost:4999",
   "embedding": "/embedding/washing-machine-001.json",
   "first_message": "Hello! This is an example. We have loaded the washing machine manual. Feel free to ask any questions related to washing machines.",
   "first_options": [
