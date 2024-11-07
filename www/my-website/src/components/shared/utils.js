@@ -99,7 +99,7 @@ export const navigateToPDFPage = (pageNumber) => {
   const pdfViewer = document.getElementById("pdfViewer")
 
   if (pdfViewer) {
-    const newSrc = `/embedding/washing-machine-001.pdf#page=${pageNumber}&t=${new Date().getTime()}`
+    const newSrc = `https://www.lg.com/cac/support/products/documents/77%20KROWM000135645.pdf#page=${pageNumber}&t=${new Date().getTime()}`
 
     // Remove and re-add the iframe to force refresh
     const parent = pdfViewer.parentNode

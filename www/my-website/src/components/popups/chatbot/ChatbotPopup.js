@@ -18,7 +18,7 @@ const ChatbotPopup = ({ onClose }) => {
       <div className="pdf-section">
         <iframe
           id="pdfViewer"
-          src="/embedding/washing-machine-001.pdf"
+          src="https://www.lg.com/cac/support/products/documents/77%20KROWM000135645.pdf"
           width="100%"
           height="600"
           title="PDF Viewer"
