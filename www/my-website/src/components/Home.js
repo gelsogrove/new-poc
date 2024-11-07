@@ -42,11 +42,10 @@ const Home = () => {
       <div className="home-container">
         <header className="header">
           <p>
-            <img className="logo" src="../images/logo.png"></img>
+            <img className="logo" src="../images/logo.png" />
           </p>
         </header>
         <section className="features">
-          {/* Sezione Custom Vision */}
           <div
             className="feature-item"
             onClick={() => openPopup("customVision")}
@@ -66,7 +65,6 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Sezione Chatbot */}
           <div className="feature-item" onClick={() => openPopup("chatbot")}>
             <div className="image-container">
               <img
@@ -83,7 +81,6 @@ const Home = () => {
             </div>
           </div>
         </section>
-
         <Landing />
       </div>
       <Info />
