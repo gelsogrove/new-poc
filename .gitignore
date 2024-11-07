@@ -13,3 +13,5 @@ src/server/backend/src/images/
 **/.DS_Store
 
 *.env
+
+www/my-website/heroku/
