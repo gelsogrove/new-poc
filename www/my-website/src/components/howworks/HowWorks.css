@@ -1,0 +1,32 @@
+.faq-container {
+  width: 70%;
+  max-width: 1150px;
+  margin: 0 auto;
+}
+
+.faq-wrapper {
+  background-color: white;
+  margin-bottom: 30px;
+}
+
+.faq-container .faq-row {
+  text-align: left;
+}
+
+/* Stile per il titolo della domanda */
+.faq-container .faq-row-title {
+  font-weight: bold; /* Rende il titolo in grassetto */
+
+  color: #333333; /* Colore specifico per il titolo */
+  text-align: left; /* Allinea il titolo a sinistra */
+  margin-bottom: 8px; /* Spazio sotto il titolo */
+}
+
+/* Stile per il contenuto della risposta */
+.faq-container .faq-row-content {
+  font-weight: normal; /* Normal text weight for the response */
+  font-size: 128px !important; /* Set desired font size */
+  color: red; /* Different color for the content */
+  text-align: left; /* Align content to the left */
+  line-height: 1.5; /* Increase line spacing for readability */
+}

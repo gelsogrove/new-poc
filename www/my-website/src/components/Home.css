@@ -9,6 +9,9 @@
   margin-bottom: 20px;
 }
 
+.footer {
+  background-color: white;
+}
 .header p {
   color: rgb(241, 194, 107);
   font-size: 2.7rem;

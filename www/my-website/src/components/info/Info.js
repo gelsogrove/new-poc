@@ -24,7 +24,6 @@ const Info = () => {
           </p>
         </div>
       </div>
-      <hr />
 
       {/* Seconda riga con immagine e testo */}
       <div className="info-row">
@@ -42,6 +41,26 @@ const Info = () => {
             over time. By focusing on the hardest cases, the Active Learning
             loop helps the model handle complex situations that are difficult to
             automate.
+          </p>
+        </div>
+      </div>
+
+      <div className="info-row">
+        <div className="info-image">
+          <img src="../images/fine-tuning.webp" alt="Human-in-the-Loop" />
+        </div>
+        <div className="info-text">
+          <p>
+            <b> Fine-tuning </b> a large language model (LLM) means adjusting it
+            to work better for certain tasks. Usually, an LLM is trained on a
+            huge amount of general text, so it understands language but isn’t
+            focused on any specific topic. Fine-tuning improves the model by
+            training it on smaller, specialized datasets, making it more
+            accurate for specific uses. This process is helpful for creating
+            custom chatbots that can answer questions in a particular field
+            (like healthcare or tech support) or custom vision systems that
+            recognize certain images. Fine-tuning makes the model more reliable
+            for these special uses.
           </p>
         </div>
       </div>

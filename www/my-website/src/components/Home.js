@@ -7,10 +7,10 @@ import Popup from "./popups/Popup" // Import del componente Popup
 import Technologies from "./technologies/Technologies"
 
 // Import aggiuntivo
+import { Howworks } from "./howworks/HowWorks"
 import ChatbotPopup from "./popups/chatbot/ChatbotPopup"
 import CustomVisionPopup from "./popups/customVision/CustomVisionPopup"
 import GenerativeAIPopup from "./popups/generativeAI/GenerativeAIPopup"
-
 const Home = () => {
   // Stato per tenere traccia della popup attiva
   const [activePopup, setActivePopup] = useState(null)
@@ -42,7 +42,7 @@ const Home = () => {
       <div className="home-container">
         <header className="header">
           <p>
-            <img className="logo" src="../images/logo.png" />
+            <img className="logo" alt="tet" src="../images/logo.png" />
           </p>
         </header>
         <section className="features">
@@ -85,10 +85,10 @@ const Home = () => {
       </div>
       <Info />
 
-      <div className="tecnology">
-        <div className="rowt">Technologies we use</div>
+      <div className="footer">
+        <Howworks />
+        <Technologies />
       </div>
-      <Technologies />
     </div>
   )
 }

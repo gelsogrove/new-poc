@@ -1,7 +1,7 @@
 /* src/components/Technologies.css */
 
 .technologies-container {
-  width: 100vw; /* Larghezza intera della finestra */
+  width: 97vw; /* Larghezza intera della finestra */
   background-color: white; /* Sfondo bianco */
   display: flex; /* Usa Flexbox per disporre le card */
   justify-content: center; /* Centra le card orizzontalmente */

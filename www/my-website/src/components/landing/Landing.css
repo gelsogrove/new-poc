@@ -21,18 +21,6 @@
   text-align: left; /* Allinea il testo a sinistra */
 }
 
-.contact-section {
-  flex: 0 0 30%; /* Occupa il 30% della larghezza */
-  background-color: rgb(241, 194, 107); /* Colore di sfondo per il modulo */
-  color: black; /* Colore del testo della sezione di contatto */
-  padding: 20px; /* Spaziatura interna */
-  border-radius: 8px; /* Angoli arrotondati */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombra per il modulo */
-  text-align: left; /* Allinea il testo a sinistra */
-  min-height: 400px; /* Altezza minima per il contatto */
-  margin-top: -20px;
-}
-
 .bulleted-list {
   list-style-type: none; /* Rimuove i punti elenco predefiniti */
   padding-left: 0; /* Rimuove il padding a sinistra */
