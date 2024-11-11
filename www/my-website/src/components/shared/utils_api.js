@@ -8,7 +8,7 @@ export const convertQuestionToEmbedding = async (questionText) => {
   }
 
   try {
-    const response = await fetch(settings.server + "/api/embedding", {
+    const response = await fetch(settings.server + "/api1/emb", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export const generateResponseWithContext = async (
   }
 
   try {
-    const response = await fetch(settings.server + "/api/generate-response", {
+    const response = await fetch(settings.server + "/api1/resp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

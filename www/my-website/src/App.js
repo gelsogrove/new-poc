@@ -1,19 +1,48 @@
-import React from "react"
-import { Route, Routes } from "react-router-dom"
+import React, { useEffect, useState } from "react"
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import "./App.css"
-import Contact from "./components/Contact" // Assicurati che questo componente esista
-import Footer from "./components/Footer" // Assicurati che questo componente esista
-import Home from "./components/Home" // Assicurati che questo componente esista
-import Services from "./components/Services" // Assicurati che questo componente esista
+import Contact from "./components/Contact"
+import Footer from "./components/Footer"
+import Home from "./components/Home"
+import Login from "./components/Login/Login"
+import Services from "./components/Services"
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const navigate = useNavigate()
+
+  const handleLogin = (username, password) => {
+    if (username === "admin" && password === "123") {
+      setIsAuthenticated(true) // Update authentication status
+    } else {
+      alert("Username o password errati")
+    }
+  }
+
+  // Use useEffect to redirect after login
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/") // Redirect to home after successful login
+    }
+  }, [isAuthenticated, navigate])
+
   return (
     <div className="app-container">
       <div className="main-content">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/services" element={<Services />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route
+            path="/"
+            element={isAuthenticated ? <Home /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/contact"
+            element={isAuthenticated ? <Contact /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/services"
+            element={isAuthenticated ? <Services /> : <Navigate to="/login" />}
+          />
         </Routes>
       </div>
       <Footer />
