@@ -12,7 +12,7 @@ const App = () => {
   const navigate = useNavigate()
 
   const handleLogin = (username, password) => {
-    if (username === "admin" && password === "123") {
+    if (username === "admin" && password === "wip") {
       setIsAuthenticated(true) // Update authentication status
     } else {
       alert("Username o password errati")
