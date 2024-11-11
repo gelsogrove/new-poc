@@ -14,8 +14,6 @@ const App = () => {
   const handleLogin = (username, password) => {
     if (username === "admin" && password === "wip") {
       setIsAuthenticated(true) // Update authentication status
-    } else {
-      alert("Username o password errati")
     }
   }
 
