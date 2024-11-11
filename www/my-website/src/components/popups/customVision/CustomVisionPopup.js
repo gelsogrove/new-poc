@@ -8,13 +8,13 @@ const phrases = [
     duration: 6500,
   },
   {
-    text: "This solution is capable to run an OCR scan and get any ID number, as shown below",
+    text: "This solution is capable to run an OCR scan and get any ID number, as it showns below",
     image: "images/vin.png",
     duration: 6500,
   },
   {
     text: "It can generate real-time statistics and identify times with a higher concentration of defects during the day",
-    image: "images/statistics.png",
+    image: "images/statistics1.png",
     duration: 6500,
   },
   {

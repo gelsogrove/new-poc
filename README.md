@@ -13,30 +13,18 @@ TODO
 
 WEBSITE
 
-- METTERE UN UNDER CONSTRUCTION E CAPIRE COME BLOCCARE FACILMENTE
 - RESPONSIVE?
-- Fine tuning
-- METTERE LE FAQ
 - METTERE L'AUDIO ?
-- Improve sicurezza con un sessionID e' possibile ?
-- Sistema di sicuezza : cookie-parser uuid redis
-- dobbiamo mettere https e certificato SSL (Una volta configurato HTTPS, aggiungi una regola in helmet per forzare HTTPS con HSTS:)
+- Fine tuning
+- dobbiamo mettere https su Heroku
 - Redirect da http a https via codice
-- Calendly
+- Sistema di sicuezza : cookie-parser uuid redis
 - LOGO NON MI PIACE
 - SPOSTARE IL PDF
+- Improve sicurezza con un sessionID e' possibile ?
 
-COME FUNZIOPNA
+---
 
-- C'e' un app in react che chiama un bridge che e' su horeku
-- questo bridge accetta massimo 130 connessioni al giorni dallo stesso IP e puo' andare solo dal sito che lo chiama
-- questa bridge chiama un api di openAI dove la chiave e' dentro il .env e quindi non e' visibile
-
-- Che vantaggi posso avere con l'utilizzo dell'AI nella mia impresa:
-- Quali tecnologie usate nei vostri progetti?
-- Quali vantaggi può portare un chatbot personalizzato alla mia azienda?
-- Quali vantaggi può portare un Custom Vision alla mia aziendaP
-- Esiste un problena di sicurezza dei dati ?
-- Come garantite la qualità dei vostri modelli di AI?
-- Cosa vuol dire HUman in the loop
-- Cos'e' un Active learning loop ?
+heroku login
+heroku logs --tail
+git push heroku main

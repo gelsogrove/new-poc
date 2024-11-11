@@ -41,10 +41,10 @@ const Home = () => {
       </Popup>
       <div className="home-container">
         <header className="header">
-          <p>
-            <img className="logo" alt="tet" src="../images/logo.png" />
-          </p>
+          <h1 className="logo">Human in the loops</h1>
         </header>
+
+        <h1 className="ourservice">Our Services</h1>
         <section className="features">
           <div
             className="feature-item"
