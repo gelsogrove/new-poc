@@ -22,8 +22,8 @@
     { "word": "Maintainance", "page": 32 },
     { "word": "Wasshing program", "page": 34 },
     { "word": "Troubleshooting", "page": 35 },
-    { "word": "Warranty", "page": 35 },
-    { "word": "Weight", "page": 35 },
+    { "word": "Warranty", "page": 36 },
+    { "word": "Weight", "page": 37 },
     { "word": "Eco", "page": 19 },
     { "word": "Soak", "page": 21 },
     { "word": "Custom Program", "page": 24 },
@@ -37,6 +37,7 @@
     { "word": "Caution", "page": 5 },
     { "word": "Button", "page": 14 },
     { "word": "Ground", "page": 31 },
-    { "word": "Functions", "page": 25 }
+    { "word": "Functions", "page": 25 },
+    { "word": "Wash capacity", "page": 37 }
   ]
 }

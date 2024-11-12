@@ -1,55 +1,66 @@
-/* src/components/Navbar.css */
+/* Navbar.css */
+
 .navbar {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  background-color: #f0f8ff; /* Colore di sfondo */
-  padding: 20px 40px; /* Maggiore padding per la navbar */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
 }
 
-.logo {
-  color: #dc3545; /* Colore del logo */
-  font-size: 1.5rem;
+.contact {
+  color: #fff;
+  margin-right: 30px;
+  font-size: 1.2rem;
 }
-
-.nav-links {
-  list-style: none;
+.language-selector {
   display: flex;
-  gap: 30px; /* Maggiore spaziatura tra i link */
-}
-
-.nav-links li a {
-  text-decoration: none;
-  color: #333; /* Colore del testo */
-  font-weight: bold;
-  padding: 10px 15px; /* Padding per aumentare l'area cliccabile */
-  transition: color 0.3s; /* Transizione per l'effetto hover */
-}
-
-.nav-links li a:hover {
-  color: #dc3545; /* Cambia colore al passaggio del mouse */
-  text-decoration: underline; /* Sottolinea il testo */
+  gap: 10px;
+  margin-right: 100px;
 }
 
 .language-selector button {
-  margin-left: 10px;
-  padding: 5px 10px;
+  position: relative; /* Position relative for tooltip positioning */
+  display: flex;
+  align-items: center;
+  background: none;
   border: none;
-  background-color: #dc3545;
-  color: white;
-  border-radius: 5px;
   cursor: pointer;
+  padding: 5px;
 }
 
-/* Media query per responsività */
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column; /* Cambia in colonna su schermi piccoli */
-    align-items: flex-start; /* Allinea a sinistra */
-  }
-  .nav-links {
-    flex-direction: column; /* I link si impilano verticalmente */
-    gap: 10px; /* Spaziatura verticale */
-  }
+.language-selector button img {
+  width: 30px;
+  height: auto;
+}
+
+/* Tooltip styling */
+.language-selector button[data-tooltip]:hover::after {
+  content: attr(data-tooltip); /* Tooltip text from data-tooltip attribute */
+  position: absolute;
+  bottom: 40px; /* Adjusts tooltip position above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8); /* Dark background for contrast */
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Adds slight shadow */
+  opacity: 1;
+  visibility: visible;
+  z-index: 10;
+}
+
+.language-selector button::after {
+  content: ""; /* Empty by default */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+.language-selector button:hover::after {
+  opacity: 1;
+  visibility: visible;
 }

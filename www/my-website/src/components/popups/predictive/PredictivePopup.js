@@ -3,7 +3,7 @@ import "./Predictive.css"
 
 const phrases = [
   {
-    text: "<b>AI predictive maintenance</b> doesn’t just watch fixed limits on parameters; it intelligently analyzes data to detect possible issues in real time, for isntance when temperature increase shortly, or when pressure shows unusual changes that could indicate parts are wearing out.",
+    text: "<b>AI predictive maintenance</b> doesn’t just watch fixed limits on parameters; it intelligently analyzes data to detect possible issues in real time, for instance when temperature increase shortly, or when pressure shows unusual changes that could indicate parts are wearing out.",
     image: "images/grafana_streamset_animation.gif",
     duration: 20500,
   },

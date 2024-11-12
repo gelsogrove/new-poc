@@ -5,6 +5,7 @@ import Contact from "./components/Contact"
 import Footer from "./components/Footer"
 import Home from "./components/Home"
 import Login from "./components/Login/Login"
+import Navbar from "./components/Navbar"
 import Services from "./components/Services"
 
 const App = () => {
@@ -27,6 +28,9 @@ const App = () => {
   return (
     <div className="app-container">
       <div className="main-content">
+        {/* Conditionally render Navbar based on authentication status */}
+        {isAuthenticated && <Navbar />}
+
         <Routes>
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route
