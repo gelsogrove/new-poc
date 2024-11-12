@@ -10,7 +10,7 @@ import Technologies from "./technologies/Technologies"
 import { Howworks } from "./howworks/HowWorks"
 import ChatbotPopup from "./popups/chatbot/ChatbotPopup"
 import CustomVisionPopup from "./popups/customVision/CustomVisionPopup"
-import GenerativeAIPopup from "./popups/generativeAI/GenerativeAIPopup"
+import PredictivePopup from "./popups/predictive/PredictivePopup"
 const Home = () => {
   // Stato per tenere traccia della popup attiva
   const [activePopup, setActivePopup] = useState(null)
@@ -36,15 +36,15 @@ const Home = () => {
         <ChatbotPopup onClose={closePopup} />
       </Popup>
       {/* Popup per Generative AI */}
-      <Popup isOpen={activePopup === "generativeAI"} onClose={closePopup}>
-        <GenerativeAIPopup onClose={closePopup} />
+      <Popup isOpen={activePopup === "predictive"} onClose={closePopup}>
+        <PredictivePopup onClose={closePopup} />
       </Popup>
       <div className="home-container">
         <header className="header">
           <h1 className="logo">Human in the loops</h1>
         </header>
 
-        <h1 className="ourservice">Our Services</h1>
+        <h1 className="ourservice">AI Solutions for your needs</h1>
         <section className="features">
           <div
             className="feature-item"
@@ -80,6 +80,20 @@ const Home = () => {
               </div>
             </div>
           </div>
+
+          <div className="feature-item" onClick={() => openPopup("predictive")}>
+            <div className="image-container">
+              <img
+                src="../images/predictive.webp"
+                alt="Custom Chatbots"
+                className="feature-image"
+              />
+              <div className="overlay">
+                <h3>Predictive Maintainance</h3>
+                <div className="subtitle">Intelligent Monitoring</div>
+              </div>
+            </div>
+          </div>
         </section>
         <Landing />
       </div>
@@ -87,6 +101,7 @@ const Home = () => {
 
       <div className="footer">
         <Howworks />
+        <h1 className="techweuse">Technologies we use</h1>
         <Technologies />
       </div>
     </div>

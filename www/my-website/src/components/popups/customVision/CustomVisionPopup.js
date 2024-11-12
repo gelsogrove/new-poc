@@ -3,12 +3,12 @@ import "./CustomVisionPopup.css"
 
 const phrases = [
   {
-    text: "We have created a Custom Vision solution capable of identifying any kind of scratch on the car body",
+    text: "We have developed a <b>Custom Vision</b> solution capable of identifying any kind of scratch on the car body",
     image: "images/scratch.png",
     duration: 6500,
   },
   {
-    text: "This solution is capable to run an OCR scan and get any ID number, as it showns below",
+    text: "This solution is capable also to run an OCR scan and get the ID number of the defected object, as it showns below",
     image: "images/vin.png",
     duration: 6500,
   },
@@ -79,7 +79,7 @@ const CustomVisionPopup = ({ onClose }) => {
 
   return (
     <div
-      className="popup"
+      className="custom-vision-popup"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -93,12 +93,16 @@ const CustomVisionPopup = ({ onClose }) => {
               key={currentPhraseIndex}
               className={`phrase-container ${fadeClass}`}
             >
-              <div className="phrase-text">{currentPhrase.text}</div>
+              <div
+                className="phrase-text"
+                dangerouslySetInnerHTML={{ __html: currentPhrase.text }}
+              ></div>
+
               {currentPhrase.image && (
                 <img
                   src={currentPhrase.image}
                   alt="associated"
-                  className="phrase-image"
+                  className="phrase-image-custom-vision"
                 />
               )}
             </div>
@@ -106,7 +110,7 @@ const CustomVisionPopup = ({ onClose }) => {
         ) : (
           <iframe
             width="100%"
-            height="480"
+            height="430"
             src="https://www.youtube.com/embed/ZriGr7PH-Mc?autoplay=1"
             title="YouTube video player"
             frameBorder="0"

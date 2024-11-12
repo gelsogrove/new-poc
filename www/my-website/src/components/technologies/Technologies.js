@@ -20,6 +20,10 @@ const Technologies = () => {
       alt: "Google Colab",
     },
     {
+      src: "../images/logos/node-red.png", // Assicurati che il percorso sia corretto
+      alt: "Node-Red",
+    },
+    {
       src: "../images/logos/langchain.png",
       alt: "LangChain",
     },

@@ -21,6 +21,11 @@ const data = {
         "Custom Vision technology can transform quality control processes, particularly in industries with complex production lines. By using AI to visually monitor products, Custom Vision can automatically detect defects, anomalies, or inconsistencies that may be difficult for human inspectors to spot. This technology ensures that only high-quality products reach customers, reducing returns and enhancing brand reputation. Furthermore, Custom Vision can track patterns and alert teams to recurring issues, providing valuable data to refine production methods and improve product quality over time. For businesses aiming to maintain high standards and reduce operational costs, Custom Vision offers a powerful, scalable solution.",
     },
     {
+      title: "What are the benefits of Predictive Maintenance?",
+      content:
+        "Predictive Maintenance (PdM) offers significant advantages by minimizing unplanned downtime, reducing maintenance costs, and extending equipment life. By leveraging data from sensors and advanced analytics, PdM can predict potential equipment failures before they occur, allowing for timely interventions. This proactive approach not only reduces the risk of costly breakdowns but also optimizes maintenance schedules, ensuring that resources are used efficiently. With predictive insights, businesses can reduce waste, enhance productivity, and create a safer working environment by preventing sudden equipment failures that may lead to accidents. Overall, Predictive Maintenance contributes to improved operational efficiency and long-term savings.",
+    },
+    {
       title: "Is there a data security issue?",
       content:
         "Data security is paramount in all AI applications, and we take extensive measures to safeguard it. Our team adheres to best practices for data protection, including encryption protocols, regular security audits, and restricted access to sensitive data. We comply with all relevant data protection laws and regulations to ensure privacy and security compliance. Additionally, we provide transparency about data handling processes and conduct regular risk assessments to identify and address any vulnerabilities, giving our clients confidence that their data is in safe hands.",
