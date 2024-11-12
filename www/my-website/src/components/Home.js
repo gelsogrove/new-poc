@@ -1,50 +1,44 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react"
-import "./Home.css" // Assicurati che questo file CSS esista
+import { useTranslation } from "react-i18next"
+import "./Home.css"
+import Howworks from "./howworks/HowWorks"
 import Info from "./info/Info"
 import Landing from "./landing/Landing"
-import Popup from "./popups/Popup" // Import del componente Popup
-import Technologies from "./technologies/Technologies"
-
-// Import aggiuntivo
-import { Howworks } from "./howworks/HowWorks"
 import ChatbotPopup from "./popups/chatbot/ChatbotPopup"
 import CustomVisionPopup from "./popups/customVision/CustomVisionPopup"
+import Popup from "./popups/Popup"
 import PredictivePopup from "./popups/predictive/PredictivePopup"
+import Technologies from "./technologies/Technologies"
+
 const Home = () => {
-  // Stato per tenere traccia della popup attiva
+  const { t } = useTranslation() // Access translation function
   const [activePopup, setActivePopup] = useState(null)
 
-  // Funzione per aprire la popup
   const openPopup = (popupType) => {
     setActivePopup(popupType)
   }
 
-  // Funzione per chiudere la popup
   const closePopup = () => {
     setActivePopup(null)
   }
 
   return (
     <div>
-      {/* Popup per Custom Vision */}
       <Popup isOpen={activePopup === "customVision"} onClose={closePopup}>
         <CustomVisionPopup onClose={closePopup} />
       </Popup>
-      {/* Popup per Chatbot */}
       <Popup isOpen={activePopup === "chatbot"} onClose={closePopup}>
         <ChatbotPopup onClose={closePopup} />
       </Popup>
-      {/* Popup per Generative AI */}
       <Popup isOpen={activePopup === "predictive"} onClose={closePopup}>
         <PredictivePopup onClose={closePopup} />
       </Popup>
       <div className="home-container">
         <header className="header">
-          <h1 className="logo">Human in the loops</h1>
+          <h1 className="logo">Human in the loop</h1>
         </header>
 
-        <h1 className="ourservice">AI Solutions for your needs</h1>
+        <h1 className="ourservice">{t("home.service_heading")}</h1>
         <section className="features">
           <div
             className="feature-item"
@@ -53,13 +47,13 @@ const Home = () => {
             <div className="image-container">
               <img
                 src="../images/dalle.webp"
-                alt="Custom Vision"
+                alt={t("home.features.custom_vision.title")}
                 className="feature-image"
               />
               <div className="overlay">
-                <h3>Custom Vision</h3>
+                <h3>{t("home.features.custom_vision.title")}</h3>
                 <div className="subtitle">
-                  Enhance your quality control process with AI vision solutions.
+                  {t("home.features.custom_vision.subtitle")}
                 </div>
               </div>
             </div>
@@ -69,13 +63,13 @@ const Home = () => {
             <div className="image-container">
               <img
                 src="../images/chatbot.webp"
-                alt="Custom Chatbots"
+                alt={t("home.features.chatbot.title")}
                 className="feature-image"
               />
               <div className="overlay">
-                <h3>Custom Chatbots</h3>
+                <h3>{t("home.features.chatbot.title")}</h3>
                 <div className="subtitle">
-                  Transform your company with Intelligent AI Conversations.
+                  {t("home.features.chatbot.subtitle")}
                 </div>
               </div>
             </div>
@@ -85,12 +79,14 @@ const Home = () => {
             <div className="image-container">
               <img
                 src="../images/predictive.webp"
-                alt="Custom Chatbots"
+                alt={t("home.features.predictive.title")}
                 className="feature-image"
               />
               <div className="overlay">
-                <h3>Predictive Maintainance</h3>
-                <div className="subtitle">Intelligent Monitoring</div>
+                <h3>{t("home.features.predictive.title")}</h3>
+                <div className="subtitle">
+                  {t("home.features.predictive.subtitle")}
+                </div>
               </div>
             </div>
           </div>
@@ -101,7 +97,7 @@ const Home = () => {
 
       <div className="footer">
         <Howworks />
-        <h1 className="techweuse">Technologies we use</h1>
+        <h1 className="techweuse">{t("home.technologies_heading")}</h1>
         <Technologies />
       </div>
     </div>

@@ -1,0 +1,97 @@
+{
+  "home": {
+    "logo": "Soluzioni Human in the Loop",
+    "service_heading": "Soluzioni IA",
+    "features": {
+      "custom_vision": {
+        "title": "Custom Vision",
+        "subtitle": "Ottimizza il controllo qualità con la visione AI avanzata."
+      },
+      "chatbot": {
+        "title": "Custom Chatbots",
+        "subtitle": "Aumenta l'interazione con conversazioni AI intelligenti."
+      },
+      "predictive": {
+        "title": "Manutenzione Predittiva",
+        "subtitle": "Monitora in modo intelligente per soluzioni proattive."
+      }
+    },
+    "technologies_heading": "Tecnologie che Usiamo"
+  },
+  "navbar": {
+    "contact": "Contattaci"
+  },
+  "info": {
+    "advanced_ai": "Approccio di Ottimizzazione AI Avanzato che Utilizziamo",
+    "human_in_the_loop": {
+      "title": "Human in the Loop (HITL)",
+      "description": "Human in the Loop (HITL) è un approccio nell'intelligenza artificiale che integra l'intervento umano nelle fasi di addestramento, regolazione, etichettatura e raccolta dati, garantendo la precisione ottimale del modello. Oltre a migliorare la precisione, HITL consente di gestire situazioni complesse difficili da automatizzare."
+    },
+    "active_learning": {
+      "title": "Active Learning Loop",
+      "description": "Il Ciclo di Apprendimento Attivo è una tecnica che riduce temporaneamente la precisione del modello per individuare nuovi dataset in cui il modello ha incertezze e necessita dell'aiuto umano per etichettare i dati correttamente. Il modello seleziona questi dataset difficili e li invia a esperti umani per una nuova etichettatura. Questo processo migliora la qualità dei dati etichettati e aiuta il modello a imparare da casi complessi, aumentando la sua precisione complessiva nel tempo. Concentrandosi sui casi più difficili, il Ciclo di Apprendimento Attivo permette al modello di gestire situazioni complesse che sono difficili da automatizzare."
+    },
+    "fine_tuning": {
+      "title": "Fine-tuning",
+      "description": "La regolazione fine è una tecnica di apprendimento automatico che allena ulteriormente un modello pre-addestrato su un dataset specializzato più piccolo per migliorare le prestazioni per un compito o dominio specifico."
+    },
+    "data_augmentation": {
+      "title": "Data Augmentation",
+      "description": "L'Aumento di Dati è una tecnica usata per aumentare la diversità e quantità di dati creando versioni modificate del dataset originale."
+    },
+    "pruning": {
+      "title": "Pruning",
+      "description": "La potatura è una tecnica di ottimizzazione che rimuove parti meno importanti di un modello per renderlo più leggero ed efficiente senza compromettere significativamente la precisione."
+    },
+    "hyperparameter_tuning": {
+      "title": "Ottimizzazione degli Iperparametri",
+      "description": "L'ottimizzazione degli iperparametri implica l'ottimizzazione dei parametri che controllano il processo di apprendimento di un modello."
+    }
+  },
+  "landing": {
+    "intro_text": "Il nostro approccio è focalizzato sulla creazione di un impatto reale. Offriamo soluzioni di intelligenza artificiale avanzate che aiutano le aziende a operare in modo più efficiente e a fare la differenza. Cercando e selezionando continuamente le migliori tecnologie e prodotti di IA, garantiamo ai nostri clienti strumenti aggiornati che soddisfano le loro esigenze.",
+    "process_intro": "Il nostro processo include:",
+    "steps": {
+      "identify_areas": "Identificare le aree per l'integrazione dell'IA",
+      "research_trends": "Ricerca delle ultime tendenze",
+      "collect_data": "Raccolta dei dati",
+      "train_models": "Addestramento dei modelli",
+      "continuous_improvement": "Miglioramento continuo",
+      "monitoring": "Monitoraggio"
+    }
+  },
+
+  "faq": {
+    "title": "Domande Frequenti (FAQ)",
+    "questions": [
+      {
+        "title": "Quali sono i vantaggi dell'uso dell'IA nella mia azienda?",
+        "content": "L'uso dell'intelligenza artificiale nella tua azienda può portare a miglioramenti significativi in efficienza, precisione e produttività. L'IA può automatizzare attività ripetitive, consentendo ai dipendenti di concentrarsi su attività strategiche di livello superiore..."
+      },
+      {
+        "title": "Quali vantaggi può offrire un chatbot personalizzato alla mia azienda?",
+        "content": "Un chatbot personalizzato offre numerosi vantaggi, tra cui un migliore supporto clienti e una maggiore efficienza operativa. Automatizzando le risposte alle domande frequenti e offrendo assistenza 24/7, un chatbot può aiutare i clienti a risolvere rapidamente i problemi..."
+      },
+      {
+        "title": "Quali benefici può portare Custom Vision alla mia azienda?",
+        "content": "La tecnologia Custom Vision può trasformare i processi di controllo qualità, in particolare nelle industrie con linee di produzione complesse. Utilizzando l'IA per monitorare visivamente i prodotti, Custom Vision può rilevare automaticamente difetti, anomalie o incongruenze..."
+      },
+      {
+        "title": "Quali sono i vantaggi della Manutenzione Predittiva?",
+        "content": "La Manutenzione Predittiva (PdM) offre vantaggi significativi, riducendo i tempi di inattività imprevisti, i costi di manutenzione e prolungando la vita degli apparecchi. Utilizzando dati da sensori e analisi avanzate, la PdM può prevedere guasti potenziali prima che si verifichino..."
+      },
+      {
+        "title": "Ci sono problemi di sicurezza dei dati?",
+        "content": "La sicurezza dei dati è fondamentale in tutte le applicazioni di IA, e adottiamo misure estese per proteggerla. Il nostro team segue le migliori pratiche per la protezione dei dati, inclusi protocolli di crittografia, audit di sicurezza regolari e accesso limitato ai dati sensibili..."
+      },
+      {
+        "title": "Come garantite la qualità dei modelli di IA?",
+        "content": "Garantire la qualità dei modelli di IA implica un processo a più fasi che include validazione rigorosa, test e ottimizzazione continua. Inizialmente utilizziamo ampi dataset diversificati per addestrare i modelli, creando una solida base di conoscenze..."
+      },
+      {
+        "title": "Quali tecnologie utilizziamo?",
+        "content": "Utilizziamo una varietà di tecnologie IA all'avanguardia, tra cui machine learning, deep learning, visione artificiale e elaborazione del linguaggio naturale (NLP). I nostri progetti spesso includono modelli personalizzati progettati per soddisfare esigenze specifiche del cliente..."
+      }
+    ]
+  }
+}

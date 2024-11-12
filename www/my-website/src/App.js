@@ -7,6 +7,7 @@ import Home from "./components/Home"
 import Login from "./components/Login/Login"
 import Navbar from "./components/Navbar"
 import Services from "./components/Services"
+import "./i18n" // Import i18n setup
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -18,7 +19,7 @@ const App = () => {
     }
   }
 
-  // Use useEffect to redirect after login
+  // Redirect to home after successful login
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/") // Redirect to home after successful login
@@ -28,7 +29,6 @@ const App = () => {
   return (
     <div className="app-container">
       <div className="main-content">
-        {/* Conditionally render Navbar based on authentication status */}
         {isAuthenticated && <Navbar />}
 
         <Routes>

@@ -1,22 +1,19 @@
 // src/components/Landing.js
 import React from "react"
+import { useTranslation } from "react-i18next"
 import Contacts from "../contacts/Contacts"
-
-import "./Landing.css" // Importa il file CSS per lo styling
+import "./Landing.css" // Import CSS for styling
 
 const Landing = () => {
+  const { t } = useTranslation() // Initialize translation hook
+
   return (
     <div className="landing-container">
       <div className="text-section">
         <p className="larger-text">
-          Our approach is focused on creating real-world impact. We offer
-          advanced artificial intelligence solutions that help businesses
-          operate more efficiently and make a meaningful difference. By
-          continually seeking and selecting the best AI technologies and
-          products, we ensure our clients have the most up-to-date tools that
-          meet their needs.
+          {t("landing.intro_text")}
           <br />
-          <br /> Our process includes:
+          <br /> {t("landing.process_intro")}
           <br />
         </p>
         <ul className="bulleted-list">
@@ -33,7 +30,7 @@ const Landing = () => {
                 fill="currentColor"
               ></path>
             </svg>
-            Identifying areas for AI integration
+            {t("landing.steps.identify_areas")}
           </li>
           <li>
             <svg
@@ -48,7 +45,7 @@ const Landing = () => {
                 fill="currentColor"
               ></path>
             </svg>
-            Researching the latest trends
+            {t("landing.steps.research_trends")}
           </li>
           <li>
             <svg
@@ -63,7 +60,7 @@ const Landing = () => {
                 fill="currentColor"
               ></path>
             </svg>
-            Collect data
+            {t("landing.steps.collect_data")}
           </li>
           <li>
             <svg
@@ -78,9 +75,8 @@ const Landing = () => {
                 fill="currentColor"
               ></path>
             </svg>
-            Training models
+            {t("landing.steps.train_models")}
           </li>
-
           <li>
             <svg
               width="14"
@@ -94,9 +90,8 @@ const Landing = () => {
                 fill="currentColor"
               ></path>
             </svg>
-            Continuous improvement
+            {t("landing.steps.continuous_improvement")}
           </li>
-
           <li>
             <svg
               width="14"
@@ -110,7 +105,7 @@ const Landing = () => {
                 fill="currentColor"
               ></path>
             </svg>
-            Monitoring
+            {t("landing.steps.monitoring")}
           </li>
         </ul>
       </div>
