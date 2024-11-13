@@ -1,14 +1,9 @@
 /* src/components/Technologies.css */
 
 .technologies-container {
-  width: 97vw; /* Larghezza intera della finestra */
-  background-color: white; /* Sfondo bianco */
-  display: flex; /* Usa Flexbox per disporre le card */
+  display: flex;
+  flex-wrap: wrap; /* Permette alle card di andare a capo */
   justify-content: center; /* Centra le card orizzontalmente */
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 20px;
-  box-sizing: border-box;
 }
 
 .technology-card {
@@ -29,8 +24,8 @@
 }
 
 .tech-logo {
-  width: 80%; /* Assicura che l'immagine occupi gran parte della card */
-  height: auto; /* Mantiene le proporzioni dell'immagine */
+  max-width: 100%; /* Assicura che l'immagine non superi la larghezza del contenitore */
+  height: auto; /* Mantiene le proporzioni */
   filter: grayscale(100%); /* Rende il logo in bianco e nero */
   transition: filter 0.2s; /* Transizione per il cambiamento del filtro */
 }

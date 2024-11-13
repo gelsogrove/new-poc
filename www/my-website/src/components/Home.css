@@ -125,4 +125,26 @@
     transition: transform 0.3s ease;
     cursor: pointer;
   }
+
+  .feature-item:first-of-type {
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+  .feature-item:last-of-type {
+    margin-bottom: 50px;
+  }
+
+  .feature-item {
+    margin-bottom: 20px;
+    margin-top: -20px;
+  }
+
+  .logo {
+    width: 330px;
+    margin-top: 20px;
+  }
+
+  .ourservice {
+    margin-top: 80px;
+  }
 }

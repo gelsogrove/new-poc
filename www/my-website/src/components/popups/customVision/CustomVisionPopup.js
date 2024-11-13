@@ -5,7 +5,7 @@ const phrases = [
   {
     text: "We have developed a <b>Custom Vision</b> solution capable of identifying any kind of scratch on the car body",
     image: "images/scratch.png",
-    duration: 6500,
+    duration: 60500,
   },
   {
     text: "This solution is capable also to run an OCR scan and get the ID number of the defected object, as it showns below",
@@ -94,7 +94,7 @@ const CustomVisionPopup = ({ onClose }) => {
               className={`phrase-container ${fadeClass}`}
             >
               <div
-                className="phrase-text"
+                className="phrase-textCustom"
                 dangerouslySetInnerHTML={{ __html: currentPhrase.text }}
               ></div>
 

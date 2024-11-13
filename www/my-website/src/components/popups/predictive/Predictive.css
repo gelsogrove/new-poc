@@ -90,6 +90,11 @@
 
 /* Media query per schermi piccoli (smartphone) */
 @media only screen and (max-width: 480px) {
+  .popupPredictive {
+    width: 95%;
+    height: 70%;
+  }
+
   .popup {
     width: 95%;
     height: 90%;
@@ -102,7 +107,7 @@
   }
 
   .phrase-image {
-    max-width: 100%;
+    min-width: 98%;
   }
 
   .close-button {
@@ -112,5 +117,14 @@
   .dot {
     width: 8px;
     height: 8px;
+  }
+
+  .phrase-text-prediction {
+    font-size: 1em;
+    margin-top: 20px;
+  }
+
+  .phrase-container {
+    padding: 10px;
   }
 }

@@ -44,7 +44,7 @@
       "description": "La poda es una técnica de optimización que elimina partes menos importantes de un modelo para hacerlo más ligero y eficiente sin comprometer significativamente la precisión. Se utiliza para reducir el tamaño del modelo, acelerar la inferencia y desplegar modelos en entornos con recursos limitados como dispositivos móviles."
     },
     "hyperparameter_tuning": {
-      "title": "Ajuste de Hiperparámetros",
+      "title": "Hyperparameter Tuning",
       "description": "El Ajuste de Hiperparámetros implica optimizar los parámetros que controlan el proceso de aprendizaje de un modelo, como la tasa de aprendizaje y el tamaño del lote. Técnicas como la búsqueda en cuadrícula y la búsqueda aleatoria se utilizan para encontrar la mejor combinación de hiperparámetros, mejorando el rendimiento del modelo."
     },
 

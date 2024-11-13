@@ -44,7 +44,7 @@
       "description": "La potatura è una tecnica di ottimizzazione che rimuove parti meno importanti di un modello per renderlo più leggero ed efficiente senza compromettere significativamente la precisione."
     },
     "hyperparameter_tuning": {
-      "title": "Ottimizzazione degli Iperparametri",
+      "title": "Hyperparameter Tuning",
       "description": "L'ottimizzazione degli iperparametri implica l'ottimizzazione dei parametri che controllano il processo di apprendimento di un modello."
     }
   },
