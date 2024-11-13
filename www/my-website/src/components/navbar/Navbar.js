@@ -1,5 +1,5 @@
 import React from "react"
-import i18n from "../i18n" // Ensure i18n is configured
+import i18n from "../../i18n" // Ensure i18n is configured
 import "./Navbar.css" // Make sure this path is correct
 
 const Navbar = () => {

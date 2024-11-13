@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import "./App.css"
-import Contact from "./components/Contact"
+
 import Footer from "./components/Footer"
 import Home from "./components/Home"
 import Login from "./components/Login/Login"
-import Navbar from "./components/Navbar"
-import Services from "./components/Services"
+import NavBar from "./components/navbar/Navbar"
 import "./i18n" // Import i18n setup
 
 const App = () => {
@@ -29,21 +28,13 @@ const App = () => {
   return (
     <div className="app-container">
       <div className="main-content">
-        {isAuthenticated && <Navbar />}
+        {isAuthenticated && <NavBar />}
 
         <Routes>
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route
             path="/"
             element={isAuthenticated ? <Home /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/contact"
-            element={isAuthenticated ? <Contact /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/services"
-            element={isAuthenticated ? <Services /> : <Navigate to="/login" />}
           />
         </Routes>
       </div>
