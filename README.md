@@ -16,12 +16,15 @@ WEBSITE
 - RESPONSIVE?
 - METTERE L'AUDIO ?
 - Fine tuning
+- i testi ?
+- il video maker di AI ?
+- LOGO NON MI PIACE
+- SPOSTARE IL PDF > creare PDF in spagnolo ?
+- Improve sicurezza con un sessionID e' possibile ?
 - dobbiamo mettere https su Heroku
 - Redirect da http a https via codice
-- Sistema di sicuezza : cookie-parser uuid redis
-- LOGO NON MI PIACE
-- SPOSTARE IL PDF
-- Improve sicurezza con un sessionID e' possibile ?
+- CONTACT US
+- BANDIERE
 
 ---
 

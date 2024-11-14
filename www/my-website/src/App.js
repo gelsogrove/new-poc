@@ -9,19 +9,23 @@ import NavBar from "./components/navbar/Navbar"
 import "./i18n" // Import i18n setup
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    // Check cookie for authentication status
+    return document.cookie.includes("isAuthenticated=true")
+  })
   const navigate = useNavigate()
 
   const handleLogin = (username, password) => {
     if (username === "admin" && password === "wip") {
-      setIsAuthenticated(true) // Update authentication status
+      setIsAuthenticated(true)
+      document.cookie = "isAuthenticated=true; path=/" // Save authentication status in cookie
     }
   }
 
   // Redirect to home after successful login
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/") // Redirect to home after successful login
+      navigate("/")
     }
   }, [isAuthenticated, navigate])
 
