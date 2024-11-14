@@ -32,6 +32,9 @@
 .language-selector button img {
   width: 30px;
   height: auto;
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 /* Tooltip styling */
@@ -63,4 +66,75 @@
 .language-selector button:hover::after {
   opacity: 1;
   visibility: visible;
+}
+
+.language-selector button.selected img {
+  border-bottom: 2px solid #ffd700;
+}
+
+.language-selector button img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Tooltip styling for selected language */
+.language-selector button.selected[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 1;
+  visibility: visible;
+  font-size: 12px;
+}
+
+/* Tooltip on hover for non-selected languages */
+.language-selector button:not(.selected):hover[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 1;
+  visibility: visible;
+  font-size: 12px;
+}
+
+/* Nascondi il tooltip della lingua di default quando si passa il mouse su un'altra lingua */
+.language-selector
+  button:not(.selected):hover
+  ~ button.default-language::after {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.language-selector button:not(.selected)::after {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .language-selector {
+    margin-right: 0;
+  }
+
+  .language-selector button {
+    padding: 10px;
+  }
 }

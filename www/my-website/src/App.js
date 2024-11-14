@@ -4,7 +4,7 @@ import "./App.css"
 
 import Footer from "./components/Footer"
 import Home from "./components/Home"
-import Login from "./components/Login/Login"
+import Login from "./components/login/Login"
 import NavBar from "./components/navbar/Navbar"
 import "./i18n" // Import i18n setup
 
