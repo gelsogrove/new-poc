@@ -135,8 +135,17 @@
   visibility: hidden;
 }
 
+.calendly-badge {
+  display: none; /* Nascondi di default */
+  border: 1px solid #f3b808;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
+  .calendly-badge {
+    display: block; /* Mostra solo su dispositivi mobili */
+  }
+
   .navbar {
     flex-direction: column;
     align-items: center;
@@ -148,5 +157,36 @@
 
   .language-selector button {
     padding: 10px;
+  }
+}
+
+/* Show the button only on mobile devices */
+@media (max-width: 768px) {
+  .calendly-button {
+    display: block; /* Show on mobile */
+  }
+}
+
+.calendly-button {
+  position: fixed; /* Fissa il pulsante in una posizione */
+  bottom: 10px; /* Distanza dal fondo */
+  right: 10px; /* Distanza dal lato destro */
+  background-color: #f3a304;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px; /* Aggiungi un border-radius di 10px */
+  z-index: 9999; /* Assicurati che sia sopra tutti gli altri elementi */
+  display: none; /* Nascondi il bottone di default */
+}
+
+@media (max-width: 768px) {
+  .calendly-button {
+    display: block; /* Mostra il bottone solo su schermi piccoli */
   }
 }

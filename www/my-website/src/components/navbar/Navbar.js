@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react"
 import i18n from "../../i18n"
 import "./Navbar.css"
 
+/* global Calendly */
+
 // Funzione per impostare un cookie
 function setCookie(name, value, days) {
   const date = new Date()
@@ -22,6 +24,29 @@ function getCookie(name) {
   return null
 }
 
+const calendlyLinks = [
+  {
+    language: "en",
+    url: "https://calendly.com/gelsogrove/30min?background_color=f1c26b&text_color=000000",
+    text: "Let's talk about it",
+  },
+  {
+    language: "es",
+    url: "https://calendly.com/gelsogrove/let-s-talk-about-it-clone-1?background_color=f1c26b&text_color=000000",
+    text: "Hablemos de ello",
+  },
+  {
+    language: "it",
+    url: "https://calendly.com/gelsogrove/let-s-talk-about-it-clone?background_color=f1c26b&text_color=000000",
+    text: "Parliamone",
+  },
+]
+
+const getCalendlyData = (language) => {
+  const link = calendlyLinks.find((link) => link.language === language)
+  return link ? { url: link.url, text: link.text } : { url: "", text: "" }
+}
+
 const Navbar = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("en")
 
@@ -38,12 +63,23 @@ const Navbar = () => {
 
     i18n.changeLanguage(language)
     setSelectedLanguage(language)
+
+    // Load Calendly widget script
+    const script = document.createElement("script")
+    script.src = "https://assets.calendly.com/assets/external/widget.js"
+    script.async = true
+    document.body.appendChild(script)
+
+    return () => {
+      document.body.removeChild(script)
+    }
   }, [])
 
   const handleLanguageChange = (language) => {
     i18n.changeLanguage(language)
     setSelectedLanguage(language)
-    setCookie("selectedLanguage", language, 30) // Salva la lingua per 30 giorni
+    setCookie("selectedLanguage", language, 30)
+    window.location.reload()
   }
 
   return (
@@ -57,7 +93,7 @@ const Navbar = () => {
         >
           <img
             src="https://uxwing.com/wp-content/themes/uxwing/download/flags-landmarks/italy-flag-icon.png"
-            alt="Italian"
+            alt="ita"
           />
         </button>
         {/* Spanish Language Button */}
@@ -83,6 +119,24 @@ const Navbar = () => {
           />
         </button>
       </div>
+
+      {/* Calendly button */}
+      <link
+        href="https://assets.calendly.com/assets/external/widget.css"
+        rel="stylesheet"
+      />
+      <button
+        className="calendly-button"
+        onClick={() => {
+          if (typeof Calendly !== "undefined") {
+            Calendly.initPopupWidget({
+              url: getCalendlyData(selectedLanguage).url,
+            })
+          }
+        }}
+      >
+        {getCalendlyData(selectedLanguage).text}
+      </button>
     </nav>
   )
 }
