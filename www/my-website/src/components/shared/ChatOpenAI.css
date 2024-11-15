@@ -53,6 +53,10 @@
   .chat-input input {
     max-width: 220px;
   }
+
+  .chat-openai {
+    width: 450px;
+  }
 }
 
 /* Scrollbar Customization */

@@ -33,7 +33,11 @@ export const convertQuestionToEmbedding = async (questionText) => {
 export const generateResponseWithContext = async (
   bestMatch,
   questionText,
-  conversationHistory
+  conversationHistory,
+  systemPrompt,
+  max_tokens,
+  temperature,
+  model
 ) => {
   if (!bestMatch) {
     return "I'm sorry, I couldn't find relevant information to answer your question. Please try rephrasing or asking something else."
@@ -45,7 +49,15 @@ export const generateResponseWithContext = async (
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ bestMatch, questionText, conversationHistory }),
+      body: JSON.stringify({
+        bestMatch,
+        questionText,
+        conversationHistory,
+        systemPrompt,
+        max_tokens,
+        temperature,
+        model,
+      }),
     })
 
     if (!response.ok) {

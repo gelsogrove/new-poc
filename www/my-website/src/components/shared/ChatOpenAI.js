@@ -1,8 +1,5 @@
-import "bootstrap/dist/css/bootstrap.min.css"
 import React, { useEffect, useState } from "react"
 import "./ChatOpenAI.css"
-
-import settings from "./settings.json"
 import {
   addBotLoadingMessage,
   cleanText,
@@ -23,23 +20,30 @@ import ChatInput from "./components/chatinput/ChatInput"
 import MessageList from "./components/messagelist/MessageList"
 import QuickReplies from "./components/quickreplies/QuickReplies"
 
-const ChatOpenAI = () => {
+const ChatOpenAI = ({
+  embedding,
+  first_message,
+  first_options,
+  prompt,
+  title,
+  overrides,
+}) => {
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [isCustomInput, setIsCustomInput] = useState(false)
   const [messages, setMessages] = useState([
-    { id: crypto.randomUUID(), sender: "bot", text: settings.first_message },
+    { id: crypto.randomUUID(), sender: "bot", text: first_message },
   ])
   const [conversationHistory, setConversationHistory] = useState([
-    { role: "assistant", content: settings.first_message },
+    { role: "assistant", content: first_message },
   ])
-  const [quickReplies, setQuickReplies] = useState(settings.first_options)
+  const [quickReplies, setQuickReplies] = useState(first_options)
   const [embeddingData, setEmbeddingData] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await loadEmbeddingData(settings.embedding)
+        const data = await loadEmbeddingData(embedding)
         setEmbeddingData(data) // Store embedding data in state
       } catch (error) {
         console.error("Error loading embedding data:", error)
@@ -47,7 +51,7 @@ const ChatOpenAI = () => {
     }
 
     fetchData()
-  }, [])
+  }, [embedding])
 
   const updateConversationHistory = (role, content) => {
     setConversationHistory((prevHistory) => [...prevHistory, { role, content }])
@@ -107,7 +111,7 @@ const ChatOpenAI = () => {
       )
 
       // Check if any word overrides are present in the response
-      settings.overrides.forEach((override) => {
+      overrides.forEach((override) => {
         // Convert both the formatted response and the keyword to lowercase
         if (
           formattedResponse.toLowerCase().includes(override.word.toLowerCase())
@@ -121,8 +125,14 @@ const ChatOpenAI = () => {
       updateConversationHistory("assistant", formattedResponse)
     } catch (error) {
       console.error("Error in handling send:", error)
-      replaceBotMessageWithError(setMessages, settings.error_message)
-      updateConversationHistory("assistant", settings.error_message)
+      replaceBotMessageWithError(
+        setMessages,
+        "There was an error processing your request. Please try again."
+      )
+      updateConversationHistory(
+        "assistant",
+        "There was an error processing your request. Please try again."
+      )
     } finally {
       setIsLoading(false)
     }
@@ -132,11 +142,11 @@ const ChatOpenAI = () => {
     if (text === "Other") {
       setIsCustomInput(true)
     } else if (text === "Menu") {
-      setQuickReplies(settings.first_options)
+      setQuickReplies(first_options)
       setIsCustomInput(false)
       navigateToPDFPage(0)
     } else if (text === "Exit") {
-      handleSend(settings.goodbye_message)
+      handleSend("Thank you for using the Washing Machine Assistant. Goodbye!")
       setIsCustomInput(true)
     } else {
       setInputValue(text)
@@ -146,7 +156,7 @@ const ChatOpenAI = () => {
 
   return (
     <div className="chat-openai">
-      <h3>{settings.title}</h3>
+      <h3>{title}</h3>
 
       <MessageList messages={messages} />
 

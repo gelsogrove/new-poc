@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react"
 import "./Predictive.css"
 
@@ -40,12 +41,6 @@ const PredictivePopup = ({ onClose }) => {
   }, [currentPhraseIndex])
 
   const currentPhrase = phrases[currentPhraseIndex]
-
-  const handleDotClick = (index) => {
-    setCurrentPhraseIndex(index)
-    setFadeClass("fade-in")
-    setShowVideo(false) // Nasconde il video quando si passa tra le frasi
-  }
 
   const handleTouchStart = (e) => {
     setTouchStartX(e.touches[0].clientX)

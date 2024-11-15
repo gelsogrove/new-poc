@@ -20,3 +20,25 @@
   max-height: 40px !important;
   height: 40px !important;
 }
+
+@media (max-width: 768px) {
+  .quick-reply-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 83%;
+    margin: 0 auto 0 15px;
+  }
+
+  .quick-reply-buttons .btn {
+    margin-bottom: 10px;
+    height: 35px;
+    font-size: 12px;
+  }
+
+  .quick-reply-buttons :nth-child(2),
+  .quick-reply-buttons :nth-child(6),
+  .quick-reply-buttons :nth-child(4) {
+    margin-right: -30px;
+  }
+}

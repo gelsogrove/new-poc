@@ -45,3 +45,9 @@
   background-color: #fff;
   box-sizing: border-box;
 }
+
+@media (max-width: 768px) {
+  .pdf-section {
+    display: none;
+  }
+}
