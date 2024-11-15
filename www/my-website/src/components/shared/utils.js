@@ -99,7 +99,7 @@ export const navigateToPDFPage = (pageNumber) => {
   const pdfViewer = document.getElementById("pdfViewer")
 
   if (pdfViewer) {
-    const newSrc = `https://ai-ag.dairy-tools.com/washingmachine/washing-machine-001.pdf#page=${pageNumber}&t=${new Date().getTime()}`
+    const newSrc = `ttps://ai-ag.dairy-tools.com/washingmachine/washing-machine-001.pdf#page=${pageNumber}&t=${new Date().getTime()}`
 
     // Remove and re-add the iframe to force refresh
     const parent = pdfViewer.parentNode
