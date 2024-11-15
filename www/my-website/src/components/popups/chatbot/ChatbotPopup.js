@@ -11,9 +11,9 @@ const ChatbotPopup = ({ onClose }) => {
   // Crea l'oggetto config
   const config = {
     title: "Washing Machine ChatBot",
-    systemPrompt: "TODO",
-    server: "https://human-in-the-loops-688b23930fa9.herokuapp.com",
-    local: "http://localhost:4999",
+    systemPrompt:
+      'You are a friendly and helpful assistant designed to help customers with their new washing machine. Always be kind, polite, and empathetic when responding to the customer. Key concepts in your answers should be highlighted in **bold uppercase**, but limit to only one highlighted concept per sentence. When providing lists, format each item as a <li> to ensure clarity and proper formatting. Keep your responses concise and within 220 tokens. For any assistance issues, always refer to "Pino la Lavatrice" at **+39 4444644**, who is available 24/7 to address customer needs. Your goal is to make the customer feel confident and supported while providing accurate and helpful answers.',
+
     embedding: "/embedding/washing-machine-001.json",
     first_message:
       "Hello! This is an example. We have loaded the washing machine manual. Feel free to ask any questions related to washing machines.",
@@ -29,7 +29,7 @@ const ChatbotPopup = ({ onClose }) => {
       "There was an error processing your request. Please try again.",
     goodbye_message:
       "Thank you for using the Washing Machine Assistant. Goodbye!",
-    max_tokens: 150,
+    max_tokens: 300,
     temperature: 0.7,
     model: "gpt-4o-mini",
     overrides: [
