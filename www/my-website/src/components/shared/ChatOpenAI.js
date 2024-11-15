@@ -24,9 +24,14 @@ const ChatOpenAI = ({
   embedding,
   first_message,
   first_options,
-  prompt,
   title,
   overrides,
+  systemPrompt,
+  max_tokens,
+  temperature,
+  model,
+  error_message,
+  goodbye_message,
 }) => {
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -44,7 +49,7 @@ const ChatOpenAI = ({
     const fetchData = async () => {
       try {
         const data = await loadEmbeddingData(embedding)
-        setEmbeddingData(data) // Store embedding data in state
+        setEmbeddingData(data)
       } catch (error) {
         console.error("Error loading embedding data:", error)
       }
@@ -52,6 +57,12 @@ const ChatOpenAI = ({
 
     fetchData()
   }, [embedding])
+
+  useEffect(() => {
+    if (systemPrompt) {
+      updateConversationHistory("assistant", systemPrompt)
+    }
+  }, [systemPrompt])
 
   const updateConversationHistory = (role, content) => {
     setConversationHistory((prevHistory) => [...prevHistory, { role, content }])
@@ -73,46 +84,41 @@ const ChatOpenAI = ({
     addBotLoadingMessage(setMessages)
 
     try {
-      const questionEmbedding = await convertQuestionToEmbedding(message)
+      const questionEmbedding = await convertQuestionToEmbedding(message, model)
       const bestMatch = findBestMatchInEmbeddings(
         embeddingData,
         questionEmbedding
       )
 
-      // Generate response with context based on the best match
       const botResponse = await generateResponseWithContext(
         bestMatch,
         message,
-        conversationHistory
+        conversationHistory,
+        systemPrompt,
+        max_tokens,
+        temperature,
+        model
       )
 
-      // Format the bot response to get the response text and options
       const { formattedResponse, options, page } = formatText(botResponse)
-
-      // Clean the response text to remove any unwanted characters
       let cleanedResponse = cleanText(formattedResponse)
       cleanedResponse = formatBoldText(cleanedResponse)
 
-      // Add "Other" and "Menu" options to the quick replies
       const updatedOptions = Array.from(new Set([...options, "Other", "Menu"]))
 
-      // Navigate to the specified page
       if (page) {
         navigateToPDFPage(page)
       }
 
-      // Update messages with the formatted response
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: crypto.randomUUID(),
           sender: "bot",
-          text: cleanedResponse, // Only the response text
+          text: cleanedResponse,
         })
       )
 
-      // Check if any word overrides are present in the response
       overrides.forEach((override) => {
-        // Convert both the formatted response and the keyword to lowercase
         if (
           formattedResponse.toLowerCase().includes(override.word.toLowerCase())
         ) {
@@ -120,19 +126,12 @@ const ChatOpenAI = ({
         }
       })
 
-      // Update quick replies with the options
       setQuickReplies(updatedOptions)
       updateConversationHistory("assistant", formattedResponse)
     } catch (error) {
       console.error("Error in handling send:", error)
-      replaceBotMessageWithError(
-        setMessages,
-        "There was an error processing your request. Please try again."
-      )
-      updateConversationHistory(
-        "assistant",
-        "There was an error processing your request. Please try again."
-      )
+      replaceBotMessageWithError(setMessages, error_message)
+      updateConversationHistory("assistant", error_message)
     } finally {
       setIsLoading(false)
     }
@@ -146,7 +145,7 @@ const ChatOpenAI = ({
       setIsCustomInput(false)
       navigateToPDFPage(0)
     } else if (text === "Exit") {
-      handleSend("Thank you for using the Washing Machine Assistant. Goodbye!")
+      handleSend(goodbye_message)
       setIsCustomInput(true)
     } else {
       setInputValue(text)

@@ -11,6 +11,7 @@ const ChatbotPopup = ({ onClose }) => {
   // Crea l'oggetto config
   const config = {
     title: "Washing Machine ChatBot",
+    systemPrompt: "TODO",
     server: "https://human-in-the-loops-688b23930fa9.herokuapp.com",
     local: "http://localhost:4999",
     embedding: "/embedding/washing-machine-001.json",

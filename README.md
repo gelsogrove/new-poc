@@ -13,18 +13,21 @@ TODO
 
 WEBSITE
 
+- ALTRO CHATBOT E FRANSISCO
+- i testi ?
 - RESPONSIVE?
+- Responsive tabled
+- il video maker di AI ?
 - METTERE L'AUDIO ?
 - Fine tuning
-- i testi ?
-- il video maker di AI ?
+
 - LOGO NON MI PIACE
-- SPOSTARE IL PDF > creare PDF in spagnolo ?
 - Improve sicurezza con un sessionID e' possibile ?
 - dobbiamo mettere https su Heroku
 - Redirect da http a https via codice
 - CONTACT US
-- BANDIERE
+- Creare PDF in spagnolo ?
+- Sondaggiono
 
 ---
 

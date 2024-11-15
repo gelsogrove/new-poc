@@ -1,19 +1,22 @@
 // Funzione per convertire una domanda in un embedding (chiamata al server backend)
 import settings from "./settings.json"
 
-export const convertQuestionToEmbedding = async (questionText) => {
+const server =
+  window.location.hostname === "localhost" ? settings.local : settings.server
+
+export const convertQuestionToEmbedding = async (questionText, model) => {
   if (!questionText) {
     console.warn("convertQuestionToEmbedding: questionText is empty.")
     return null
   }
 
   try {
-    const response = await fetch(settings.server + "/api1/emb", {
+    const response = await fetch(server + "/api1/emb", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ questionText }),
+      body: JSON.stringify({ questionText, model: "text-embedding-ada-002" }),
     })
 
     if (!response.ok) {
@@ -44,7 +47,7 @@ export const generateResponseWithContext = async (
   }
 
   try {
-    const response = await fetch(settings.server + "/api1/resp", {
+    const response = await fetch(server + "/api1/resp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
