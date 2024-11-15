@@ -16,6 +16,7 @@ import {
   generateResponseWithContext,
 } from "./utils_api"
 
+import { v4 as uuidv4 } from "uuid"
 import ChatInput from "./components/chatinput/ChatInput"
 import MessageList from "./components/messagelist/MessageList"
 import QuickReplies from "./components/quickreplies/QuickReplies"
@@ -37,7 +38,7 @@ const ChatOpenAI = ({
   const [isLoading, setIsLoading] = useState(false)
   const [isCustomInput, setIsCustomInput] = useState(false)
   const [messages, setMessages] = useState([
-    { id: crypto.randomUUID(), sender: "bot", text: first_message },
+    { id: uuidv4(), sender: "bot", text: first_message },
   ])
   const [conversationHistory, setConversationHistory] = useState([
     { role: "assistant", content: first_message },
@@ -72,7 +73,7 @@ const ChatOpenAI = ({
     if (typeof message !== "string" || !message.trim()) return
 
     const userMessage = {
-      id: crypto.randomUUID(),
+      id: uuidv4(),
       sender: "user",
       text: message,
     }
@@ -112,7 +113,7 @@ const ChatOpenAI = ({
 
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
-          id: crypto.randomUUID(),
+          id: uuidv4(),
           sender: "bot",
           text: cleanedResponse,
         })
