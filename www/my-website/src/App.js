@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import "./App.css"
 
+import DemoPage from "./components/demopage/DemoPage"
 import Footer from "./components/Footer"
 import Home from "./components/Home"
 import Login from "./components/login/Login"
@@ -24,8 +25,10 @@ const App = () => {
 
   // Redirect to home after successful login
   useEffect(() => {
+    console.log("isAuthenticated:", isAuthenticated)
+    console.log("Cookies:", document.cookie)
     if (isAuthenticated) {
-      navigate("/")
+      // TODO:  navigate("/")
     }
   }, [isAuthenticated, navigate])
 
@@ -35,6 +38,7 @@ const App = () => {
         {isAuthenticated && <NavBar />}
 
         <Routes>
+          <Route path="/demo" element={<DemoPage />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route
             path="/"

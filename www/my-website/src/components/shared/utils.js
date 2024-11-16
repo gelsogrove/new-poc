@@ -48,7 +48,7 @@ export const formatText = (data) => {
       }
     } else {
       // If no JSON was found, return the original data
-      return { formattedResponse: data, options: [], page: null }
+      return { formattedResponse: data, options: [] }
     }
   }
 
@@ -98,8 +98,8 @@ export const findBestMatchInEmbeddings = (embeddingData, questionEmbedding) => {
 export const navigateToPDFPage = (pageNumber) => {
   const pdfViewer = document.getElementById("pdfViewer")
 
-  if (pdfViewer) {
-    const newSrc = `ttps://ai-ag.dairy-tools.com/washingmachine/washing-machine-001.pdf#page=${pageNumber}&t=${new Date().getTime()}`
+  if (pdfViewer && pageNumber) {
+    const newSrc = `https://ai-ag.dairy-tools.com/washingmachine/washing-machine-001.pdf#page=${pageNumber}&t=${new Date().getTime()}`
 
     // Remove and re-add the iframe to force refresh
     const parent = pdfViewer.parentNode

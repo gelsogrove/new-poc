@@ -84,6 +84,8 @@ const ChatOpenAI = ({
 
     addBotLoadingMessage(setMessages)
 
+    debugger
+
     try {
       const questionEmbedding = await convertQuestionToEmbedding(message, model)
       const bestMatch = findBestMatchInEmbeddings(

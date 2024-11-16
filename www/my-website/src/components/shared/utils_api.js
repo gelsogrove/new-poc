@@ -4,7 +4,7 @@ import settings from "./settings.json"
 const server =
   window.location.hostname === "localhost" ? settings.local : settings.server
 
-export const convertQuestionToEmbedding = async (questionText, model) => {
+export const convertQuestionToEmbedding = async (questionText) => {
   if (!questionText) {
     console.warn("convertQuestionToEmbedding: questionText is empty.")
     return null
