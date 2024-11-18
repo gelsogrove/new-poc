@@ -1,0 +1,4 @@
+{
+  "server": "https://human-in-the-loops-688b23930fa9.herokuapp.com",
+  "local": "http://localhost:4999"
+}

@@ -19,7 +19,10 @@ const App = () => {
   const handleLogin = (username, password) => {
     if (username === "admin" && password === "wip") {
       setIsAuthenticated(true)
-      document.cookie = "isAuthenticated=true; path=/" // Save authentication status in cookie
+      console.log("Login successful, isAuthenticated set to true")
+      document.cookie = "isAuthenticated=true; path=/"
+    } else {
+      console.log("Login failed, incorrect credentials")
     }
   }
 
@@ -28,7 +31,7 @@ const App = () => {
     console.log("isAuthenticated:", isAuthenticated)
     console.log("Cookies:", document.cookie)
     if (isAuthenticated) {
-      // TODO:  navigate("/")
+      navigate("/")
     }
   }, [isAuthenticated, navigate])
 

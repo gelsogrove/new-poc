@@ -1,8 +1,8 @@
 // src/components/popups/chatbot/ChatbotPopup.js
 
 import React from "react"
-import ChatOpenAI from "../../shared/ChatOpenAI" // Componente per la chat
-import { navigateToPDFPage } from "../../shared/utils"
+import ChatOpenAI from "../../shared/chat-embed/ChatOpenAI" // Componente per la chat
+import { navigateToPDFPage } from "../../shared/chat-embed/utils"
 import "./ChatbotPopup.css"
 
 const ChatbotPopup = ({ onClose }) => {
