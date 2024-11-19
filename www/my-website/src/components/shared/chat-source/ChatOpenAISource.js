@@ -1,19 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react"
 import "./ChatOpenAISource.css"
-import {
-  addBotLoadingMessage,
-  cleanText,
-  formatBoldText,
-  formatText,
-  replaceBotMessageWithError,
-} from "./utils"
+import { addBotLoadingMessage, replaceBotMessageWithError } from "./utils"
 
 import { generateResponseWithContext } from "./utils_api"
 
 import { v4 as uuidv4 } from "uuid"
 import ChatInput from "./components/chatinput/ChatInput"
-import MessageList from "./components/messagelist/MessageList"
+import MessageListSource from "./components/messagelistSource/MessageListSource"
 
 const ChatOpenAISource = ({
   first_message,
@@ -62,7 +56,7 @@ const ChatOpenAISource = ({
 
     try {
       const botResponse = await generateResponseWithContext(
-        null,
+        {},
         message,
         conversationHistory,
         systemPrompt,
@@ -71,19 +65,17 @@ const ChatOpenAISource = ({
         model
       )
 
-      const { formattedResponse } = formatText(botResponse)
-      let cleanedResponse = cleanText(formattedResponse)
-      cleanedResponse = formatBoldText(cleanedResponse)
+      const answer = bridge(botResponse)
 
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: uuidv4(),
           sender: "bot",
-          text: cleanedResponse,
+          text: answer,
         })
       )
 
-      updateConversationHistory("assistant", formattedResponse)
+      updateConversationHistory("assistant", botResponse)
     } catch (error) {
       console.error("Error in handling send:", error)
       replaceBotMessageWithError(setMessages, error_message)
@@ -103,11 +95,28 @@ const ChatOpenAISource = ({
     }
   }
 
+  const bridge = (obj) => {
+    const response = JSON.parse(obj)
+    let orderBy = ""
+    let numofElement = ""
+
+    if (response?.actions?.includes("GetAllFarms")) {
+      if (response?.orderBy) {
+        orderBy = response.orderBy
+      }
+      if (response?.numofElement !== undefined) {
+        numofElement = response.numofElement
+      }
+    }
+
+    return JSON.stringify(response)
+  }
+
   return (
     <div className="chat-openai">
       <h3>{title}</h3>
 
-      <MessageList messages={messages} />
+      <MessageListSource messages={messages} />
 
       <ChatInput
         inputValue={inputValue}

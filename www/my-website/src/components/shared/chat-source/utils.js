@@ -132,3 +132,36 @@ export const formatBoldText = (text) => {
   // Sostituisci **testo** con <b>testo</b>
   return text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
 }
+
+// Simulated JSON object
+const data = {
+  customers: [
+    {
+      customer_id: "NOLA10",
+      name: "Mike & Donna Nolan",
+      class: "RETAIL",
+      salesperson: "ANDREW, A",
+      items: [
+        {
+          item_number: "5001",
+          description: "Bulk Soybean Meal",
+          quantity: 52340,
+          price: 10572.68,
+          page: 1,
+        },
+        // ... other items ...
+      ],
+      // ... other properties ...
+    },
+    // ... other customers ...
+  ],
+}
+
+export const getAllFarms = (order, filter, numofElement) => {
+  return data.customers.slice(0, numofElement)
+}
+
+// Function to get all products
+export const getAllProducts = (order, filter, numofElement) => {
+  return data.customers[0].items.slice(0, numofElement)
+}

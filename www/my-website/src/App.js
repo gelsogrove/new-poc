@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react"
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import "./App.css"
@@ -30,10 +31,12 @@ const App = () => {
   useEffect(() => {
     console.log("isAuthenticated:", isAuthenticated)
     console.log("Cookies:", document.cookie)
-    if (isAuthenticated) {
+    // Redirect only if navigating from login
+    if (isAuthenticated && window.location.pathname === "/login") {
+      console.log("Redirecting to home")
       navigate("/")
     }
-  }, [isAuthenticated, navigate])
+  }, [isAuthenticated])
 
   return (
     <div className="app-container">
@@ -41,7 +44,10 @@ const App = () => {
         {isAuthenticated && <NavBar />}
 
         <Routes>
-          <Route path="/demo" element={<DemoPage />} />
+          <Route
+            path="/demo"
+            element={isAuthenticated ? <DemoPage /> : <Navigate to="/login" />}
+          />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route
             path="/"
