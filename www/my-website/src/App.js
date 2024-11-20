@@ -46,8 +46,10 @@ const App = () => {
   useEffect(() => {
     if (isAuthenticated) {
       const redirectPath = getCookieValue("redirect") || "/"
-      // Naviga verso la pagina di redirect
-      navigate(redirectPath, { replace: true })
+      if (window.location.pathname !== "/demo") {
+        // Naviga verso la pagina di redirect
+        navigate(redirectPath, { replace: true })
+      }
     }
   }, [isAuthenticated, navigate])
 

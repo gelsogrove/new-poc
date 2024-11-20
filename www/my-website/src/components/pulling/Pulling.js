@@ -34,9 +34,7 @@ const Pulling = () => {
               />
               <div className="overlay">
                 <h3>{t("home.features.chatbot.title")}</h3>
-                <div className="subtitle">
-                  {t("home.features.chatbot.subtitle")}
-                </div>
+                <div className="subtitle">washing machine demo</div>
               </div>
             </div>
           </div>

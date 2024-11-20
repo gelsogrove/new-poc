@@ -26,12 +26,6 @@ const ChatInput = ({
         >
           Send
         </button>
-        <button
-          className="btn btn-primary btn-wide btn-menu"
-          onClick={() => handleQuickReply("Menu")}
-        >
-          Menu
-        </button>
       </div>
     </div>
   )

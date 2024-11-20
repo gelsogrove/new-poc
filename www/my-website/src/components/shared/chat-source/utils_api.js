@@ -1,12 +1,9 @@
-// Funzione per convertire una domanda in un embedding (chiamata al server backend)
 import settings from "./settings.json"
 
 const server =
   window.location.hostname === "localhost" ? settings.local : settings.server
 
-// Funzione per generare una risposta con contesto (chiamata al server backend)
 export const generateResponseWithContext = async (
-  bestMatch,
   questionText,
   conversationHistory,
   systemPrompt,
@@ -14,18 +11,13 @@ export const generateResponseWithContext = async (
   temperature,
   model
 ) => {
-  if (!bestMatch) {
-    return "I'm sorry, I couldn't find relevant information to answer your question. Please try rephrasing or asking something else."
-  }
-
   try {
-    const response = await fetch(server + "/api1/resp", {
+    const response = await fetch(server + "/api1/resptemp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        bestMatch,
         questionText,
         conversationHistory,
         systemPrompt,
@@ -36,14 +28,34 @@ export const generateResponseWithContext = async (
     })
 
     if (!response.ok) {
-      console.error("Error generating response:", response.statusText)
-      return "There was an error generating the response. Please try again."
+      throw new Error("Failed to generate response")
     }
 
-    const messageContent = await response.json()
-    return messageContent
+    const result = await response.json()
+    return result
   } catch (error) {
     console.error("Error generating response:", error)
-    return "There was an error generating the response. Please try again."
+    throw error
+  }
+}
+
+export const initializeData = async () => {
+  try {
+    const response = await fetch(`${server}/api1/initialize`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error("Error during initialize data fetch:", error)
+    throw error
   }
 }

@@ -1,13 +1,10 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react"
-import "./ChatOpenAISource.css"
-import { addBotLoadingMessage, replaceBotMessageWithError } from "./utils"
-
-import { generateResponseWithContext } from "./utils_api"
-
 import { v4 as uuidv4 } from "uuid"
+import "./ChatOpenAISource.css"
 import ChatInput from "./components/chatinput/ChatInput"
 import MessageListSource from "./components/messagelistSource/MessageListSource"
+import { addBotLoadingMessage, replaceBotMessageWithError } from "./utils"
+import { generateResponseWithContext, initializeData } from "./utils_api"
 
 const ChatOpenAISource = ({
   first_message,
@@ -21,7 +18,6 @@ const ChatOpenAISource = ({
 }) => {
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const [isCustomInput, setIsCustomInput] = useState(false)
   const [messages, setMessages] = useState([
     { id: uuidv4(), sender: "bot", text: first_message },
   ])
@@ -29,15 +25,27 @@ const ChatOpenAISource = ({
     { role: "assistant", content: first_message },
   ])
 
-  useEffect(() => {
-    if (systemPrompt) {
-      updateConversationHistory("assistant", systemPrompt)
-    }
-  }, [systemPrompt])
+  // Stato per i dati iniziali
+  const [initialData, setInitialData] = useState("")
 
-  const updateConversationHistory = (role, content) => {
-    setConversationHistory((prevHistory) => [...prevHistory, { role, content }])
-  }
+  useEffect(() => {
+    initializeData()
+      .then((data) => {
+        console.log("Initial data loaded:", data)
+        debugger
+        setInitialData(data.data) // Memorizza i dati iniziali
+        setConversationHistory((prev) => [
+          {
+            role: "system",
+            content: `Ecco i dati iniziali: ${JSON.stringify(data.customers)}`,
+          },
+          ...prev,
+        ])
+      })
+      .catch((error) => {
+        console.error("Error loading initial data:", error)
+      })
+  }, [])
 
   const handleSend = async (message) => {
     if (typeof message !== "string" || !message.trim()) return
@@ -47,8 +55,8 @@ const ChatOpenAISource = ({
       sender: "user",
       text: message,
     }
+
     setMessages((prevMessages) => [...prevMessages, userMessage])
-    updateConversationHistory("user", message)
     setInputValue("")
     setIsLoading(true)
 
@@ -56,7 +64,6 @@ const ChatOpenAISource = ({
 
     try {
       const botResponse = await generateResponseWithContext(
-        {},
         message,
         conversationHistory,
         systemPrompt,
@@ -65,59 +72,35 @@ const ChatOpenAISource = ({
         model
       )
 
-      const answer = bridge(botResponse)
-
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: uuidv4(),
           sender: "bot",
-          text: answer,
+          text: botResponse,
         })
       )
 
-      updateConversationHistory("assistant", botResponse)
+      setConversationHistory((prev) => [
+        ...prev,
+        { role: "user", content: message },
+        { role: "assistant", content: botResponse },
+      ])
     } catch (error) {
       console.error("Error in handling send:", error)
       replaceBotMessageWithError(setMessages, error_message)
-      updateConversationHistory("assistant", error_message)
+      setConversationHistory((prev) => [
+        ...prev,
+        { role: "user", content: message },
+        { role: "assistant", content: error_message },
+      ])
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleQuickReply = (text) => {
-    if (text === "Exit") {
-      handleSend(goodbye_message)
-      setIsCustomInput(true)
-    } else {
-      setInputValue(text)
-      handleSend(text)
-    }
-  }
-
-  const bridge = (obj) => {
-    const cleanedString = obj.replace(/```json|```/g, "").trim()
-
-    const response = JSON.parse(cleanedString)
-
-    let orderBy = ""
-    let numofElement = ""
-
-    if (response?.actions?.includes("GetAllFarms")) {
-      if (response?.orderBy) {
-        orderBy = response.orderBy
-      }
-      if (response?.numofElement !== undefined) {
-        numofElement = response.numofElement
-      }
-    }
-
-    return JSON.stringify(response)
-  }
-
   return (
     <div className="chat-openai">
-      <h3>{title}</h3>
+      <h3>Chatbot customer order example...</h3>
 
       <MessageListSource messages={messages} />
 
@@ -126,7 +109,6 @@ const ChatOpenAISource = ({
         setInputValue={setInputValue}
         isLoading={isLoading}
         handleSend={handleSend}
-        handleQuickReply={handleQuickReply}
       />
     </div>
   )

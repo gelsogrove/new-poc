@@ -16,11 +16,14 @@
 }
 
 .chat-message {
-  max-width: 70%;
-  padding: 10px;
-  border-radius: 15px;
-  font-size: 1rem;
-  border: 2px solid #ccc;
+  max-width: 70% !important;
+  padding: 10px !important;
+  border-radius: 15px !important;
+  font-size: 1rem !important;
+  border: 2px solid #ccc !important;
+  word-wrap: break-word !important; /* Permette al testo di andare a capo */
+  white-space: normal !important; /* Consente il wrapping del testo */
+  overflow-wrap: break-word !important; /* Consente il wrapping del testo */
 }
 
 .user-message {
@@ -36,4 +39,8 @@
   background-color: #e0e0e0;
   color: black;
   border-top-left-radius: 0;
+}
+
+.message-text {
+  white-space: pre-wrap;
 }
