@@ -40,8 +40,8 @@
       "description": "Data Augmentation is a technique used to increase the diversity and quantity of data by creating modified versions of the original dataset. This process includes transformations such as rotation, flipping, and scaling. Data Augmentation helps improve the model's ability to generalize, especially in scenarios with limited data, by providing a wider range of examples during training."
     },
     "pruning": {
-      "title": "Pruning",
-      "description": "Pruning is an optimization technique that removes less important parts of a model to make it more lightweight and efficient without significantly compromising accuracy. Pruning is often used to reduce model size, speed up inference, and deploy models in resource-constrained environments like mobile devices."
+      "title": "Embedding",
+      "description": "Embedding is a technique used to represent high-dimensional data in a more compact and dense format, making it easier to process and analyze. By mapping input data (such as text, images, or other entities) to lower-dimensional vectors, embeddings capture meaningful relationships and structures within the data. This approach is often used to improve efficiency and accuracy in tasks like natural language processing, recommendation systems, and deep learning models. Embedding helps reduce computational requirements and is particularly beneficial for deployment in resource-constrained environments like mobile devices."
     },
     "hyperparameter_tuning": {
       "title": "Hyperparameter Tuning",

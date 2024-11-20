@@ -40,8 +40,8 @@
       "description": "L'Aumento di Dati è una tecnica usata per aumentare la diversità e quantità di dati creando versioni modificate del dataset originale."
     },
     "pruning": {
-      "title": "Pruning",
-      "description": "La potatura è una tecnica di ottimizzazione che rimuove parti meno importanti di un modello per renderlo più leggero ed efficiente senza compromettere significativamente la precisione."
+      "title": "Embedding",
+      "description": "L'embedding è una tecnica utilizzata per rappresentare dati ad alta dimensionalità in un formato più compatto e denso, rendendoli più facili da elaborare e analizzare. Mappando i dati di input (come testi, immagini o altre entità) in vettori a dimensionalità inferiore, gli embedding catturano relazioni significative e strutture all'interno dei dati. Questo approccio viene spesso impiegato per migliorare l'efficienza e l'accuratezza in attività come il processamento del linguaggio naturale, i sistemi di raccomandazione e i modelli di deep learning. L'embedding contribuisce a ridurre i requisiti computazionali ed è particolarmente utile per l'implementazione in ambienti con risorse limitate, come i dispositivi mobili."
     },
     "hyperparameter_tuning": {
       "title": "Hyperparameter Tuning",

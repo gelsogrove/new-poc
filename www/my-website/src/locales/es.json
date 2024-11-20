@@ -40,8 +40,8 @@
       "description": "El Aumento de Datos es una técnica utilizada para aumentar la diversidad y cantidad de datos mediante la creación de versiones modificadas del conjunto de datos original. Este proceso incluye transformaciones como rotación, volteo y escalado."
     },
     "pruning": {
-      "title": "Pruning",
-      "description": "La poda es una técnica de optimización que elimina partes menos importantes de un modelo para hacerlo más ligero y eficiente sin comprometer significativamente la precisión. Se utiliza para reducir el tamaño del modelo, acelerar la inferencia y desplegar modelos en entornos con recursos limitados como dispositivos móviles."
+      "title": "Embedding",
+      "description": "Embedding es una técnica utilizada para representar datos de alta dimensionalidad en un formato más compacto y denso, lo que facilita su procesamiento y análisis. Al mapear los datos de entrada (como texto, imágenes u otras entidades) en vectores de menor dimensionalidad, los embeddings capturan relaciones significativas y estructuras dentro de los datos. Este enfoque se utiliza frecuentemente para mejorar la eficiencia y precisión en tareas como el procesamiento del lenguaje natural, los sistemas de recomendación y los modelos de aprendizaje profundo. Los embeddings ayudan a reducir los requisitos computacionales y son particularmente útiles para su implementación en entornos con recursos limitados, como dispositivos móviles.."
     },
     "hyperparameter_tuning": {
       "title": "Hyperparameter Tuning",

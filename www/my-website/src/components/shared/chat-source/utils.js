@@ -117,7 +117,6 @@ export const filterData = (input, jsonData) => {
   }
 
   const filterByFarm = (customers, farm) => {
-    debugger
     if (!farm) return customers // Return all customers if farm is not provided
     return customers.filter(({ name }) => name.includes(farm))
   }

@@ -4,12 +4,12 @@ import "./Home.css"
 import Howworks from "./howworks/HowWorks"
 import Info from "./info/Info"
 import Landing from "./landing/Landing"
+import NavBar from "./navbar/Navbar"
 import ChatbotPopup from "./popups/chatbot/ChatbotPopup"
 import CustomVisionPopup from "./popups/customVision/CustomVisionPopup"
 import Popup from "./popups/Popup"
 import PredictivePopup from "./popups/predictive/PredictivePopup"
 import Technologies from "./technologies/Technologies"
-
 const Home = () => {
   const { t } = useTranslation() // Access translation function
   const [activePopup, setActivePopup] = useState(null)
@@ -24,6 +24,7 @@ const Home = () => {
 
   return (
     <div>
+      <NavBar />
       <Popup isOpen={activePopup === "customVision"} onClose={closePopup}>
         <CustomVisionPopup onClose={closePopup} />
       </Popup>

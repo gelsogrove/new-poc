@@ -32,7 +32,7 @@ const ChatOpenAISource = ({
     initializeData()
       .then((data) => {
         console.log("Initial data loaded:", data)
-        debugger
+
         setInitialData(data.data) // Memorizza i dati iniziali
         setConversationHistory((prev) => [
           {

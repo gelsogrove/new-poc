@@ -43,9 +43,12 @@ Your role is to:
   }
 
   return (
-    <div className="chat-container">
-      <ChatOpenAISource {...config} />
-    </div>
+    <>
+      <div className="chat-container">
+        <ChatOpenAISource {...config} />
+      </div>
+      <footer></footer>
+    </>
   )
 }
 

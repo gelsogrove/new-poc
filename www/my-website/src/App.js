@@ -6,7 +6,6 @@ import DemoPage from "./components/demopage/DemoPage"
 import Footer from "./components/Footer"
 import Home from "./components/Home"
 import Login from "./components/login/Login"
-import NavBar from "./components/navbar/Navbar"
 import Pulling from "./components/pulling/Pulling"
 import "./i18n" // Import i18n setup
 
@@ -56,7 +55,7 @@ const App = () => {
   return (
     <div className="app-container">
       <div className="main-content">
-        {isAuthenticated && <NavBar />}
+        {isAuthenticated}
 
         <Routes>
           <Route
