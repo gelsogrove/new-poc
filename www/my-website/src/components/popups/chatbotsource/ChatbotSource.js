@@ -61,7 +61,7 @@ const ChatbotSource = ({ onClose }) => {
   }
 
   return (
-    <div className="chatbot-popup">
+    <div className="chatbot-popup-poulin">
       <button className="close-button" onClick={onClose}>
         ×
       </button>

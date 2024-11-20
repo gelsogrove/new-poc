@@ -1,12 +1,12 @@
 /* src/components/popups/chatbot/ChatbotPopup.css */
 
-.chatbot-popup {
+.chatbot-popup-poulin {
   display: flex;
   flex-direction: row;
 
   height: 90vh;
   min-width: 80px;
-  max-height: 800px;
+
   background: white;
   border-radius: 8px;
   overflow: hidden;
