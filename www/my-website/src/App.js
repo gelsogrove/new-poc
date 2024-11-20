@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react"
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import "./App.css"
@@ -8,35 +7,49 @@ import Footer from "./components/Footer"
 import Home from "./components/Home"
 import Login from "./components/login/Login"
 import NavBar from "./components/navbar/Navbar"
+import Pulling from "./components/pulling/Pulling"
 import "./i18n" // Import i18n setup
 
 const App = () => {
+  // Funzione per leggere i cookie
+  const getCookieValue = (cookieName) => {
+    const cookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith(`${cookieName}=`))
+    return cookie ? cookie.split("=")[1] : null
+  }
+
+  // Stato per l'autenticazione
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    // Check cookie for authentication status
+    // Controlla subito se l'utente è autenticato (presenza del cookie)
     return document.cookie.includes("isAuthenticated=true")
   })
-  const navigate = useNavigate()
 
+  // Gestione login
   const handleLogin = (username, password) => {
     if (username === "admin" && password === "wip") {
       setIsAuthenticated(true)
-      console.log("Login successful, isAuthenticated set to true")
       document.cookie = "isAuthenticated=true; path=/"
-    } else {
-      console.log("Login failed, incorrect credentials")
+      document.cookie = "redirect=/; path=/"
+    }
+    if (username === "pulling" && password === "wip") {
+      setIsAuthenticated(true)
+      document.cookie = "isAuthenticated=true; path=/"
+      document.cookie = "redirect=/pulling; path=/"
     }
   }
 
-  // Redirect to home after successful login
+  // Hook per navigazione
+  const navigate = useNavigate()
+
+  // Effettuare il redirect dopo il login
   useEffect(() => {
-    console.log("isAuthenticated:", isAuthenticated)
-    console.log("Cookies:", document.cookie)
-    // Redirect only if navigating from login
-    if (isAuthenticated && window.location.pathname === "/login") {
-      console.log("Redirecting to home")
-      navigate("/")
+    if (isAuthenticated) {
+      const redirectPath = getCookieValue("redirect") || "/"
+      // Naviga verso la pagina di redirect
+      navigate(redirectPath, { replace: true })
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, navigate])
 
   return (
     <div className="app-container">
@@ -48,6 +61,11 @@ const App = () => {
             path="/demo"
             element={isAuthenticated ? <DemoPage /> : <Navigate to="/login" />}
           />
+          <Route
+            path="/pulling"
+            element={isAuthenticated ? <Pulling /> : <Navigate to="/login" />}
+          />
+
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route
             path="/"

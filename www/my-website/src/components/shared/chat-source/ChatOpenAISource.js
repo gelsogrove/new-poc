@@ -96,7 +96,10 @@ const ChatOpenAISource = ({
   }
 
   const bridge = (obj) => {
-    const response = JSON.parse(obj)
+    const cleanedString = obj.replace(/```json|```/g, "").trim()
+
+    const response = JSON.parse(cleanedString)
+
     let orderBy = ""
     let numofElement = ""
 

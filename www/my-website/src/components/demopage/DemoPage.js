@@ -30,29 +30,35 @@ const DemoPage = () => {
       - GetTopFarms
       - GetTopProducts
       - GetFarmTotalPriceButRemoveProduct
+      - GetTotalPriceByFarm
+      
       
       orderBy: Specifies the sorting criterion, such as date, name, price, quantity, or null if not applicable.
-
-      answer: This node contains the results of the request divided into the following subfields:
-      - Farms: array, Contains information about farms.
-      - Orders: array, Contains information about orders.
-      - Products: array, Contains information about products.
-      - Answer: string, Must include a descriptive phrase or placeholders, such as {total}, {average}, {top_product}, or {trend}, to be filled with calculated values.
-
+  
+     
       Requirements:
       - Error Handling: If the action is invalid or the filters are incorrect, return a response with an explanatory message in the Answer field.
-      - Empty Responses: If no data is available for the request, return: "Answer": "No data available for the specified filters."
       - Reset iputs: if the user type clear, start from the beginning
       - Mandatory fields: it should be present at least one action and one filter otherwise helps the user to understand  making question and when we have enough data we can show the answer "please wait a moment"
       - Filter Combinations: Must support complex requests by combining multiple filters, such as products sold by a specific client within a given time range.
-      - comunication need to be kind and clear with the goal to have the inputs for retrice data
+      - comunication need to be kind and clear with the goal to have all the inputs for retrice data
       - the user can ask for a client or for all farms 
       - the user can ask for a product or for all products 
       - the user can ask for a order or for all orders 
-      - clients, farms, or customers, is the same thing
-      - la risposta deve essere sempre un json se vuoi aggiungere qualcosa lo devi mettere dentro il nodo aswer:
+      - clients, farms, or customers, are the same thing call GetAllFarms or GetFarm
       - chiedi prima di processare in che ordini vuole i dati
       - numofElement: if is a statistic like top clients top products ask how many elements you want to see
+
+      Remember:
+      - Ricordati di rispondere sempre in json con la stessa struttura!!!
+      - Ricordati di chiedere sempre all'utente che passo vuole effettuare 
+      - Il json deve essere well formed altrimenti va tutto il crash
+      - se il risultato non e' una tabella ma un numero o un prezzo devi mettere  dei placeholders total}, {average}, {top_product} nella descrizione.
+    
+      - answer  alwats be in JSON structure 
+
+
+
 
     `,
     first_message: "Hello, how can I help you today?",
@@ -61,7 +67,7 @@ const DemoPage = () => {
     goodbye_message: "Thank you. Goodbye!",
     max_tokens: 300,
     temperature: 0.6,
-    model: "gpt-4o-mini",
+    model: "gpt-4o",
   }
 
   return (
