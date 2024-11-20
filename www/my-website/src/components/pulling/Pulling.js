@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import ChatbotPopup from "../popups/chatbot/ChatbotPopup"
+import ChatbotSource from "../popups/chatbotsource/ChatbotSource"
 import Popup from "../popups/Popup"
 import "./Pulling.css"
 
@@ -22,8 +23,12 @@ const Pulling = () => {
         <ChatbotPopup onClose={closePopup} />
       </Popup>
 
+      <Popup isOpen={activePopup === "chatbotsource"} onClose={closePopup}>
+        <ChatbotSource onClose={closePopup} />
+      </Popup>
+
       <div className="home-container">
-        <h1 className="ourservice">Pulling demo</h1>
+        <h1 className="ourservice">Poulin Grain demo </h1>
         <section className="features">
           <div className="feature-item" onClick={() => openPopup("chatbot")}>
             <div className="image-container">
@@ -33,12 +38,29 @@ const Pulling = () => {
                 className="feature-image"
               />
               <div className="overlay">
-                <h3>{t("home.features.chatbot.title")}</h3>
-                <div className="subtitle">washing machine demo</div>
+                <h3>Knowledge library</h3>
+                <div className="subtitle"> </div>
               </div>
             </div>
           </div>
-        </section>
+
+          <div
+            className="feature-item"
+            onClick={() => openPopup("chatbotsource")}
+          >
+            <div className="image-container">
+              <img
+                src="../images/generative.webp"
+                alt={t("home.features.chatbot.title")}
+                className="feature-image"
+              />
+              <div className="overlay">
+                <h3>Sales Reader</h3>
+                <div className="subtitle"> </div>
+              </div>
+            </div>
+          </div>
+        </section>{" "}
       </div>
     </div>
   )

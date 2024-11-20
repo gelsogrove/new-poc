@@ -26,12 +26,12 @@ const App = () => {
 
   // Gestione login
   const handleLogin = (username, password) => {
-    if (username === "admin" && password === "wip") {
+    if (username.toLowerCase() === "admin" && password === "wip") {
       setIsAuthenticated(true)
       document.cookie = "isAuthenticated=true; path=/"
       document.cookie = "redirect=/; path=/"
     }
-    if (username === "pulling" && password === "wip") {
+    if (username.toLowerCase() === "poulin" && password === "wip") {
       setIsAuthenticated(true)
       document.cookie = "isAuthenticated=true; path=/"
       document.cookie = "redirect=/pulling; path=/"
