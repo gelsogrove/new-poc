@@ -11,9 +11,9 @@
         "title": "Custom Chatbots",
         "subtitle": "Aumenta l'interazione con conversazioni AI intelligenti."
       },
-      "predictive": {
-        "title": "Manutenzione Predittiva",
-        "subtitle": "Monitora in modo intelligente per soluzioni proattive."
+      "generativeAI": {
+        "title": "IA Generativa",
+        "subtitle": "Genera documenti e grafici da una fonte dati"
       }
     },
     "technologies_heading": "Tecnologie che Usiamo"

@@ -16,14 +16,14 @@
 }
 
 .chat-message {
-  max-width: 70% !important;
+  max-width: 900px;
   padding: 10px !important;
   border-radius: 15px !important;
   font-size: 1rem !important;
   border: 2px solid #ccc !important;
   word-wrap: break-word !important; /* Permette al testo di andare a capo */
   white-space: normal !important; /* Consente il wrapping del testo */
-  overflow-wrap: break-word !important; /* Consente il wrapping del testo */
+  overflow-wrap: auto !important; /* Consente il wrapping del testo */
 }
 
 .user-message {

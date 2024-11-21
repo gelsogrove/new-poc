@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { v4 as uuidv4 } from "uuid"
 import "./ChatOpenAISource.css"
 import ChatInput from "./components/chatinput/ChatInput"
 import MessageListSource from "./components/messagelistSource/MessageListSource"
-import { addBotLoadingMessage, replaceBotMessageWithError } from "./utils"
+import QuickReplies from "./components/quickreplies/QuickReplies"
+import {
+  addBotLoadingMessage,
+  cleanText,
+  formatBoldText,
+  formatText,
+  replaceBotMessageWithError,
+} from "./utils"
 import { generateResponseWithContext, initializeData } from "./utils_api"
 
 const ChatOpenAISource = ({
   first_message,
-  title,
+  first_options,
   systemPrompt,
   max_tokens,
   temperature,
@@ -18,19 +25,25 @@ const ChatOpenAISource = ({
 }) => {
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [isCustomInput, setIsCustomInput] = useState(false)
   const [messages, setMessages] = useState([
     { id: uuidv4(), sender: "bot", text: first_message },
   ])
   const [conversationHistory, setConversationHistory] = useState([
     { role: "assistant", content: first_message },
   ])
+  const [quickReplies, setQuickReplies] = useState(first_options)
 
   // Stato per i dati iniziali
-  const [initialData, setInitialData] = useState("")
+  const [, setInitialData] = useState("")
 
-  useEffect(() => {
-    initializeData()
-      .then((data) => {
+  const handleSend = async (message) => {
+    if (typeof message !== "string" || !message.trim()) return
+
+    // Inizializza i dati solo alla prima richiesta
+    if (conversationHistory.length === 1) {
+      try {
+        const data = await initializeData()
         console.log("Initial data loaded:", data)
 
         setInitialData(data.data) // Memorizza i dati iniziali
@@ -41,14 +54,10 @@ const ChatOpenAISource = ({
           },
           ...prev,
         ])
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error loading initial data:", error)
-      })
-  }, [])
-
-  const handleSend = async (message) => {
-    if (typeof message !== "string" || !message.trim()) return
+      }
+    }
 
     const userMessage = {
       id: uuidv4(),
@@ -72,11 +81,16 @@ const ChatOpenAISource = ({
         model
       )
 
+      const { formattedResponse } = formatText(botResponse)
+      let cleanedResponse = cleanText(formattedResponse)
+      cleanedResponse = formatBoldText(cleanedResponse)
+
+      // Assicurati che cleanedResponse sia una stringa HTML
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: uuidv4(),
           sender: "bot",
-          text: botResponse,
+          text: <div dangerouslySetInnerHTML={{ __html: cleanedResponse }} />, // Renderizza HTML
         })
       )
 
@@ -98,18 +112,44 @@ const ChatOpenAISource = ({
     }
   }
 
+  const handleQuickReply = (text) => {
+    if (text === "Other") {
+      setIsCustomInput(true)
+    } else if (text === "Menu") {
+      setQuickReplies(first_options)
+      setIsCustomInput(false)
+    } else if (text === "Exit") {
+      handleSend(goodbye_message)
+      setIsCustomInput(true)
+    } else {
+      setInputValue(text)
+      handleSend(text)
+      setIsCustomInput(true)
+    }
+  }
+
   return (
     <div className="chat-openai">
-      <h3>Chatbot customer order example...</h3>
+      <h3>Chatbot sales reader example</h3>
 
       <MessageListSource messages={messages} />
 
-      <ChatInput
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        isLoading={isLoading}
-        handleSend={handleSend}
-      />
+      {!isCustomInput && (
+        <QuickReplies
+          quickReplies={quickReplies}
+          handleQuickReply={handleQuickReply}
+        />
+      )}
+
+      {isCustomInput && (
+        <ChatInput
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          isLoading={isLoading}
+          handleSend={handleSend}
+          handleQuickReply={handleQuickReply}
+        />
+      )}
     </div>
   )
 }

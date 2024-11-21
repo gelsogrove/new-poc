@@ -5,15 +5,15 @@
     "features": {
       "custom_vision": {
         "title": "Custom Vision",
-        "subtitle": "Optimize quality control with advanced AI vision."
+        "subtitle": "Optimize quality control with advanced AI vision"
       },
       "chatbot": {
         "title": "Custom Chatbots",
-        "subtitle": "Boost engagement with intelligent AI conversations."
+        "subtitle": "Boost engagement with intelligent AI conversations"
       },
-      "predictive": {
-        "title": "Predictive Maintenance",
-        "subtitle": "Monitor intelligently for proactive solutions."
+      "generativeAI": {
+        "title": "Generative AI",
+        "subtitle": "Create graphic and documents from a data source"
       }
     },
     "technologies_heading": "Technologies We Use"

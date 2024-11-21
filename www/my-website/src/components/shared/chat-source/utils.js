@@ -83,6 +83,12 @@ export const cleanText = (text) => {
 
 export const formatBoldText = (text) => {
   // Sostituisci le interruzioni di riga con <br>
+
+  text = text.replace("```html", "")
+  text = text.replace("html```", "")
+  text = text.replace("```", "")
+  text = text.replace("```", "")
+
   text = text.replace(/\n/g, "<br>")
 
   // Sostituisci **testo** con <b>testo</b>

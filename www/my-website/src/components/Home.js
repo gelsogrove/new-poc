@@ -6,9 +6,9 @@ import Info from "./info/Info"
 import Landing from "./landing/Landing"
 import NavBar from "./navbar/Navbar"
 import ChatbotPopup from "./popups/chatbot/ChatbotPopup"
+import ChatbotSource from "./popups/chatbotsource/ChatbotSource"
 import CustomVisionPopup from "./popups/customVision/CustomVisionPopup"
 import Popup from "./popups/Popup"
-import PredictivePopup from "./popups/predictive/PredictivePopup"
 import Technologies from "./technologies/Technologies"
 const Home = () => {
   const { t } = useTranslation() // Access translation function
@@ -31,8 +31,8 @@ const Home = () => {
       <Popup isOpen={activePopup === "chatbot"} onClose={closePopup}>
         <ChatbotPopup onClose={closePopup} />
       </Popup>
-      <Popup isOpen={activePopup === "predictive"} onClose={closePopup}>
-        <PredictivePopup onClose={closePopup} />
+      <Popup isOpen={activePopup === "chatbotsource"} onClose={closePopup}>
+        <ChatbotSource onClose={closePopup} />
       </Popup>
       <div className="home-container">
         <header className="header">
@@ -76,17 +76,20 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="feature-item" onClick={() => openPopup("predictive")}>
+          <div
+            className="feature-item"
+            onClick={() => openPopup("chatbotsource")}
+          >
             <div className="image-container">
               <img
-                src="../images/predictive.webp"
-                alt={t("home.features.predictive.title")}
+                src="../images/generative.webp"
+                alt={t("home.features.generativeAI.title")}
                 className="feature-image"
               />
               <div className="overlay">
-                <h3>{t("home.features.predictive.title")}</h3>
+                <h3>{t("home.features.generativeAI.title")}</h3>
                 <div className="subtitle">
-                  {t("home.features.predictive.subtitle")}
+                  {t("home.features.generativeAI.subtitle")}
                 </div>
               </div>
             </div>

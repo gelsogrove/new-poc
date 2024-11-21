@@ -73,3 +73,46 @@
 .chat-messages::-webkit-scrollbar-track {
   background-color: #f1f1f1;
 }
+
+.table-container {
+  width: 100%; /* Larghezza al 100% del contenitore */
+  border-collapse: collapse; /* Unisce i bordi delle celle */
+  margin: 20px 0; /* Margine sopra e sotto la tabella */
+
+  margin-top: 30px;
+  margin-right: 0px;
+  font-size: 10px;
+  margin-left: 10px;
+  overflow-x: auto; /* Aggiunge lo scorrimento orizzontale */
+  display: block; /* Necessario per overflow */
+  white-space: nowrap; /* Evita che il contenuto vada a capo */
+}
+
+/* Intestazione della tabella */
+.table-header {
+  font-weight: bold; /* Testo in grassetto */
+  text-align: left; /* Allinea il testo a sinistra */
+}
+
+/* Corpo della tabella */
+.table-body {
+  text-align: left; /* Allinea il testo a sinistra */
+  font-weight: normal;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+/* Stile per le celle della tabella */
+.table-body tr td {
+  padding: 5px;
+  border-right: 1px solid black;
+}
+.table-header th {
+  padding: 10px; /* Spaziatura interna delle celle */
+  border: 1px solid #dddddd; /* Bordo grigio chiaro per le celle */
+  background-color: #ccdd; /* Colore di sfondo grigio chiaro */
+  padding: 5px;
+  border: 1px solid black;
+}
+
+/* Stile per le righe della tabella */
