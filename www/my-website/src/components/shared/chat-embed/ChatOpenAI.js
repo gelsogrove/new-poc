@@ -45,6 +45,7 @@ const ChatOpenAI = ({
   ])
   const [quickReplies, setQuickReplies] = useState(first_options)
   const [embeddingData, setEmbeddingData] = useState(null)
+  const [chatbotResponse, setChatbotResponse] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -104,7 +105,7 @@ const ChatOpenAI = ({
       const { formattedResponse, options, page } = formatText(botResponse)
       let cleanedResponse = cleanText(formattedResponse)
       cleanedResponse = formatBoldText(cleanedResponse)
-
+      setChatbotResponse(cleanedResponse)
       const updatedOptions = Array.from(new Set([...options, "Other", "Menu"]))
 
       if (page) {
@@ -120,9 +121,7 @@ const ChatOpenAI = ({
       )
 
       overrides.forEach((override) => {
-        if (
-          formattedResponse.toLowerCase().includes(override.word.toLowerCase())
-        ) {
+        if (message.toLowerCase().includes(override.word.toLowerCase())) {
           navigateToPDFPage(override.page)
         }
       })
@@ -174,6 +173,7 @@ const ChatOpenAI = ({
           isLoading={isLoading}
           handleSend={handleSend}
           handleQuickReply={handleQuickReply}
+          chatbotResponse={chatbotResponse}
         />
       )}
     </div>

@@ -2,8 +2,6 @@ import React from "react"
 import "./MessageList.css"
 
 const MessageList = ({ messages }) => {
-  console.log("messages input:", messages) // Aggiungi questo log per vedere i valori di input
-
   return (
     <div className="chat-messages">
       {messages.map((msg) => (
@@ -13,10 +11,10 @@ const MessageList = ({ messages }) => {
             msg.sender === "user" ? "user-message" : "bot-message"
           }`}
         >
-          <span
-            className="message-text"
-            dangerouslySetInnerHTML={{ __html: msg.text }}
-          />
+          <span className="message-text">
+            {/* Usa msg.text direttamente per visualizzare il testo */}
+            <span dangerouslySetInnerHTML={{ __html: msg.text }} />
+          </span>
         </div>
       ))}
     </div>

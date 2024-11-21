@@ -55,8 +55,15 @@ const ChatbotPopup = ({ onClose }) => {
       { word: "Caution", page: 5 },
       { word: "Button", page: 14 },
       { word: "Ground", page: 31 },
+      { word: "Drain Hose", page: 30 },
       { word: "Functions", page: 25 },
       { word: "Wash capacity", page: 37 },
+      { word: "Caution", page: 31 },
+      { word: "Troubleshooting", page: 35 },
+      { word: "Wash capacity", page: 37 },
+      { word: "Laundry capacity", page: 37 },
+      { word: "CAPACITY of the washing machine", page: 37 },
+      { word: "CAPACITY of the laundry machine", page: 37 },
     ],
   }
 
