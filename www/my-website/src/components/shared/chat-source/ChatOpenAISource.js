@@ -50,7 +50,7 @@ const ChatOpenAISource = ({
         setConversationHistory((prev) => [
           {
             role: "system",
-            content: `Ecco i dati iniziali: ${JSON.stringify(data.customers)}`,
+            content: `data: ${JSON.stringify(data.customers)}`,
           },
           ...prev,
         ])

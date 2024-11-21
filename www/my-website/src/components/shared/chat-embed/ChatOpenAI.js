@@ -68,7 +68,7 @@ const ChatOpenAI = ({
       generateSpeech(voiceMessage)
       console.log("run voice", voiceMessage)
     }
-  }, [voiceMessage])
+  }, [voiceMessage, isVoiceInput])
 
   useEffect(() => {
     if (systemPrompt) {
@@ -162,7 +162,6 @@ const ChatOpenAI = ({
 
   // Quick Replies
   const handleQuickReply = (text) => {
-    let language = getCookie("selectedLanguage")
     if (text === "Altro") {
       text = "Other"
     }

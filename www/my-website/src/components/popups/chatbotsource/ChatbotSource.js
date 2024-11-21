@@ -1,7 +1,8 @@
 // src/components/popups/chatbot/ChatbotPopup.js
 
 import React from "react"
-import { navigateToPDFPage } from "../../shared/chat-embed/utils"
+
+import { getCookie, navigateToPDFPage } from "../../shared/chat-embed/utils"
 import ChatOpenAISource from "../../shared/chat-source/ChatOpenAISource"
 import "./ChatbotSource.css"
 
@@ -47,6 +48,7 @@ Your role is to:
 - mostra le colonne che ti chiede senza inventarsi altre
 - is important that you return the data in a html table format please don't forget ! and there is no need to say herer you can see your html
 - inviami td vuoti se non li trovo ma ho bisogno che ci siano altrimenti mi sballi
+- NON DEVI MAI INVIARMI UNA TABELLA VUOTA CHE NON HA ELEMENTI SE ME LA INVII E' PERCHE' HA ALMENO UN TR nel TBODY
 
     `,
     first_message: "Hello, how can I help you today?",
@@ -66,6 +68,36 @@ Your role is to:
     model: "gpt-4o-mini",
   }
 
+  let language = getCookie("selectedLanguage")
+  if (language === "it") {
+    config.first_message = "Ciao! Come posso esserti d'aiuto oggi ?"
+    config.first_options = [
+      "Voglio vedere i top clienti",
+      "Voglio vedere i top prodotti",
+      "Voglio vedere i top venditori",
+      "Voglio vedere le statistiche del mese",
+      "Altro",
+      "Esci",
+    ]
+    config.goodbye_message = "Grazie e Arrivederci!"
+    config.error_message =
+      "Si è verificato un errore durante il processamento della tua richiesta. Per favore, riprova."
+  }
+
+  if (language === "es") {
+    config.first_message = "¡Hola! ¿Cómo puedo ayudarte hoy?"
+    config.first_options = [
+      "Quiero ver los top clientes",
+      "Quiero ver los top productos",
+      "Quiero ver los top vendedores",
+      "Quiero ver las estadísticas del mes",
+      "Otro",
+      "Salir",
+    ]
+    config.goodbye_message = "¡Gracias y nos vemos!"
+    config.error_message =
+      "Se ha producido un error durante el procesamiento de su solicitud. Por favor, inténtelo de nuevo."
+  }
   return (
     <div className="chatbot-popup-poulin">
       <button className="close-button" onClick={onClose}>

@@ -4,7 +4,7 @@
     "service_heading": "Soluciones de IA ",
     "features": {
       "custom_vision": {
-        "title": "Custom Vision",
+        "title": "Object Detection",
         "subtitle": "Optimiza el control de calidad con visión avanzada de IA."
       },
       "chatbot": {
