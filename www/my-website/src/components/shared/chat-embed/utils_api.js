@@ -1,4 +1,5 @@
 // Funzione per convertire una domanda in un embedding (chiamata al server backend)
+
 import settings from "./settings.json"
 
 const server =
@@ -73,5 +74,38 @@ export const generateResponseWithContext = async (
   } catch (error) {
     console.error("Error generating response:", error)
     return "There was an error generating the response. Please try again."
+  }
+}
+
+// Funzione per generare audio TTS
+export const generateSpeech = async (text, voice = "alloy", format = "mp3") => {
+  try {
+    const response = await fetch(server + "/api1/generate-speech", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        text,
+        voice,
+        format,
+      }),
+    })
+
+    // Controlla se la risposta contiene i dati audio
+    if (response.ok) {
+      const audioData = await response.arrayBuffer() // Necessario per gestire la risposta binaria
+      const audioBlob = new Blob([audioData], { type: `audio/${format}` })
+      const audioUrl = URL.createObjectURL(audioBlob)
+      const audio = new Audio(audioUrl)
+      audio.play() // Riproduci l'audio
+    } else {
+      console.error("Nessun audio restituito dall'API.")
+    }
+  } catch (error) {
+    console.error(
+      "Errore durante la chiamata all'API di generazione audio:",
+      error
+    )
   }
 }

@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { getCookie } from "../../utils"
 import "./ChatInput.css"
 
 const ChatInput = ({
@@ -7,6 +8,7 @@ const ChatInput = ({
   isLoading,
   handleSend,
   handleQuickReply,
+  onClickMicro,
 }) => {
   const [isRecording, setIsRecording] = useState(false)
   const [countdown, setCountdown] = useState(5)
@@ -15,13 +17,13 @@ const ChatInput = ({
   const startListening = () => {
     const recognition = new (window.SpeechRecognition ||
       window.webkitSpeechRecognition)()
-    recognition.lang = "en-US" // Imposta la lingua (cambia in 'it-IT' se necessario)
+    let language = getCookie("selectedLanguage")
+    recognition.lang = language
     recognition.interimResults = false
 
     recognition.onresult = (event) => {
       const result = event.results[0][0].transcript // Ottieni il testo trascritto
 
-      console.log("Trascrizione:", result) // Log della trascrizione
       handleSend(result) // Aggiorna il campo di input con la trascrizione
     }
 
@@ -43,6 +45,8 @@ const ChatInput = ({
   }
 
   const handleMicroClick = () => {
+    onClickMicro()
+
     if (isRecording) {
       stopListening()
     } else {
@@ -53,6 +57,7 @@ const ChatInput = ({
           if (prev <= 1) {
             clearInterval(interval)
             stopListening()
+
             return 0
           }
           return prev - 1

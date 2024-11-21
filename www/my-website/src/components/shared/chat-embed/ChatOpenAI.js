@@ -6,6 +6,7 @@ import {
   findBestMatchInEmbeddings,
   formatBoldText,
   formatText,
+  getCookie,
   loadEmbeddingData,
   navigateToPDFPage,
   replaceBotMessageWithError,
@@ -14,6 +15,7 @@ import {
 import {
   convertQuestionToEmbedding,
   generateResponseWithContext,
+  generateSpeech,
 } from "./utils_api"
 
 import { v4 as uuidv4 } from "uuid"
@@ -26,7 +28,6 @@ const ChatOpenAI = ({
   first_message,
   first_options,
   title,
-  overrides,
   systemPrompt,
   max_tokens,
   temperature,
@@ -37,6 +38,7 @@ const ChatOpenAI = ({
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [isCustomInput, setIsCustomInput] = useState(false)
+  const [isVoiceInput, setIsVoiceInput] = useState(false)
   const [messages, setMessages] = useState([
     { id: uuidv4(), sender: "bot", text: first_message },
   ])
@@ -46,7 +48,7 @@ const ChatOpenAI = ({
   const [quickReplies, setQuickReplies] = useState(first_options)
   const [embeddingData, setEmbeddingData] = useState(null)
   const [chatbotResponse, setChatbotResponse] = useState(null)
-
+  const [voiceMessage, setVoiceMessage] = useState(null)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -59,6 +61,14 @@ const ChatOpenAI = ({
 
     fetchData()
   }, [embedding])
+
+  useEffect(() => {
+    if (isVoiceInput) {
+      setIsVoiceInput(false)
+      generateSpeech(voiceMessage)
+      console.log("run voice", voiceMessage)
+    }
+  }, [voiceMessage])
 
   useEffect(() => {
     if (systemPrompt) {
@@ -81,7 +91,6 @@ const ChatOpenAI = ({
     setMessages((prevMessages) => [...prevMessages, userMessage])
     updateConversationHistory("user", message)
     setInputValue("")
-    setIsLoading(true)
 
     addBotLoadingMessage(setMessages)
 
@@ -91,6 +100,7 @@ const ChatOpenAI = ({
         embeddingData,
         questionEmbedding
       )
+      setIsLoading(true)
 
       const botResponse = await generateResponseWithContext(
         bestMatch,
@@ -101,17 +111,21 @@ const ChatOpenAI = ({
         temperature,
         model
       )
+      // end loading
+      setIsLoading(false)
 
+      // Format response
       const { formattedResponse, options, page } = formatText(botResponse)
       let cleanedResponse = cleanText(formattedResponse)
       cleanedResponse = formatBoldText(cleanedResponse)
       setChatbotResponse(cleanedResponse)
-      const updatedOptions = Array.from(new Set([...options, "Other", "Menu"]))
 
+      // Navigate to PDF page
       if (page) {
         navigateToPDFPage(page)
       }
 
+      // Set Messages
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: uuidv4(),
@@ -120,14 +134,23 @@ const ChatOpenAI = ({
         })
       )
 
-      overrides.forEach((override) => {
-        if (message.toLowerCase().includes(override.word.toLowerCase())) {
-          navigateToPDFPage(override.page)
-        }
-      })
+      // set quick replies
+      let language = getCookie("selectedLanguage")
+      if (language === "es") {
+        setQuickReplies([...options, "Otro", "Menú"])
+      }
+      if (language === "it") {
+        setQuickReplies([...options, "Altro", "Menu"])
+      }
+      if (language === "en") {
+        setQuickReplies([...options, "Other", "Menu"])
+      }
 
-      setQuickReplies(updatedOptions)
-      updateConversationHistory("assistant", formattedResponse)
+      // update conversation history
+      updateConversationHistory("assistant", botResponse)
+
+      // set voice message
+      setVoiceMessage(cleanedResponse.replace(/<[^>]+>/g, ""))
     } catch (error) {
       console.error("Error in handling send:", error)
       replaceBotMessageWithError(setMessages, error_message)
@@ -137,7 +160,22 @@ const ChatOpenAI = ({
     }
   }
 
+  // Quick Replies
   const handleQuickReply = (text) => {
+    let language = getCookie("selectedLanguage")
+    if (text === "Altro") {
+      text = "Other"
+    }
+    if (text === "Otro") {
+      text = "Other"
+    }
+    if (text === "Salir") {
+      text = "Exit"
+    }
+    if (text === "Esci") {
+      text = "Exit"
+    }
+
     if (text === "Other") {
       setIsCustomInput(true)
     } else if (text === "Menu") {
@@ -151,6 +189,11 @@ const ChatOpenAI = ({
       setInputValue(text)
       handleSend(text)
     }
+  }
+
+  // Microphone boolean
+  const handleMicrophoneClick = () => {
+    setIsVoiceInput(true)
   }
 
   return (
@@ -174,6 +217,7 @@ const ChatOpenAI = ({
           handleSend={handleSend}
           handleQuickReply={handleQuickReply}
           chatbotResponse={chatbotResponse}
+          onClickMicro={handleMicrophoneClick}
         />
       )}
     </div>
