@@ -56,7 +56,7 @@ async function getEmbedding(text, pageNum, totalPages) {
     const response = await axios.post(
       "https://api.openai.com/v1/embeddings",
       {
-        model: "text-embedding-ada-002",
+        model: "text-embedding-3-large",
         input: text,
       },
       {

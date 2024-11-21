@@ -174,12 +174,6 @@ export const filterData = (input, jsonData) => {
     numOfElement,
     previousNumOfElement = Infinity
   ) => {
-    const currentNumOfElement = getValueOrPrevious(
-      numOfElement,
-      previousNumOfElement
-    ) // Usa il valore attuale o il precedente
-    const customerMap = {}
-
     customers.forEach((customer) => {
       // Utilizziamo l'ID del cliente come chiave per garantire l'unicità
       if (!customerMap[customer.customer_id]) {
