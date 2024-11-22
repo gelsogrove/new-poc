@@ -77,6 +77,8 @@ export const generateResponseWithContext = async (
   }
 }
 
+let currentAudio = null // Variabile per tenere traccia dell'audio corrente
+
 // Funzione per generare audio TTS
 export const generateSpeech = async (text, voice = "alloy", format = "mp3") => {
   try {
@@ -97,8 +99,8 @@ export const generateSpeech = async (text, voice = "alloy", format = "mp3") => {
       const audioData = await response.arrayBuffer() // Necessario per gestire la risposta binaria
       const audioBlob = new Blob([audioData], { type: `audio/${format}` })
       const audioUrl = URL.createObjectURL(audioBlob)
-      const audio = new Audio(audioUrl)
-      audio.play() // Riproduci l'audio
+      currentAudio = new Audio(audioUrl) // Salva l'audio corrente
+      currentAudio.play() // Riproduci l'audio
     } else {
       console.error("Nessun audio restituito dall'API.")
     }
@@ -107,5 +109,14 @@ export const generateSpeech = async (text, voice = "alloy", format = "mp3") => {
       "Errore durante la chiamata all'API di generazione audio:",
       error
     )
+  }
+}
+
+// Funzione per interrompere l'audio in riproduzione
+export const stopSpeech = () => {
+  if (currentAudio) {
+    currentAudio.pause() // Ferma l'audio
+    currentAudio.currentTime = 0 // Riporta l'audio all'inizio
+    currentAudio = null // Resetta la variabile
   }
 }

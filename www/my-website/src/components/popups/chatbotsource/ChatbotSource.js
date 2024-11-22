@@ -54,7 +54,7 @@ Your role is to:
 - HTML well formed is the key of the response
 - prezzo di vendita non vuol dire nulla devi dire fatturato e cosi anche per altre lingue
 
-- Per procedere chiedi UNA SOLA VOLTA la password che e' almogavers se non la conosce non puoi accedere al database ma e' importante che tu chiedia la password una sola volt
+- Per procedere chiedi UNA SOLA VOLTA la password che e' almogavers se non la conosce non puoi accedere al database ma e' importante che tu chiedia la password una sola volta
 
 
     `,

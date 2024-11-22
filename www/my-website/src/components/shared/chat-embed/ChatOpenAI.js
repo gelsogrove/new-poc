@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react"
 import "./ChatOpenAI.css"
 import {
   addBotLoadingMessage,
-  cleanText,
   findBestMatchInEmbeddings,
-  formatBoldText,
-  formatText,
+  formatBotResponse,
   getCookie,
   loadEmbeddingData,
   navigateToPDFPage,
@@ -15,6 +13,8 @@ import {
 import {
   convertQuestionToEmbedding,
   generateResponseWithContext,
+  generateSpeech,
+  stopSpeech,
 } from "./utils_api"
 
 import { v4 as uuidv4 } from "uuid"
@@ -37,6 +37,7 @@ const ChatOpenAI = ({
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [isCustomInput, setIsCustomInput] = useState(false)
+  const [total, setTotal] = useState(0)
   const [isVoiceInput, setIsVoiceInput] = useState(false)
   const [messages, setMessages] = useState([
     { id: uuidv4(), sender: "bot", text: first_message },
@@ -64,7 +65,8 @@ const ChatOpenAI = ({
   useEffect(() => {
     if (isVoiceInput && voiceMessage) {
       setIsVoiceInput(false)
-      //generateSpeech(voiceMessage)
+      generateSpeech(voiceMessage)
+      setTotal((prevTotal) => prevTotal + 0.05)
       console.log("run voice", voiceMessage)
     }
   }, [voiceMessage, isVoiceInput])
@@ -94,13 +96,10 @@ const ChatOpenAI = ({
     addBotLoadingMessage(setMessages)
 
     try {
-      const questionEmbedding = await convertQuestionToEmbedding(message, model)
-      const bestMatch = findBestMatchInEmbeddings(
-        embeddingData,
-        questionEmbedding
-      )
-      setIsLoading(true)
+      // Match
+      const bestMatch = await findBestMatch(message)
 
+      setIsLoading(true)
       const botResponse = await generateResponseWithContext(
         bestMatch,
         message,
@@ -110,24 +109,21 @@ const ChatOpenAI = ({
         temperature,
         model
       )
-      // end loading
       setIsLoading(false)
+
+      // Format response using the new function
+      const { cleanedResponse, options, page } = formatBotResponse(botResponse)
 
       // update conversation history
       updateConversationHistory("assistant", botResponse)
 
-      // Format response
-      const { formattedResponse, options, page } = formatText(botResponse)
-      let cleanedResponse = cleanText(formattedResponse)
-      cleanedResponse = formatBoldText(cleanedResponse)
+      // set chatbot response
       setChatbotResponse(cleanedResponse)
 
       // Navigate to PDF page
-      if (page) {
-        navigateToPDFPage(page)
-      }
+      navigateToPage(page)
 
-      // Set Messages
+      // Set Messages server per la chat
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: uuidv4(),
@@ -136,21 +132,14 @@ const ChatOpenAI = ({
         })
       )
 
-      // set quick replies
-      let language = getCookie("selectedLanguage")
-      if (language === "es") {
-        setQuickReplies([...options, "Otro", "Menú"])
-      }
-      if (language === "it") {
-        setQuickReplies([...options, "Altro", "Menu"])
-      }
-      if (language === "en") {
-        setQuickReplies([...options, "Other", "Menu"])
-      }
-
+      const nohtmlresponse = cleanedResponse.replace(/<[^>]+>/g, "")
       // set voice message
-      console.log("run voice set" + cleanedResponse)
-      setVoiceMessage(cleanedResponse.replace(/<[^>]+>/g, ""))
+      setVoiceMessage(nohtmlresponse)
+
+      // set quick replies
+      setLanguageOptions(options)
+
+      setTotal((prevTotal) => prevTotal + 0.1)
     } catch (error) {
       console.error("Error in handling send:", error)
       replaceBotMessageWithError(setMessages, error_message)
@@ -192,12 +181,37 @@ const ChatOpenAI = ({
 
   // Microphone boolean
   const handleMicrophoneClick = () => {
+    stopSpeech()
+    setVoiceMessage(null)
     setIsVoiceInput(true)
+  }
+
+  const navigateToPage = (page) => {
+    if (page) {
+      navigateToPDFPage(page)
+    }
+  }
+
+  const setLanguageOptions = (options) => {
+    let language = getCookie("selectedLanguage")
+    const languageOptions = {
+      es: [...options, "Otro", "Menú"],
+      it: [...options, "Altro", "Menu"],
+      en: [...options, "Other", "Menu"],
+    }
+    setQuickReplies(languageOptions[language] || options) // Default to options if language not found
+  }
+
+  const findBestMatch = async (message) => {
+    const questionEmbedding = await convertQuestionToEmbedding(message, model)
+    return findBestMatchInEmbeddings(embeddingData, questionEmbedding)
   }
 
   return (
     <div className="chat-openai">
       <h3>{title}</h3>
+
+      <h1 className="total">{total.toFixed(2)} $</h1>
 
       <MessageList messages={messages} />
 

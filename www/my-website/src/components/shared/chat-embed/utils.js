@@ -143,3 +143,12 @@ export function getCookie(name) {
   }
   return null
 }
+
+export const formatBotResponse = (botResponse) => {
+  const { formattedResponse, options, page } = formatText(botResponse)
+  let cleanedResponse = cleanText(formattedResponse)
+  cleanedResponse = formatBoldText(cleanedResponse)
+
+  cleanedResponse = cleanedResponse.trim()
+  return { cleanedResponse, options, page }
+}
