@@ -24,6 +24,8 @@ const ChatOpenAISource = ({
   goodbye_message,
 }) => {
   const [inputValue, setInputValue] = useState("")
+  const [, setVoiceMessage] = useState(null)
+  const [, setIsVoiceInput] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isCustomInput, setIsCustomInput] = useState(false)
   const [messages, setMessages] = useState([
@@ -94,6 +96,10 @@ const ChatOpenAISource = ({
         })
       )
 
+      // set voice message
+
+      setVoiceMessage(cleanedResponse.replace(/<[^>]+>/g, ""))
+
       setConversationHistory((prev) => [
         ...prev,
         { role: "user", content: message },
@@ -128,6 +134,10 @@ const ChatOpenAISource = ({
     }
   }
 
+  const handleMicrophoneClick = () => {
+    setIsVoiceInput(true)
+  }
+
   return (
     <div className="chat-openai">
       <h3>Chatbot sales reader example</h3>
@@ -148,6 +158,7 @@ const ChatOpenAISource = ({
           isLoading={isLoading}
           handleSend={handleSend}
           handleQuickReply={handleQuickReply}
+          onClickMicro={handleMicrophoneClick}
         />
       )}
     </div>

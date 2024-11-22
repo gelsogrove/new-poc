@@ -49,6 +49,7 @@ Your role is to:
 - is important that you return the data in a html table format please don't forget ! and there is no need to say herer you can see your html
 - inviami td vuoti se non li trovo ma ho bisogno che ci siano altrimenti mi sballi
 - NON DEVI MAI INVIARMI UNA TABELLA VUOTA CHE NON HA ELEMENTI SE ME LA INVII E' PERCHE' HA ALMENO UN TR nel TBODY
+- Generate a single <table> element containing all rows in a single <tbody> for topics Ensure the table is not split into multiple <table> tags
 
     `,
     first_message: "Hello, how can I help you today?",

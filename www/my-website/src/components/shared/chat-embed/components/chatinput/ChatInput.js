@@ -51,7 +51,7 @@ const ChatInput = ({
       stopListening()
     } else {
       startListening()
-      setCountdown(8)
+      setCountdown(15)
       const interval = setInterval(() => {
         setCountdown((prev) => {
           if (prev <= 1) {
