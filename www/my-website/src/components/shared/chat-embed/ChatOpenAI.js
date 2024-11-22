@@ -15,7 +15,6 @@ import {
 import {
   convertQuestionToEmbedding,
   generateResponseWithContext,
-  generateSpeech,
 } from "./utils_api"
 
 import { v4 as uuidv4 } from "uuid"
@@ -65,7 +64,7 @@ const ChatOpenAI = ({
   useEffect(() => {
     if (isVoiceInput && voiceMessage) {
       setIsVoiceInput(false)
-      generateSpeech(voiceMessage)
+      //generateSpeech(voiceMessage)
       console.log("run voice", voiceMessage)
     }
   }, [voiceMessage, isVoiceInput])
