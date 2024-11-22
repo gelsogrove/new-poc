@@ -28,6 +28,7 @@ const ChatOpenAISource = ({
   const [, setIsVoiceInput] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isCustomInput, setIsCustomInput] = useState(false)
+  const [total, setTotal] = useState(0)
   const [messages, setMessages] = useState([
     { id: uuidv4(), sender: "bot", text: first_message },
   ])
@@ -38,6 +39,17 @@ const ChatOpenAISource = ({
 
   // Stato per i dati iniziali
   const [, setInitialData] = useState("")
+
+  // Funzione per controllare e aggiornare il totale
+  const checkAndUpdateTotal = (cleanedResponse) => {
+    if (
+      cleanedResponse.includes("total") ||
+      cleanedResponse.includes("summary") ||
+      cleanedResponse.includes("table-header")
+    ) {
+      setTotal((prevTotal) => prevTotal + 0.2) // Aggiungi 20 centesimi
+    }
+  }
 
   const handleSend = async (message) => {
     if (typeof message !== "string" || !message.trim()) return
@@ -97,7 +109,6 @@ const ChatOpenAISource = ({
       )
 
       // set voice message
-
       setVoiceMessage(cleanedResponse.replace(/<[^>]+>/g, ""))
 
       setConversationHistory((prev) => [
@@ -105,6 +116,9 @@ const ChatOpenAISource = ({
         { role: "user", content: message },
         { role: "assistant", content: botResponse },
       ])
+
+      // totale aggiornato
+      checkAndUpdateTotal(cleanedResponse)
     } catch (error) {
       console.error("Error in handling send:", error)
       replaceBotMessageWithError(setMessages, error_message)
@@ -142,6 +156,7 @@ const ChatOpenAISource = ({
     <div className="chat-openai">
       <h3>Chatbot sales reader example</h3>
 
+      <h1 className="total">{total.toFixed(2)} $</h1>
       <MessageListSource messages={messages} />
 
       {!isCustomInput && (

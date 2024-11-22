@@ -117,3 +117,10 @@
 }
 
 /* Stile per le righe della tabella */
+
+.total {
+  font-size: 17px;
+  font-weight: bold;
+  display: flex;
+  justify-content: flex-end;
+}

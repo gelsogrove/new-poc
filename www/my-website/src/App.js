@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import "./App.css"
-
-import DemoPage from "./components/demopage/DemoPage"
+import Pulling from "./components/customers/pulling/Pulling"
 import Footer from "./components/Footer"
 import Home from "./components/Home"
 import Login from "./components/login/Login"
-import Pulling from "./components/pulling/Pulling"
 import "./i18n" // Import i18n setup
 
 const App = () => {
@@ -58,10 +56,6 @@ const App = () => {
         {isAuthenticated}
 
         <Routes>
-          <Route
-            path="/demo"
-            element={isAuthenticated ? <DemoPage /> : <Navigate to="/login" />}
-          />
           <Route
             path="/pulling"
             element={isAuthenticated ? <Pulling /> : <Navigate to="/login" />}

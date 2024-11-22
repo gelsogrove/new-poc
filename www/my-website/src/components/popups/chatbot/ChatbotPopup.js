@@ -30,7 +30,7 @@ const ChatbotPopup = ({ onClose }) => {
     goodbye_message:
       "Thank you for using the Washing Machine Assistant. Goodbye!",
     max_tokens: 300,
-    temperature: 0.7,
+    temperature: 0.6,
     model: "gpt-4o-mini",
   }
 
