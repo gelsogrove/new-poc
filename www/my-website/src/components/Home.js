@@ -36,7 +36,7 @@ const Home = () => {
       </Popup>
       <div className="home-container">
         <header className="header">
-          <h1 className="logo">Human in the loop</h1>
+          <h1 className="logo">Human in the loops</h1>
         </header>
 
         <h1 className="ourservice">{t("home.service_heading")}</h1>

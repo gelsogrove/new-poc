@@ -63,7 +63,7 @@ const ChatOpenAI = ({
   }, [embedding])
 
   useEffect(() => {
-    if (isVoiceInput) {
+    if (isVoiceInput && voiceMessage) {
       setIsVoiceInput(false)
       generateSpeech(voiceMessage)
       console.log("run voice", voiceMessage)
@@ -114,6 +114,9 @@ const ChatOpenAI = ({
       // end loading
       setIsLoading(false)
 
+      // update conversation history
+      updateConversationHistory("assistant", botResponse)
+
       // Format response
       const { formattedResponse, options, page } = formatText(botResponse)
       let cleanedResponse = cleanText(formattedResponse)
@@ -146,10 +149,8 @@ const ChatOpenAI = ({
         setQuickReplies([...options, "Other", "Menu"])
       }
 
-      // update conversation history
-      updateConversationHistory("assistant", botResponse)
-
       // set voice message
+      console.log("run voice set" + cleanedResponse)
       setVoiceMessage(cleanedResponse.replace(/<[^>]+>/g, ""))
     } catch (error) {
       console.error("Error in handling send:", error)
