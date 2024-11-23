@@ -4,9 +4,9 @@ import React from "react"
 
 import { getCookie, navigateToPDFPage } from "../../shared/chat-embed/utils"
 import ChatOpenAISource from "../../shared/chat-source/ChatOpenAISource"
-import "./ChatbotSource.css"
+import "./ChatbotSourcePopup.css"
 
-const ChatbotSource = ({ onClose }) => {
+const ChatbotSourcePopup = ({ onClose }) => {
   const handleNavigateToPage = (pageNumber) => navigateToPDFPage(pageNumber)
 
   // Crea l'oggetto config
@@ -55,9 +55,7 @@ Your role is to:
 - prezzo di vendita non vuol dire nulla devi dire fatturato e cosi anche per altre lingue
 
 - Per procedere chiedi UNA SOLA VOLTA la password che e' almogavers se non la conosce non puoi accedere al database ma e' importante che tu chiedia la password una sola volta
-
-return  a valid JSON string well-format, ensuring that all property names are enclosed in double quotes
-
+- return response in JSON as follows: {  "response": "Response text", "options": ["Option 1", "Option 2", "Option 3", "Option 4"]}.  return  a valid JSON string well-format, ensuring that all property names are enclosed in double quotes',
 
     `,
     first_message: "Hello, how can I help you today?",
@@ -123,4 +121,4 @@ return  a valid JSON string well-format, ensuring that all property names are en
   )
 }
 
-export default ChatbotSource
+export default ChatbotSourcePopup

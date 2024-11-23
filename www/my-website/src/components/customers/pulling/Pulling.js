@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
+import ChatbotPopup from "../../popups/chatbot-embed/ChatbotPopup"
 import ChatbotSecurity from "../../popups/chatbot-security/ChatbotSecurity"
-import ChatbotPopup from "../../popups/chatbot/ChatbotPopup"
-import ChatbotSource from "../../popups/chatbotsource/ChatbotSource"
+import ChatbotSource from "../../popups/chatbot-source/ChatbotSourcePopup"
 import Popup from "../../popups/Popup"
 import "./Pulling.css"
 

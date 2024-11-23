@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { getCookie } from "../../utils"
+import { getCookie } from "../../chat-source/utils"
 import "./ChatInput.css"
 
 const ChatInput = ({

@@ -1,14 +1,15 @@
 import React, { useState } from "react"
 import { v4 as uuidv4 } from "uuid"
+import ChatInput from "../components/chatinput/ChatInput"
+import MessageList from "../components/messagelist/MessageList"
+import QuickReplies from "../components/quickreplies/QuickReplies"
 import "./ChatOpenAISource.css"
-import ChatInput from "./components/chatinput/ChatInput"
-import MessageListSource from "./components/messagelistSource/MessageListSource"
-import QuickReplies from "./components/quickreplies/QuickReplies"
 import {
   addBotLoadingMessage,
   cleanText,
   formatBoldText,
   formatText,
+  getCookie,
   replaceBotMessageWithError,
 } from "./utils"
 import { generateResponseWithContext, initializeData } from "./utils_api"
@@ -96,7 +97,7 @@ const ChatOpenAISource = ({
         model
       )
 
-      const { formattedResponse } = formatText(botResponse)
+      const { formattedResponse, options } = formatText(botResponse)
       let cleanedResponse = cleanText(formattedResponse)
       cleanedResponse = formatBoldText(cleanedResponse)
 
@@ -120,6 +121,9 @@ const ChatOpenAISource = ({
 
       // totale aggiornato
       checkAndUpdateTotal(cleanedResponse)
+
+      // set quick replies
+      setLanguageOptions(options)
     } catch (error) {
       console.error("Error in handling send:", error)
       replaceBotMessageWithError(setMessages, error_message)
@@ -149,6 +153,16 @@ const ChatOpenAISource = ({
     }
   }
 
+  const setLanguageOptions = (options) => {
+    let language = getCookie("selectedLanguage")
+    const languageOptions = {
+      es: [...options, "Otro", "Menú"],
+      it: [...options, "Altro", "Menu"],
+      en: [...options, "Other", "Menu"],
+    }
+    setQuickReplies(languageOptions[language] || options) // Default to options if language not found
+  }
+
   const handleMicrophoneClick = () => {
     setIsVoiceInput(true)
   }
@@ -156,13 +170,15 @@ const ChatOpenAISource = ({
   return (
     <div className="chat-openai">
       {ispay && <h1 className="total">{total.toFixed(2)} $</h1>}
-      <MessageListSource messages={messages} />
+      <MessageList messages={messages} IsReturnTable={true} />
 
       {!isCustomInput && (
-        <QuickReplies
-          quickReplies={quickReplies}
-          handleQuickReply={handleQuickReply}
-        />
+        <>
+          <QuickReplies
+            quickReplies={quickReplies}
+            handleQuickReply={handleQuickReply}
+          />
+        </>
       )}
 
       {isCustomInput && (

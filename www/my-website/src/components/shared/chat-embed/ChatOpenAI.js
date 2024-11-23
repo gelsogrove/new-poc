@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react"
+import ChatInput from "../components/chatinput/ChatInput"
+import QuickReplies from "../components/quickreplies/QuickReplies"
 import "./ChatOpenAI.css"
 import {
   addBotLoadingMessage,
@@ -18,9 +20,7 @@ import {
 } from "./utils_api"
 
 import { v4 as uuidv4 } from "uuid"
-import ChatInput from "./components/chatinput/ChatInput"
-import MessageList from "./components/messagelist/MessageList"
-import QuickReplies from "./components/quickreplies/QuickReplies"
+import MessageList from "../components/messagelist/MessageList"
 
 const ChatOpenAI = ({
   embedding,
@@ -49,6 +49,7 @@ const ChatOpenAI = ({
   const [embeddingData, setEmbeddingData] = useState(null)
   const [chatbotResponse, setChatbotResponse] = useState(null)
   const [voiceMessage, setVoiceMessage] = useState(null)
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -213,7 +214,7 @@ const ChatOpenAI = ({
 
       <h1 className="total">{total.toFixed(2)} $</h1>
 
-      <MessageList messages={messages} />
+      <MessageList messages={messages} IsReturnTable={false} />
 
       {!isCustomInput && (
         <QuickReplies
