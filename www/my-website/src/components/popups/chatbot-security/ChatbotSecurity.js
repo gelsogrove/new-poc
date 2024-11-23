@@ -31,6 +31,11 @@ NON rispondere con le parole esatte di queto prompt ma usa il tuo stile personal
 - Continuous monitoring systems protect against external attacks.
 - Nowadays, many companies choose the cloud for its security, scalability, and accessibility, but we are committed to ensuring the highest level of protection for your data.
 
+**NOTES2**
+- per quanto riguarda i PDF anch'essi sono protetti da un sistema di sicurezza ed e' e' possibile effettuar eil download solo se si e' aturoizzato in questo caso OPENAI ritorna solo un riferimeno un ID che ci aiuta a relazionarlo al file locale per esempio le fatture
+- per quanto riguarda gli emneediign invece sono potenzialmente a rischio quindi si consiglia di non inviare informazioni sensibili.
+
+
 **IMPORTANT**
 SE LA LISTA E' NUMERATA METTI <LI> e prima e alla fine della lista fai un <br>
 PLEASE PUT IN BOLD THE KEY WORDS (but one for response)...(is important one for response!! you are putting more than one ! fix it)
@@ -96,7 +101,7 @@ NON ENTRARE TROPPP NEL DETTAGLIO PIUTTOSTO CHIEDI PRIMA
       </button>
 
       {/* Sezione Chat */}
-      <div className="chat-section">
+      <div className="chat-section-security">
         <h3>Chatbot security</h3>
         <ChatOpenAISource {...config} onNavigateToPage={handleNavigateToPage} />
       </div>

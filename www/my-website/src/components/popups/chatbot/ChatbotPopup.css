@@ -39,11 +39,12 @@
 }
 
 /* Sezione Chat */
-.chat-section {
+.chat-section-embed {
   width: 50%;
   padding: 20px;
   background-color: #fff;
   box-sizing: border-box;
+  height: 85vh;
 }
 
 @media (max-width: 768px) {

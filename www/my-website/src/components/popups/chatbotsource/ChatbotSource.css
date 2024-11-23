@@ -25,11 +25,12 @@
 }
 
 /* Sezione Chat */
-.chat-section {
-  width: 20%;
+.chat-section-source {
+  width: 50%;
   padding: 20px;
   background-color: #fff;
   box-sizing: border-box;
+  height: 85vh;
 }
 
 @media (max-width: 768px) {

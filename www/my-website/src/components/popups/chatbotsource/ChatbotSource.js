@@ -115,7 +115,7 @@ return  a valid JSON string well-format, ensuring that all property names are en
       </button>
 
       {/* Sezione Chat */}
-      <div className="chat-section">
+      <div className="chat-section-source">
         <h3>Sales reader Chatbot</h3>
         <ChatOpenAISource {...config} onNavigateToPage={handleNavigateToPage} />
       </div>

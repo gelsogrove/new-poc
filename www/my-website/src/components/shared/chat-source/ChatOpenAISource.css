@@ -103,17 +103,15 @@
 }
 
 /* Stile per le celle della tabella */
-.table-body tr td {
+table tr td {
   padding: 5px;
   border-right: 1px solid black;
-  background-color: white;
+  background-color: white !important;
 }
 .table-header th {
   padding: 10px; /* Spaziatura interna delle celle */
-  border: 1px solid #dddddd; /* Bordo grigio chiaro per le celle */
+  border: 1px solid black; /* Bordo grigio chiaro per le celle */
   background-color: #ccdd; /* Colore di sfondo grigio chiaro */
-  padding: 5px;
-  border: 1px solid black;
 }
 
 /* Stile per le righe della tabella */

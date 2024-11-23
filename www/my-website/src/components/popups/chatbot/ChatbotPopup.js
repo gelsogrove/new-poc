@@ -91,7 +91,7 @@ const ChatbotPopup = ({ onClose }) => {
       </div>
 
       {/* Chat Section */}
-      <div className="chat-section">
+      <div className="chat-section-embed">
         <ChatOpenAI {...config} onNavigateToPage={handleNavigateToPage} />
       </div>
     </div>
