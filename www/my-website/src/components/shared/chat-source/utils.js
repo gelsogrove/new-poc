@@ -40,11 +40,7 @@ export const formatText = (data) => {
         return extractResponseData(jsonData) // Update this function to return page too
       } catch (error) {
         console.error("Error parsing input string:", error)
-        return {
-          formattedResponse: "Invalid input format.",
-          options: [],
-          page: null,
-        } // Return the original string if parsing fails
+        return { formattedResponse: data, options: [], page: null } // Restituisci la stringa originale in caso di errore
       }
     } else {
       // If no JSON was found, return the original data

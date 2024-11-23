@@ -10,12 +10,12 @@ const Contacts = () => {
     },
     {
       language: "es",
-      url: "https://calendly.com/gelsogrove/let-s-talk-about-it-clone-1?background_color=f1c26b&text_color=000000",
+      url: "https://calendly.com/gelsogrove/30min?background_color=f1c26b&text_color=000000",
       text: "Hablemos de eso",
     },
     {
       language: "it",
-      url: "https://calendly.com/gelsogrove/let-s-talk-about-it-clone?background_color=f1c26b&text_color=000000",
+      url: "https://calendly.com/gelsogrove/30min?background_color=f1c26b&text_color=000000",
       text: "Parliamone",
     },
   ]

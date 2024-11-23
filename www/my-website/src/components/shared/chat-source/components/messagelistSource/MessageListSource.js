@@ -12,14 +12,16 @@ const MessageListSource = ({ messages }) => {
           }`}
         >
           <pre className="message-text">
-            {(() => {
-              try {
-                const parsedText = JSON.parse(msg.text)
-                return JSON.stringify(parsedText, null, 2)
-              } catch (e) {
-                return msg.text // Ritorna il testo originale se non è un JSON valido
-              }
-            })()}
+            {msg.text === "almogavers"
+              ? "*******"
+              : (() => {
+                  try {
+                    const parsedText = JSON.parse(msg.text)
+                    return JSON.stringify(parsedText, null, 2)
+                  } catch (e) {
+                    return msg.text // Ritorna il testo originale se non è un JSON valido
+                  }
+                })()}
           </pre>
         </div>
       ))}
