@@ -22,6 +22,7 @@ const ChatOpenAISource = ({
   model,
   error_message,
   goodbye_message,
+  ispay,
 }) => {
   const [inputValue, setInputValue] = useState("")
   const [, setVoiceMessage] = useState(null)
@@ -154,9 +155,7 @@ const ChatOpenAISource = ({
 
   return (
     <div className="chat-openai">
-      <h3>Chatbot sales reader example</h3>
-
-      <h1 className="total">{total.toFixed(2)} $</h1>
+      {ispay && <h1 className="total">{total.toFixed(2)} $</h1>}
       <MessageListSource messages={messages} />
 
       {!isCustomInput && (

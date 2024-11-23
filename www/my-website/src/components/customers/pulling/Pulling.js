@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
+import ChatbotSecurity from "../../popups/chatbot-security/ChatbotSecurity"
 import ChatbotPopup from "../../popups/chatbot/ChatbotPopup"
 import ChatbotSource from "../../popups/chatbotsource/ChatbotSource"
 import Popup from "../../popups/Popup"
@@ -25,6 +26,10 @@ const Pulling = () => {
 
       <Popup isOpen={activePopup === "chatbotsource"} onClose={closePopup}>
         <ChatbotSource onClose={closePopup} />
+      </Popup>
+
+      <Popup isOpen={activePopup === "security"} onClose={closePopup}>
+        <ChatbotSecurity onClose={closePopup} />
       </Popup>
 
       <div className="home-container">
@@ -57,6 +62,20 @@ const Pulling = () => {
               />
               <div className="overlay">
                 <h3>Sales Reader</h3>
+                <div className="subtitle"> </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="feature-item" onClick={() => openPopup("security")}>
+            <div className="image-container">
+              <img
+                src="../images/security.webp"
+                className="feature-image"
+                alt=""
+              />
+              <div className="overlay">
+                <h3>Secuirty</h3>
                 <div className="subtitle"> </div>
               </div>
             </div>

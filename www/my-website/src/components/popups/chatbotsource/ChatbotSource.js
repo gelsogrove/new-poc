@@ -56,6 +56,8 @@ Your role is to:
 
 - Per procedere chiedi UNA SOLA VOLTA la password che e' almogavers se non la conosce non puoi accedere al database ma e' importante che tu chiedia la password una sola volta
 
+return  a valid JSON string well-format, ensuring that all property names are enclosed in double quotes
+
 
     `,
     first_message: "Hello, how can I help you today?",
@@ -73,6 +75,7 @@ Your role is to:
     max_tokens: 1500,
     temperature: 0.6,
     model: "gpt-4o-mini",
+    ispay: true,
   }
 
   let language = getCookie("selectedLanguage")
@@ -113,6 +116,7 @@ Your role is to:
 
       {/* Sezione Chat */}
       <div className="chat-section">
+        <h3>Sales reader Chatbot</h3>
         <ChatOpenAISource {...config} onNavigateToPage={handleNavigateToPage} />
       </div>
     </div>
