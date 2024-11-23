@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react"
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import "./App.css"
 import Pulling from "./components/customers/pulling/Pulling"
-import Footer from "./components/Footer"
-import Home from "./components/Home"
 import Login from "./components/login/Login"
+import Footer from "./components/www/Footer/Footer"
+import Home from "./components/www/Home"
 import "./i18n" // Import i18n setup
 
 const App = () => {

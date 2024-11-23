@@ -2,8 +2,8 @@
 
 import React from "react"
 
-import { getCookie, navigateToPDFPage } from "../../shared/chat-embed/utils"
-import ChatOpenAISource from "../../shared/chat-source/ChatOpenAISource"
+import { getCookie, navigateToPDFPage } from "../../../shared/chat-embed/utils"
+import ChatOpenAISource from "../../../shared/chat-source/ChatOpenAISource"
 import "./ChatbotSecurity.css"
 
 const ChatbotSecurity = ({ onClose }) => {
