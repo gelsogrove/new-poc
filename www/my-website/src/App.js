@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import "./App.css"
+import AllProducts from "./components/customers/allproducts/AllProducts"
+import Broker from "./components/customers/broker/Broker"
 import Pulling from "./components/customers/pulling/Pulling"
 import Login from "./components/login/Login"
 import Footer from "./components/www/Footer/Footer"
@@ -34,6 +36,18 @@ const App = () => {
       document.cookie = "isAuthenticated=true; path=/"
       document.cookie = "redirect=/pulling; path=/"
     }
+
+    if (username.toLowerCase() === "broker" && password === "wip") {
+      setIsAuthenticated(true)
+      document.cookie = "isAuthenticated=true; path=/"
+      document.cookie = "redirect=/broker; path=/"
+    }
+
+    if (username.toLowerCase() === "all" && password === "wip") {
+      setIsAuthenticated(true)
+      document.cookie = "isAuthenticated=true; path=/"
+      document.cookie = "redirect=/all; path=/"
+    }
   }
 
   // Hook per navigazione
@@ -59,6 +73,16 @@ const App = () => {
           <Route
             path="/pulling"
             element={isAuthenticated ? <Pulling /> : <Navigate to="/login" />}
+          />
+
+          <Route
+            path="/broker"
+            element={isAuthenticated ? <Broker /> : <Navigate to="/broker" />}
+          />
+
+          <Route
+            path="/all"
+            element={isAuthenticated ? <AllProducts /> : <Navigate to="/all" />}
           />
 
           <Route path="/login" element={<Login onLogin={handleLogin} />} />

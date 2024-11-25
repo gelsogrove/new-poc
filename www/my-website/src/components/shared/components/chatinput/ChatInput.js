@@ -17,7 +17,7 @@ const ChatInput = ({
   const startListening = () => {
     const recognition = new (window.SpeechRecognition ||
       window.webkitSpeechRecognition)()
-    let language = getCookie("selectedLanguage")
+    let language = getCookie("selectedLanguage") || "es-ES"
     recognition.lang = language
     recognition.interimResults = false
 

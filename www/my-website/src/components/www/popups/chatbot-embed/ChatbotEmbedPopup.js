@@ -1,19 +1,20 @@
 // src/components/popups/chatbot/ChatbotPopup.js
 
 import React from "react"
-import ChatOpenAI from "../../../shared/chat-embed/ChatOpenAI" // Chat component
+import ChatOpenAI from "../../../shared/chat-embed/ChatEmbed" // Chat component
 import { getCookie, navigateToPDFPage } from "../../../shared/chat-embed/utils"
-import "./ChatbotPopup.css"
+import "./ChatbotEmbedPopup.css"
 
-const ChatbotPopup = ({ onClose }) => {
+const ChatbotEmbedPopup = ({ onClose }) => {
   const handleNavigateToPage = (pageNumber) => navigateToPDFPage(pageNumber)
 
   // Create the config object
   const config = {
     title: "Washing Machine ChatBot",
+    embedding: "/embedding/washing-machine-001.json",
     systemPrompt:
       'You are a washing machine assistant Answer the question using simple English, keeping the response under 230 tokens. Include a maximum of 4 possible related questions that the user might ask to continue the conversation. Underline the key word of the concept like that: add \'**\' and put it in uppercase, e.g., "warning" will become **WARNING**. Use a maximum of one word for the content. Please don\'t add the page information in the text. If the answer involves steps or a list, format them as HTML list items (<li>item</li>). Format the response in JSON as follows: { page: "page number or null if the content is not found or not relevant to the document", "response": "Response text", "options": ["Option 1", "Option 2", "Option 3", "Option 4"]}.  return  a valid JSON string well-format, ensuring that all property names are enclosed in double quotes',
-    embedding: "/embedding/washing-machine-001.json",
+    filename: "/embedding/washing-machine-001.json",
     first_message:
       "Hello! This is an example. We have loaded the washing machine manual. Feel free to ask any questions related to washing machines.",
     first_options: [
@@ -30,7 +31,9 @@ const ChatbotPopup = ({ onClose }) => {
       "Thank you for using the Washing Machine Assistant. Goodbye!",
     max_tokens: 300,
     temperature: 0.6,
-    model: "gpt-4o-mini",
+    model: "gpt-4o",
+    server: "https://human-in-the-loops-688b23930fa9.herokuapp.com",
+    local: "http://localhost:4999",
     ispay: true,
   }
 
@@ -98,4 +101,4 @@ const ChatbotPopup = ({ onClose }) => {
   )
 }
 
-export default ChatbotPopup
+export default ChatbotEmbedPopup

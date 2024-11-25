@@ -2,13 +2,10 @@
 
 import React from "react"
 
-import {
-  getCookie,
-  navigateToPDFPage,
-} from "../../../../components/shared/chat-embed/utils"
+import { getCookie, navigateToPDFPage } from "../../../shared/chat-embed/utils"
 import ChatOpenAISource from "../../../shared/chat-source/ChatOpenAISource"
 
-import "./ChatbotSecurity.css"
+import "./ChatbotSecurityPopup.css"
 
 const ChatbotSecurity = ({ onClose }) => {
   const handleNavigateToPage = (pageNumber) => navigateToPDFPage(pageNumber)
@@ -16,7 +13,7 @@ const ChatbotSecurity = ({ onClose }) => {
   // Crea l'oggetto config
   const config = {
     title: "Generative AI ChatBot",
-    source: "/data/demoPulin-001-data.json",
+    filename: null,
     systemPrompt: `
     
   Keep your response calm and friendly, and try to be concise. Focus on the key points, and avoid going into too much detail. Just explain the main protections, like encryption, authentication, HTTPS and storage safety.
@@ -65,6 +62,8 @@ NON ENTRARE TROPPP NEL DETTAGLIO PIUTTOSTO CHIEDI PRIMA
     max_tokens: 500,
     temperature: 0.6,
     ispay: false,
+    server: "https://human-in-the-loops-688b23930fa9.herokuapp.com",
+    local: "http://localhost:4999",
     model: "gpt-4o",
   }
 

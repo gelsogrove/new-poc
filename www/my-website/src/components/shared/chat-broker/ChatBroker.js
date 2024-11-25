@@ -3,20 +3,14 @@ import { v4 as uuidv4 } from "uuid"
 import ChatInput from "../components/chatinput/ChatInput"
 import MessageList from "../components/messagelist/MessageList"
 import QuickReplies from "../components/quickreplies/QuickReplies"
-import "./ChatOpenAISource.css"
-import {
-  addBotLoadingMessage,
-  cleanText,
-  formatBoldText,
-  formatText,
-  getCookie,
-  replaceBotMessageWithError,
-} from "./utils"
+import "./ChatBroker.css"
+import { addBotLoadingMessage, replaceBotMessageWithError } from "./utils"
 import { generateResponseWithContext, initializeData } from "./utils_api"
 
-const ChatOpenAISource = ({
+const ChatbotBroker = ({
   first_message,
   first_options,
+  systemPrompt,
   max_tokens,
   temperature,
   model,
@@ -24,9 +18,8 @@ const ChatOpenAISource = ({
   goodbye_message,
   ispay,
   filename,
-  systemPrompt,
-  local,
   server,
+  local,
 }) => {
   const [inputValue, setInputValue] = useState("")
   const [, setVoiceMessage] = useState(null)
@@ -41,6 +34,9 @@ const ChatOpenAISource = ({
     { role: "assistant", content: first_message },
   ])
   const [quickReplies, setQuickReplies] = useState(first_options)
+
+  // Stato per i dati iniziali
+  const [, setInitialData] = useState("")
 
   const apiUrl = window.location.hostname === "localhost" ? local : server
 
@@ -64,6 +60,7 @@ const ChatOpenAISource = ({
         const data = await initializeData(apiUrl, systemPrompt, filename, model)
         console.log("Initial data loaded:", data)
 
+        setInitialData(data.data) // Memorizza i dati iniziali
         setConversationHistory((prev) => [
           {
             role: "system",
@@ -99,21 +96,17 @@ const ChatOpenAISource = ({
         model
       )
 
-      const { formattedResponse, options } = formatText(botResponse)
-      let cleanedResponse = cleanText(formattedResponse)
-      cleanedResponse = formatBoldText(cleanedResponse)
-
-      // Assicurati che cleanedResponse sia una stringa HTML
+      // Asegúrate que cleanedResponse sea una cadena HTML
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: uuidv4(),
           sender: "bot",
-          text: <div dangerouslySetInnerHTML={{ __html: cleanedResponse }} />, // Renderizza HTML
+          text: botResponse,
         })
       )
 
       // set voice message
-      setVoiceMessage(cleanedResponse.replace(/<[^>]+>/g, ""))
+      setVoiceMessage(botResponse.replace(/<[^>]+>/g, ""))
 
       setConversationHistory((prev) => [
         ...prev,
@@ -122,10 +115,7 @@ const ChatOpenAISource = ({
       ])
 
       // totale aggiornato
-      checkAndUpdateTotal(cleanedResponse)
-
-      // set quick replies
-      setLanguageOptions(options)
+      checkAndUpdateTotal(botResponse)
     } catch (error) {
       console.error("Error in handling send:", error)
       replaceBotMessageWithError(setMessages, error_message)
@@ -140,12 +130,12 @@ const ChatOpenAISource = ({
   }
 
   const handleQuickReply = (text) => {
-    if (text === "Other") {
+    if (text === "Other" || text === "Otro") {
       setIsCustomInput(true)
     } else if (text === "Menu") {
       setQuickReplies(first_options)
       setIsCustomInput(false)
-    } else if (text === "Exit") {
+    } else if (text === "Exit" || text === "Guardar y Salir") {
       handleSend(goodbye_message)
       setIsCustomInput(true)
     } else {
@@ -153,16 +143,6 @@ const ChatOpenAISource = ({
       handleSend(text)
       setIsCustomInput(true)
     }
-  }
-
-  const setLanguageOptions = (options) => {
-    let language = getCookie("selectedLanguage") || "en"
-    const languageOptions = {
-      es: [...options, "Otro", "Menú"],
-      it: [...options, "Altro", "Menu"],
-      en: [...options, "Other", "Menu"],
-    }
-    setQuickReplies(languageOptions[language] || options) // Default to options if language not found
   }
 
   const handleMicrophoneClick = () => {
@@ -197,4 +177,4 @@ const ChatOpenAISource = ({
   )
 }
 
-export default ChatOpenAISource
+export default ChatbotBroker

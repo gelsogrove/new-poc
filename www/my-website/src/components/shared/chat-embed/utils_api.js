@@ -1,23 +1,22 @@
 // Funzione per convertire una domanda in un embedding (chiamata al server backend)
 
-import settings from "./settings.json"
-
-const server =
-  window.location.hostname === "localhost" ? settings.local : settings.server
-
-export const convertQuestionToEmbedding = async (questionText) => {
+export const convertQuestionToEmbedding = async (
+  apiUrl,
+  questionText,
+  model
+) => {
   if (!questionText) {
     console.warn("convertQuestionToEmbedding: questionText is empty.")
     return null
   }
 
   try {
-    const response = await fetch(server + "/api1/emb", {
+    const response = await fetch(apiUrl + "/api1/emb", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ questionText, model: "text-embedding-ada-002" }),
+      body: JSON.stringify({ questionText, model }),
     })
 
     if (!response.ok) {
@@ -35,6 +34,7 @@ export const convertQuestionToEmbedding = async (questionText) => {
 
 // Funzione per generare una risposta con contesto (chiamata al server backend)
 export const generateResponseWithContext = async (
+  apiUrl,
   bestMatch,
   questionText,
   conversationHistory,
@@ -48,7 +48,7 @@ export const generateResponseWithContext = async (
   }
 
   try {
-    const response = await fetch(server + "/api1/resp", {
+    const response = await fetch(apiUrl + "/api1/resp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,9 +80,14 @@ export const generateResponseWithContext = async (
 let currentAudio = null // Variabile per tenere traccia dell'audio corrente
 
 // Funzione per generare audio TTS
-export const generateSpeech = async (text, voice = "alloy", format = "mp3") => {
+export const generateSpeech = async (
+  apiUrl,
+  text,
+  voice = "alloy",
+  format = "mp3"
+) => {
   try {
-    const response = await fetch(server + "/api1/generate-speech", {
+    const response = await fetch(apiUrl + "/api1/generate-speech", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

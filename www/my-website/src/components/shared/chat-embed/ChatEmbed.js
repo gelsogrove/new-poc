@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import ChatInput from "../components/chatinput/ChatInput"
 import QuickReplies from "../components/quickreplies/QuickReplies"
-import "./ChatOpenAI.css"
+import "./ChatEmbed.css"
 import {
   addBotLoadingMessage,
   findBestMatchInEmbeddings,
@@ -22,7 +22,7 @@ import {
 import { v4 as uuidv4 } from "uuid"
 import MessageList from "../components/messagelist/MessageList"
 
-const ChatOpenAI = ({
+const ChatEmbed = ({
   embedding,
   first_message,
   first_options,
@@ -33,6 +33,8 @@ const ChatOpenAI = ({
   model,
   error_message,
   goodbye_message,
+  server,
+  local,
 }) => {
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -49,6 +51,7 @@ const ChatOpenAI = ({
   const [embeddingData, setEmbeddingData] = useState(null)
   const [chatbotResponse, setChatbotResponse] = useState(null)
   const [voiceMessage, setVoiceMessage] = useState(null)
+  const apiUrl = window.location.hostname === "localhost" ? local : server
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,11 +69,11 @@ const ChatOpenAI = ({
   useEffect(() => {
     if (isVoiceInput && voiceMessage) {
       setIsVoiceInput(false)
-      generateSpeech(voiceMessage)
+      generateSpeech(apiUrl, voiceMessage)
       setTotal((prevTotal) => prevTotal + 0.05)
       console.log("run voice", voiceMessage)
     }
-  }, [voiceMessage, isVoiceInput])
+  }, [voiceMessage, isVoiceInput, apiUrl])
 
   useEffect(() => {
     if (systemPrompt) {
@@ -102,6 +105,7 @@ const ChatOpenAI = ({
 
       setIsLoading(true)
       const botResponse = await generateResponseWithContext(
+        apiUrl,
         bestMatch,
         message,
         conversationHistory,
@@ -194,17 +198,23 @@ const ChatOpenAI = ({
   }
 
   const setLanguageOptions = (options) => {
-    let language = getCookie("selectedLanguage")
+    let language = getCookie("selectedLanguage") || "en"
+
     const languageOptions = {
       es: [...options, "Otro", "Menú"],
       it: [...options, "Altro", "Menu"],
       en: [...options, "Other", "Menu"],
     }
+
     setQuickReplies(languageOptions[language] || options) // Default to options if language not found
   }
 
   const findBestMatch = async (message) => {
-    const questionEmbedding = await convertQuestionToEmbedding(message, model)
+    const questionEmbedding = await convertQuestionToEmbedding(
+      apiUrl,
+      message,
+      "text-embedding-ada-002"
+    )
     return findBestMatchInEmbeddings(embeddingData, questionEmbedding)
   }
 
@@ -238,4 +248,4 @@ const ChatOpenAI = ({
   )
 }
 
-export default ChatOpenAI
+export default ChatEmbed

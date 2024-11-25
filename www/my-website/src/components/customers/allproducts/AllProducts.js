@@ -1,16 +1,15 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
-import "./Home.css"
-import Howworks from "./howworks/HowWorks"
-import Info from "./info/Info"
-import Landing from "./landing/Landing"
-import NavBar from "./navbar/Navbar"
-import ChatbotPopup from "./popups/chatbot-embed/ChatbotEmbedPopup"
-import ChatbotSource from "./popups/chatbot-source/ChatbotSourcePopup"
-import CustomVisionPopup from "./popups/custom-vision/CustomVisionPopup"
-import Popup from "./popups/Popup"
-import Technologies from "./technologies/Technologies"
-const Home = () => {
+import NavBar from "../../www/navbar/Navbar"
+import ChatbotBroker from "../../www/popups/chatbot-broker/ChatbotBrokerPopup"
+import ChatbotEmbed from "../../www/popups/chatbot-embed/ChatbotEmbedPopup"
+import ChatbotSecurity from "../../www/popups/chatbot-security/ChatbotSecurityPopup"
+import ChatbotSource from "../../www/popups/chatbot-source/ChatbotSourcePopup"
+import CustomVisionPopup from "../../www/popups/custom-vision/CustomVisionPopup"
+import Popup from "../../www/popups/Popup"
+import "./AllProducts.css"
+
+const AllProducts = () => {
   const { t } = useTranslation() // Access translation function
   const [activePopup, setActivePopup] = useState(null)
 
@@ -28,18 +27,26 @@ const Home = () => {
       <Popup isOpen={activePopup === "customVision"} onClose={closePopup}>
         <CustomVisionPopup onClose={closePopup} />
       </Popup>
+
       <Popup isOpen={activePopup === "chatbot"} onClose={closePopup}>
-        <ChatbotPopup onClose={closePopup} />
+        <ChatbotEmbed onClose={closePopup} />
       </Popup>
+
       <Popup isOpen={activePopup === "chatbotsource"} onClose={closePopup}>
         <ChatbotSource onClose={closePopup} />
       </Popup>
-      <div className="home-container">
-        <header className="header">
-          <h1 className="logo">Human in the loops</h1>
-        </header>
 
-        <h1 className="ourservice">{t("home.service_heading")}</h1>
+      <Popup isOpen={activePopup === "security"} onClose={closePopup}>
+        <ChatbotSecurity onClose={closePopup} />
+      </Popup>
+
+      <Popup isOpen={activePopup === "broker"} onClose={closePopup}>
+        <ChatbotBroker onClose={closePopup} />
+      </Popup>
+
+      <div className="home-container-allproducts">
+        <h1 className="ourservice">Customize chatbots </h1>
+        <br />
         <section className="features">
           <div
             className="feature-item"
@@ -59,7 +66,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
           <div className="feature-item" onClick={() => openPopup("chatbot")}>
             <div className="image-container">
               <img
@@ -68,10 +74,8 @@ const Home = () => {
                 className="feature-image"
               />
               <div className="overlay">
-                <h3>{t("home.features.chatbot.title")}</h3>
-                <div className="subtitle">
-                  {t("home.features.chatbot.subtitle")}
-                </div>
+                <h3>Custom Embedding</h3>
+                <div className="subtitle"> </div>
               </div>
             </div>
           </div>
@@ -83,29 +87,29 @@ const Home = () => {
             <div className="image-container">
               <img
                 src="../images/generative.webp"
-                alt={t("home.features.generativeAI.title")}
+                alt={t("home.features.chatbot.title")}
                 className="feature-image"
               />
               <div className="overlay">
-                <h3>{t("home.features.generativeAI.title")}</h3>
-                <div className="subtitle">
-                  {t("home.features.generativeAI.subtitle")}
-                </div>
+                <h3>Sales Reader</h3>
+                <div className="subtitle"> </div>
               </div>
             </div>
           </div>
-        </section>
-        <Landing />
-      </div>
-      <Info />
 
-      <div className="footer">
-        <Howworks />
-        <h1 className="techweuse">{t("home.technologies_heading")}</h1>
-        <Technologies />
+          <div className="feature-item" onClick={() => openPopup("broker")}>
+            <div className="image-container">
+              <img src="../images/db.webp" className="feature-image" alt="" />
+              <div className="overlay">
+                <h3>Save context</h3>
+                <div className="subtitle"> </div>
+              </div>
+            </div>
+          </div>
+        </section>{" "}
       </div>
     </div>
   )
 }
 
-export default Home
+export default AllProducts
