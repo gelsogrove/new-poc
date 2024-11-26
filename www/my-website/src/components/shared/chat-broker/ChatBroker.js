@@ -35,8 +35,58 @@ const ChatbotBroker = ({
   ])
   const [quickReplies, setQuickReplies] = useState(first_options)
 
-  // Stato per i dati iniziali
-  const [, setInitialData] = useState("")
+  // Funzione per elaborare i documenti
+  const processDocuments = (value, output) => {
+    output += `\nDocumentos\n`
+    output += `-------------------------------\n`
+    const maxDocKeyLength = Math.max(...value.map((doc) => doc.name.length))
+    value.forEach((doc) => {
+      output += `${doc.name.padEnd(maxDocKeyLength + 2)}: ${doc.status}\n`
+    })
+    return output // Restituisci l'output aggiornato
+  }
+
+  // Funzione per elaborare le note
+  const processNotes = (value, output) => {
+    output += `\nNotes\n`
+    output += `-------------------------------\n`
+    const maxNoteKeyLength = Math.max(...value.map((note) => note.text.length))
+    value.forEach((note) => {
+      output += `${note.text.padEnd(maxNoteKeyLength + 2)}\n`
+    })
+    return output // Restituisci l'output aggiornato
+  }
+
+  function jsonToAscii(json) {
+    let output = "Informacion cliente\n"
+    output += "-------------------------------\n"
+    const maxKeyLength = Math.max(...Object.keys(json).map((key) => key.length))
+
+    for (const [key, value] of Object.entries(json)) {
+      if (key === "documents" && Array.isArray(value)) {
+        output = processDocuments(value, output) // Passa output come argomento
+        continue
+      }
+
+      if (key === "note" && Array.isArray(value)) {
+        output = processNotes(value, output) // Passa output come argomento
+        continue
+      }
+
+      if (Array.isArray(value)) {
+        // Skip printing the array directly for other keys
+        output += `${key.padEnd(maxKeyLength + 2)}: [Array of ${
+          value.length
+        } items]\n`
+        continue
+      }
+
+      const displayValue = value === null ? "N/A" : value.toString()
+      output += `${key.padEnd(maxKeyLength + 2)}: ${displayValue.padEnd(20)}\n`
+    }
+
+    return output
+  }
 
   const apiUrl = window.location.hostname === "localhost" ? local : server
 
@@ -60,11 +110,10 @@ const ChatbotBroker = ({
         const data = await initializeData(apiUrl, systemPrompt, filename, model)
         console.log("Initial data loaded:", data)
 
-        setInitialData(data.data) // Memorizza i dati iniziali
         setConversationHistory((prev) => [
           {
             role: "system",
-            content: `data: ${JSON.stringify(data.customers)}`,
+            content: `data: ${JSON.stringify(data)}`,
           },
           ...prev,
         ])
@@ -96,12 +145,21 @@ const ChatbotBroker = ({
         model
       )
 
+      // Supponendo che botResponse sia il tuo JSON
+      console.log(botResponse)
+      let asciiResponse
+      try {
+        asciiResponse = jsonToAscii(JSON.parse(botResponse))
+      } catch {
+        asciiResponse = botResponse // Leave the response as is if it's not valid JSON
+      }
+
       // Asegúrate que cleanedResponse sea una cadena HTML
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: uuidv4(),
           sender: "bot",
-          text: botResponse,
+          text: asciiResponse,
         })
       )
 

@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import ChatbotEmbed from "../../www/popups/chatbot-embed/ChatbotEmbedPopup"
-import ChatbotSecurity from "../../www/popups/chatbot-security/ChatbotSecurityPopup"
 import ChatbotSource from "../../www/popups/chatbot-source/ChatbotSourcePopup"
+import CustomVisionPopup from "../../www/popups/custom-vision/CustomVisionPopup"
 import Popup from "../../www/popups/Popup"
 import "./Pulling.css"
 
@@ -20,16 +20,16 @@ const Pulling = () => {
 
   return (
     <div>
+      <Popup isOpen={activePopup === "customVision"} onClose={closePopup}>
+        <CustomVisionPopup onClose={closePopup} />
+      </Popup>
+
       <Popup isOpen={activePopup === "chatbot"} onClose={closePopup}>
         <ChatbotEmbed onClose={closePopup} />
       </Popup>
 
       <Popup isOpen={activePopup === "chatbotsource"} onClose={closePopup}>
         <ChatbotSource onClose={closePopup} />
-      </Popup>
-
-      <Popup isOpen={activePopup === "security"} onClose={closePopup}>
-        <ChatbotSecurity onClose={closePopup} />
       </Popup>
 
       <div className="home-container">
@@ -45,6 +45,23 @@ const Pulling = () => {
               />
               <div className="overlay">
                 <h3>Knowledge library</h3>
+                <div className="subtitle"> </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="feature-item"
+            onClick={() => openPopup("chatbotsource")}
+          >
+            <div className="image-container">
+              <img
+                src="../images/generative.webp"
+                alt={t("home.features.chatbot.title")}
+                className="feature-image"
+              />
+              <div className="overlay">
+                <h3>Sales Reader</h3>
                 <div className="subtitle"> </div>
               </div>
             </div>

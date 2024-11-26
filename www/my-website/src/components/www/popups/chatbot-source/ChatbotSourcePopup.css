@@ -5,7 +5,7 @@
   flex-direction: row;
 
   height: 90vh;
-  min-width: 80px;
+  width: 35vw;
 
   background: white;
   border-radius: 8px;
@@ -26,11 +26,17 @@
 
 /* Sezione Chat */
 .chat-section-source {
-  width: 50%;
+  width: 100%;
   padding: 20px;
   background-color: #fff;
   box-sizing: border-box;
   height: 83vh;
+}
+
+.resize-popup-link {
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media (max-width: 768px) {

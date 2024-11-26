@@ -1,11 +1,23 @@
 // src/components/popups/chatbot/ChatbotPopup.js
 
+import React, { useState } from "react"
 import ChatbotBroker from "../../../shared/chat-broker/ChatBroker"
-import { navigateToPDFPage } from "../../../shared/chat-embed/utils"
 import "./ChatbotBrokerPopup.css"
 
 const ChatbotBrokerPopup = ({ onClose }) => {
-  const handleNavigateToPage = (pageNumber) => navigateToPDFPage(pageNumber)
+  const [isResized, setIsResized] = useState(false)
+
+  const handleResizePopup = () => {
+    const popup = document.querySelector(".chatbot-popup-broker")
+    if (popup) {
+      if (isResized) {
+        popup.style.width = "35vw"
+      } else {
+        popup.style.width = "90vw"
+      }
+      setIsResized(!isResized)
+    }
+  }
 
   // Crea l'oggetto config
   const config = {
@@ -55,7 +67,7 @@ Genera una tabla html con las siguientes columnas: Nombre,Teléfono,Dias Incluye
 - el Agente puede perdirte la lista de los clientes (devuelve una table)
 
 **OUTPUT**
-- Por favor, devuelve los datos del cliente como texto normal, sin usar formato Markdown ni caracteres especiales (como ** o **). Los datos deben presentarse en formato ASCII plano.
+- Por favor, devuelve los datos del cliente como en json, sin usar formato Markdown ni caracteres especiales (como ** o **). Los datos deben presentarse en formato ASCII plano.
 
 
 **Notas:**
@@ -75,9 +87,8 @@ Genera una tabla html con las siguientes columnas: Nombre,Teléfono,Dias Incluye
 
 
 
-
 **Guardar y Salir** 
-Al finalizar la conversación solo cuando el usuario te dice "Guardar y Salir" debes devolver el JSON completo con todos los clientes, incluyendo los valores null cuando no haya datos disponibles.
+Al finalizar la conversación solo cuando el usuario te dice "Guardar y Salir" debes devolver el JSON completo de solo sos clientes que se han modificado o creato, incluyendo los valores null cuando no haya datos disponibles.
     `,
     first_message:
       "Hola como te puedo ayudar hoy? Acuerdate de guardar la session antes de salir por favor.",
@@ -94,7 +105,7 @@ Al finalizar la conversación solo cuando el usuario te dice "Guardar y Salir" d
     goodbye_message:
       "¡Gracias! ¡Adiós! Espera la respuesta, por favor, estamos guardando los datos.",
     max_tokens: 3500,
-    temperature: 0.6,
+    temperature: 0.8,
     server: "https://human-in-the-loops-688b23930fa9.herokuapp.com",
     local: "http://localhost:4999",
     model: "gpt-4o-mini",
@@ -102,7 +113,7 @@ Al finalizar la conversación solo cuando el usuario te dice "Guardar y Salir" d
   }
 
   return (
-    <div className="chatbot-popup-poulin">
+    <div className="chatbot-popup-broker">
       <button className="close-button" onClick={onClose}>
         ×
       </button>
@@ -110,11 +121,10 @@ Al finalizar la conversación solo cuando el usuario te dice "Guardar y Salir" d
       {/* Sezione Chat */}
       <div className="chat-section-source">
         <h3> Broker</h3>
-        <ChatbotBroker
-          {...config}
-          IsReturnTable={true}
-          onNavigateToPage={handleNavigateToPage}
-        />
+        <ChatbotBroker {...config} IsReturnTable={true} />
+        <a href className="resize-popup-link" onClick={handleResizePopup}>
+          {isResized ? "Restore Size" : "Resize Popup"}
+        </a>
       </div>
     </div>
   )

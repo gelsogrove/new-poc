@@ -1,11 +1,11 @@
 /* src/components/popups/chatbot/ChatbotPopup.css */
 
-.chatbot-popup-poulin {
+.chatbot-popup-broker {
   display: flex;
   flex-direction: row;
 
   height: 90vh;
-  min-width: 80px;
+  width: 35vw;
 
   background: white;
   border-radius: 8px;
@@ -40,12 +40,8 @@
   padding: 6px;
 }
 
-@media (max-width: 768px) {
-  .pdf-section {
-    display: none;
-  }
-
-  .chatbot-popup {
-    min-width: 450;
-  }
+.resize-popup-link {
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
 }
