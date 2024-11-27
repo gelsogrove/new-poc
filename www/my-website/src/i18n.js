@@ -1,9 +1,9 @@
 // src/i18n.js
 import i18n from "i18next"
 import { initReactI18next } from "react-i18next"
-import en from "./locales/en.json"
-import es from "./locales/es.json"
-import it from "./locales/it.json"
+import en from "./www/i18n/en.json"
+import es from "./www/i18n/es.json"
+import it from "./www/i18n/it.json"
 
 i18n.use(initReactI18next).init({
   resources: {

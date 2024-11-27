@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react"
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
-import Home from ".//www/Home"
 import "./App.css"
 import "./i18n"
-import AllProducts from "./www/customers/allproducts/AllProducts"
-import Broker from "./www/customers/broker/Broker"
-import Pulling from "./www/customers/pulling/Pulling"
-import Footer from "./www/Footer/Footer"
-import Login from "./www/login/Login"
+import Footer from "./www/components/Footer/Footer"
+import AllProducts from "./www/pages/customers/allproducts/AllProducts"
+import Broker from "./www/pages/customers/broker/Broker"
+import Pulling from "./www/pages/customers/pulling/Pulling"
+import Home from "./www/pages/home/Home"
+import Login from "./www/pages/login/Login"
 
 const App = () => {
   // Funzione per leggere i cookie
