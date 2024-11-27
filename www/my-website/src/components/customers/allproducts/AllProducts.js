@@ -86,7 +86,7 @@ const AllProducts = () => {
           >
             <div className="image-container">
               <img
-                src="../images/generative.webp"
+                src="../images/sales-reader.webp"
                 alt={t("home.features.chatbot.title")}
                 className="feature-image"
               />

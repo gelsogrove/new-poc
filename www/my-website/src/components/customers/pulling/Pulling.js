@@ -36,6 +36,25 @@ const Pulling = () => {
         <h1 className="ourservice">Poulin Grain Demo </h1>
         <br />
         <section className="features">
+          <div
+            className="feature-item"
+            onClick={() => openPopup("customVision")}
+          >
+            <div className="image-container">
+              <img
+                src="../images/dalle.webp"
+                alt={t("home.features.custom_vision.title")}
+                className="feature-image"
+              />
+              <div className="overlay">
+                <h3>{t("home.features.custom_vision.title")}</h3>
+                <div className="subtitle">
+                  {t("home.features.custom_vision.subtitle")}
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="feature-item" onClick={() => openPopup("chatbot")}>
             <div className="image-container">
               <img
@@ -56,7 +75,7 @@ const Pulling = () => {
           >
             <div className="image-container">
               <img
-                src="../images/generative.webp"
+                src="../images/sales-reader.webp"
                 alt={t("home.features.chatbot.title")}
                 className="feature-image"
               />
