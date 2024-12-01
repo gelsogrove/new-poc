@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
-import Navbar from "../../../components/navbar/Navbar"
 import ChatbotEmbed from "../../../components/popups/chatbot-embed/ChatbotEmbedPopup"
 import ChatbotSource from "../../../components/popups/chatbot-poulin/ChatbotPoulinPopup"
 import CustomVisionPopup from "../../../components/popups/custom-vision/CustomVisionPopup"
@@ -19,6 +18,15 @@ const Pulling = () => {
   const { t } = useTranslation() // Access translation function
   const [activePopup, setActivePopup] = useState(null)
 
+  function setCookie(name, value, days) {
+    const date = new Date()
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
+    const expires = "expires=" + date.toUTCString()
+    document.cookie = name + "=" + value + ";" + expires + ";path=/"
+  }
+
+  setCookie("selectedLanguage", "en", 30)
+
   const openPopup = (popupType) => {
     setActivePopup(popupType)
   }
@@ -29,7 +37,6 @@ const Pulling = () => {
 
   return (
     <div>
-      <Navbar />
       <Popup isOpen={activePopup === "customVision"} onClose={closePopup}>
         <CustomVisionPopup onClose={closePopup} />
       </Popup>
@@ -46,23 +53,6 @@ const Pulling = () => {
         <h1 className="ourservice">Poulin Grain Demo </h1>
         <br />
         <section className="features">
-          <div
-            className="feature-item"
-            onClick={() => openPopup("customVision")}
-          >
-            <div className="image-container">
-              <img
-                src="../images/dalle.webp"
-                alt={t("home.features.custom_vision.title")}
-                className="feature-image"
-              />
-              <div className="overlay">
-                <h3>{t("home.features.custom_vision.title")}</h3>
-                <div className="subtitle"></div>
-              </div>
-            </div>
-          </div>
-
           <div className="feature-item" onClick={() => openPopup("chatbot")}>
             <div className="image-container">
               <img
@@ -90,6 +80,23 @@ const Pulling = () => {
               <div className="overlay">
                 <h3>Sales Reader</h3>
                 <div className="subtitle"> </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="feature-item"
+            onClick={() => openPopup("customVision")}
+          >
+            <div className="image-container">
+              <img
+                src="../images/dalle.webp"
+                alt={t("home.features.custom_vision.title")}
+                className="feature-image"
+              />
+              <div className="overlay">
+                <h3>{t("home.features.custom_vision.title")}</h3>
+                <div className="subtitle"></div>
               </div>
             </div>
           </div>

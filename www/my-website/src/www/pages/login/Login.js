@@ -14,7 +14,7 @@ function Login({ onLogin }) {
 
   return (
     <div className="login-container">
-      <h2>Poulin Grain Demo</h2>
+      <h2>Login</h2>
       <br />
       <form onSubmit={handleSubmit}>
         <div>
