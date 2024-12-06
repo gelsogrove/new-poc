@@ -14,4 +14,7 @@ src/server/backend/src/images/
 
 *.env
 
-www/my-website/heroku/
+ 
+www/my-website/heroku/clients/broker/backup
+www/my-website/heroku/clients/broker/history
+www/my-website/heroku/clients/broker/source

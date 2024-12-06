@@ -84,7 +84,6 @@ const ChatbotBroker = ({
         { role: "assistant", content: botResponse.message },
       ])
 
-      // totale aggiornato
       //checkAndUpdateTotal(botResponse)
     } catch (error) {
       console.error("Error in handling send:", error)

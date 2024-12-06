@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+ 
+/heroku/clients/broker/backup
+/heroku/clients/broker/history
+/heroku/clients/broker/source
