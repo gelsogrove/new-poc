@@ -18,7 +18,7 @@
 .btn-wide {
   width: 100%;
   max-height: 40px !important;
-  height: 40px !important;
+  height: 110px !important;
 }
 
 @media (max-width: 768px) {

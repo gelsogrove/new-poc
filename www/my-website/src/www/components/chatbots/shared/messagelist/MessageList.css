@@ -9,7 +9,7 @@
   gap: 10px;
   border-right: 1px solid #ddd;
   margin-bottom: 10px;
-  height: 300px;
+  min-height: 540px;
   -webkit-overflow-scrolling: touch;
   background-color: white;
   padding: 20px;

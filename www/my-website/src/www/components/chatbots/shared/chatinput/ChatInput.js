@@ -67,7 +67,6 @@ const ChatInput = ({
   }
 
   const handleSendClick = () => {
-    console.log("Testo dell'utente:", inputValue)
     handleSend(inputValue)
     setTranscript("")
     setInputValue("")
@@ -75,13 +74,13 @@ const ChatInput = ({
 
   return (
     <div className="chat-input input-group">
-      <input
-        type="text"
+      <textarea
         className="form-control input-wide"
         placeholder="Type a message..."
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         disabled={isLoading}
+        rows={2} // Puoi modificare questo valore per impostare la dimensione del textarea
       />
       <div className="input-group-append">
         <button
@@ -91,7 +90,7 @@ const ChatInput = ({
         >
           Send
         </button>
-        <div style={{ marginLeft: "8px" }}>
+        <div>
           <button
             className="btn btn-primary btn-wide"
             onClick={handleMicroClick}

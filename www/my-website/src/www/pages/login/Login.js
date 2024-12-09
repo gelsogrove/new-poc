@@ -1,7 +1,5 @@
-// components/Login.js
-
 import React, { useState } from "react"
-import "./Login.css" // Importa questo file di stile che creeremo dopo
+import "./Login.css"
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState("")
@@ -9,13 +7,12 @@ function Login({ onLogin }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onLogin(username, password) // Passiamo le credenziali alla funzione di login
+    onLogin(username, password)
   }
 
   return (
     <div className="login-container">
       <h2>Login</h2>
-      <br />
       <form onSubmit={handleSubmit}>
         <div>
           <input
@@ -37,7 +34,6 @@ function Login({ onLogin }) {
         </div>
         <button type="submit">Login</button>
       </form>
-      <br />
     </div>
   )
 }
