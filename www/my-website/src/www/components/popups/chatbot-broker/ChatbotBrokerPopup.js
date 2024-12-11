@@ -95,23 +95,24 @@ Debes responder siempre en formato JSON con las siguientes reglas:
     "dateOfBirth": "null (date)",
     "placeOfBirth": "null (string)",
     "personalEmail": "null (string - mandatory)",
-    "personalPhoneNumber": "null (string - mandatory)",
-    "address": "null",
-    "city": "null (string)",
+    "personalPhoneNumber": "null (string Datos personales > number or personal number)",
+    "address": "Datos personales > Dirección",
+    "city": "null (Datos personales - Ciudad)",
     "nationality": "null (string)",
     "companyName": "null (string)",
     "employed": "true | false",
     "autonomo": "true | false",
     "taxId": nll (string)
     "jobTitle": null(string)
-    "employmentStartDate" ; (date)
-    "authorizedRepresentative":  null (string)
+    "employmentStartDate" ; (date - fecha de Inicio del Empleo)
+    "authorizedRepresentative":  null (string -Representante Autorizado")
     "annualIncome": "null (number money)",
-    "monthlyIncome": null 
+    "monthlyIncome": null  
     "existingDebtsNote": "null (string)",
-    "moneyInAdvance": "null (money)",
+    "availableFunds": "null (money)",
     "mortgageRequestPercentage": "null (number)",
     "mortgageBank": "null (string)",
+    "mortageYears": number 
     "numOfSons": "null (numeric)",
     "partnerName": "null",
     "partnerStatus": "null",
@@ -119,34 +120,35 @@ Debes responder siempre en formato JSON con las siguientes reglas:
     "personalBank": "null (string)",
     "IBANpersonalBank": "null (string)",
     "secondBank": "null (string)",
-    "IBANsecondBank": "null (string)",
-    "generatedEmail": (null)
-    "generatedEmailPassword": (null)
+    "IBANsecondBank": "(string)",
+    "generatedEmail": (string -Correo Electrónico Generado)
+    "generatedEmailPassword": (string- Contraseña del Correo Electrónico Generado)
     "generatedSIM": "null (phone number)", 
-    "agent": "null (agent broker connected)",
+    "agent": "null (agent broker connected, Nuestro Agente)",
     "notaryName": "null",
     "notaryCompany": "null",
     "notaryPhoneNumber": "null (phone number)",
     "dateExpireSim": "null (date)",
-    "dateExpireFein": "null (date)",
+    "dateExpireFein": "null (date - firma del cliente)",
     "dateFeinReceived": "null (date)",
     "dataOfDeed": "null (date)",
     "agency": "null (string)",
     "agencyAgent": "null (string)",
     "agencyOffertMade": "null (money)",
-    "agencyOffertAccepted": "null (boolean)",
+    "agencyOffertAcceptedFromTheOWner": "null (boolean)",
     "loanCompany": null (string)
-    "loanMoneyRequest": null (string)
+    "loanMoneyRequest": null (number Prestamo - Valor del préstamo)
     "loanMoneyRequestDate: null (dateTime)
     "propertyAddress": (string)
-    "propertyCity": (string)
-    "propertyPrice": (string)
-    "propertyMq": (string)
+    "propertyCity": (piso en venta > ciudad)
+    "propertyCap": (piso en venta > cap)
+    "propertyPrice": (number - piso en venta > price) 
+    "propertyMq": (piso en venta > mq)
     "createDate": "null (date)",
     "latestChangeDate": "null (date)",
     "howKnowUs": "null (string)",
     "folderDocument": (link)
-    "note": "null (string)",
+    "noteInternal": "null (string nota interna)",
     "noteNotary": "null (long string)",
     "noteAgency": "null (long string)",
   }
@@ -167,18 +169,10 @@ Debes responder siempre en formato JSON con las siguientes reglas:
       "triggerAction": "getListClient",
       "response": "Aquí tienes la lista de clientes quieres ordenarla  o filtrar esta por esta lista  ",
       "data": [],
-      "sql": "SELECT * from CUSTOMERS orde by latestChangeDate desc",
+      "sql": "SELECT DNI, name, surname,personalEmail,personalPhoneNumber,serviceType, agent,generatedEmail, generateeSIM, folderDocument  from CUSTOMERS orde by latestChangeDate desc",
       "agente": (nome agente)
     }
 
-
-    {
-      "triggerAction": "expireSIM",
-      "response": "Clientes con la SIM en vencimiento en los próximos 30 días:",
-      "data": [],
-      "sql": "",
-      "agente": (nome agente)
-    }
 
     {
       "triggerAction": "expireFEIN",
@@ -209,6 +203,15 @@ Debes responder siempre en formato JSON con las siguientes reglas:
       "agente": (nome agente)
     }
 
+     es: Dimmi dove vive Andrea Gelsomino
+  {
+    "triggerAction": "getClient",
+    "data": [],
+    "sql": "SELECT address FROM customr WHERE name= 'Andrea' and Surname= 'Gelsomino'"
+    
+  }
+
+
 
 
   6 Format
@@ -223,7 +226,7 @@ Debes responder siempre en formato JSON con las siguientes reglas:
   - addClient non puo' ritonrare una query con UPDATE , solo editClient  puo' ritornare Update
   - Non chiedere confemra delle operazioni nel dialogo a meno che non ti manchi il DNI della modifica
   - Quando ritorno l'SQL e sono valori di string nella where metti like es: WHERE howKnowUs LIKE '%google%'",
-  - NON CHIEDERE IL DNI SE GIA' lo hai per questo cliente
+  - NON CHIEDERE IL DNI DI CONFERMA MAI !
 
 
   8 Nota su TOTALS:
@@ -254,6 +257,9 @@ Debes responder siempre en formato JSON con las siguientes reglas:
     - trriiger piu' comuni  welcome, getClient, expireSIM, expireFAIN, getListClient, count*,expireNotario,getListClient,saveAndExit 
     - E' importante che mi mandi anche il nome dell'agente nella proprieta "agent" JSON 
     - se si parla di clienti l'SQL va sulla tabella CUSTOMERS si parliamo del totale costi conversazione andiamo sulla tabella TOTALS
+    - per cancellare basta nome e cognome oppure solo il DNI
+    - non c'e' bisogno sempre di chiedere conferma se hai i dati esegui la query senza aspettare la conferma a meno che non si tratti di DELETE
+    - se mi dai la query di UPDATE non serve che mi chiedi la conferma del DNI
    
 `,
     first_message:

@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { v4 as uuidv4 } from "uuid"
 import ChatInput from "../shared/chatinput/ChatInput"
-import MessageList from "../shared/messagelist/MessageList"
 import QuickReplies from "../shared/quickreplies/QuickReplies"
 import "./ChatBroker.css"
+import CustomMessageList from "./customMessageList/CustomMessageList"
 import { addBotLoadingMessage, replaceBotMessageWithError } from "./utils"
 import { generateResponseWithContext } from "./utils_api"
 
@@ -53,7 +53,7 @@ const ChatbotBroker = ({
     addBotLoadingMessage(setMessages)
 
     try {
-      const botResponse = await generateResponseWithContext(
+      let botResponse = await generateResponseWithContext(
         apiUrl,
         message,
         conversationHistory,
@@ -63,10 +63,6 @@ const ChatbotBroker = ({
         model
       )
 
-      // Supponendo che botResponse sia il tuo JSON
-      console.log(botResponse)
-
-      // Asegúrate que cleanedResponse sea una cadena HTML
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: uuidv4(),
@@ -74,9 +70,6 @@ const ChatbotBroker = ({
           text: botResponse.message,
         })
       )
-
-      // set voice message
-      //setVoiceMessage(botResponse.replace(/<[^>]+>/g, ""))
 
       setConversationHistory((prev) => [
         ...prev,
@@ -121,7 +114,7 @@ const ChatbotBroker = ({
   return (
     <div className="chat-broker">
       {ispay && <h1 className="total">0.00 $</h1>}
-      <MessageList messages={messages} IsReturnTable={true} />
+      <CustomMessageList messages={messages} IsReturnTable={true} />
 
       {!isCustomInput && (
         <>
