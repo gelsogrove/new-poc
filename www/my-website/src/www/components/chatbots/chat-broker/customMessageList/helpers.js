@@ -32,7 +32,7 @@ export const categories = {
     "agency",
     "agencyAgent",
     "agencyOffertMade",
-    "agencyOffertAccepted",
+    "agencyOffertAcceptedFromTheOWner",
     "noteAgency",
   ],
 
@@ -50,7 +50,6 @@ export const categories = {
     "mortgageRequestPercentage",
     "mortageYears",
     "dateFeinReceived",
-    "dateExpireFein",
   ],
 
   Prestamo: ["loanCompany", "loanMoneyRequestDate", "loanMoneyRequest"],
@@ -76,7 +75,7 @@ export const categories = {
     "propertyPrice",
     "propertyMq",
   ],
-  Otro: [
+  "Datos Interno": [
     "serviceType",
     "howKnowUs",
     "generatedSIM",
@@ -129,8 +128,8 @@ export const translateKey = (key) => {
     secondSurname: "Segundo Apellido",
     dateOfBirth: "Fecha de Nacimiento",
     placeOfBirth: "Lugar de Nacimiento",
-    personalEmail: "Correo Electrónico Personal",
-    personalPhoneNumber: "Teléfono Personal",
+    personalEmail: "Email",
+    personalPhoneNumber: "Teléfono",
     address: "Dirección",
     city: "Ciudad",
     nationality: "Nacionalidad",
@@ -168,7 +167,7 @@ export const translateKey = (key) => {
     dataofdeed: "Fecha del Acto",
     agency: "Agencia",
     agencyAgent: "Agente de la Agencia",
-    agencyOffertMade: "Oferta Realizada por la Agencia",
+    agencyOffertMade: "Deposito",
     agencyOffertAcceptedFromTheOWner: "Oferta Aceptada dal dueño",
     loanCompany: "Empresa de Préstamo",
     loanMoneyRequest: "Valor del préstamo",
@@ -186,6 +185,8 @@ export const translateKey = (key) => {
     noteAgency: "Nota de la Agencia",
     propertyCap: "Cap",
     noteInternal: "Nota interna",
+    dataOfDeed: "Fecha Notario",
+    serviceType: "Servicio",
   }
 
   return translations[key] || key

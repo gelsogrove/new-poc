@@ -41,7 +41,7 @@ const Broker = () => {
                 className="feature-image"
               />
               <div className="overlay">
-                <h3>Broker</h3>
+                <h3>Chatbot Broker</h3>
                 <div className="subtitle"> </div>
               </div>
             </div>

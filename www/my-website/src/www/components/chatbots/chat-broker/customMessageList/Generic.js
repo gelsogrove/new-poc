@@ -11,9 +11,32 @@ const Generic = ({ msg }) => {
   const { response, data } = msg
 
   const [hideEmptyFields, setHideEmptyFields] = useState(true)
+  const [expandedSections, setExpandedSections] = useState({
+    "Datos personales": true, // Mantieni sempre aperta la prima sezione
+  })
+  const [allSectionsOpen, setAllSectionsOpen] = useState(false) // Stato per il toggle di tutte le sezioni
 
   const toggleHideEmptyFields = () => {
     setHideEmptyFields((prev) => !prev)
+  }
+
+  const toggleAllSections = () => {
+    const newState = !allSectionsOpen // Inverti lo stato
+    setAllSectionsOpen(newState)
+    setExpandedSections(
+      Object.keys(categories).reduce((acc, category) => {
+        acc[category] = category === "Datos personales" || newState
+        return acc
+      }, {})
+    )
+  }
+
+  const handleToggleSection = (category) => {
+    if (category === "Datos personales") return // Evita il toggle su "Datos personales"
+    setExpandedSections((prev) => ({
+      ...prev,
+      [category]: !prev[category],
+    }))
   }
 
   const handlePrint = () => {
@@ -21,31 +44,38 @@ const Generic = ({ msg }) => {
   }
 
   const handleCheckMail = () => {
-    alert("Checking Mail...")
+    alert("Verificando correo...")
   }
 
   const handleOpenFolder = (link) => {
     if (link) {
-      window.open(link, "_blank") // Apre il link in una nuova finestra/scheda
+      window.open(link, "_blank")
     } else {
-      alert("No folder link available.")
+      alert("No hay enlace disponible para la carpeta.")
     }
   }
 
   const formatDate = (dateString) => {
-    if (!dateString) return "-" // Gestisce i valori vuoti o nulli
+    if (!dateString) return "-"
     try {
       const date = new Date(dateString)
       return new Intl.DateTimeFormat("es-ES", {
-        weekday: "long", // Nome completo del giorno
-        day: "2-digit", // Giorno con due cifre
-        month: "long", // Nome completo del mese
-        year: "numeric", // Anno con quattro cifre
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
       }).format(date)
     } catch (error) {
-      console.error("Invalid date:", dateString)
-      return dateString // Restituisce la stringa originale in caso di errore
+      console.error("Fecha inválida:", dateString)
+      return dateString
     }
+  }
+
+  const formatBoolean = (value) => {
+    if (typeof value === "boolean") {
+      return value ? "SI" : "NO"
+    }
+    return value
   }
 
   if (!data || !Array.isArray(data) || data.length === 0) {
@@ -98,12 +128,12 @@ const Generic = ({ msg }) => {
               <tbody>
                 {Object.entries(categories).map(([category, keys]) => {
                   const categoryData = keys
-                    .filter((key) => key !== "folderDocument") // Escludi il campo `folderDocument`
+                    .filter((key) => key !== "folderDocument")
                     .map((key) => ({
                       key,
                       value: dateFields.includes(key)
-                        ? formatDate(item[key]) // Applica la formattazione per le date
-                        : getValueOrPlaceholder(item[key]),
+                        ? formatDate(item[key])
+                        : formatBoolean(getValueOrPlaceholder(item[key])),
                     }))
                     .filter(({ value }) => !hideEmptyFields || value !== "-")
 
@@ -111,23 +141,43 @@ const Generic = ({ msg }) => {
                     return null
                   }
 
+                  const isExpanded = expandedSections[category] || false
+
                   return (
                     <React.Fragment key={category}>
-                      <tr className="category-header">
-                        <td colSpan={2} className="title-session">
-                          <b>{category}</b>
-                        </td>
-                      </tr>
-                      {categoryData.map(({ key, value }, i) => (
-                        <tr key={i}>
-                          <td>{translateKey(key)}</td>
-                          <td>
-                            {moneyFields.includes(key)
-                              ? formatToEuro(value)
-                              : value}
+                      <tr
+                        className="category-header"
+                        onClick={() => handleToggleSection(category)}
+                        style={{
+                          cursor:
+                            category !== "Datos personales"
+                              ? "pointer"
+                              : "default",
+                        }}
+                      >
+                        {item.DNI && (
+                          <td colSpan={2} className="title-session">
+                            <b>
+                              {category}
+                              {category !== "Datos personales" &&
+                                (isExpanded ? " ▼" : " ▶")}
+                            </b>
                           </td>
-                        </tr>
-                      ))}
+                        )}
+                      </tr>
+                      {isExpanded &&
+                        categoryData.map(({ key, value }, i) => (
+                          <tr key={i}>
+                            {item.DNI && <td>{translateKey(key)}</td>}
+                            <td
+                              className={item.DNI ? "" : "no-background"} // Aggiungi una classe se DNI non è presente
+                            >
+                              {moneyFields.includes(key)
+                                ? formatToEuro(value)
+                                : value}
+                            </td>
+                          </tr>
+                        ))}
                     </React.Fragment>
                   )
                 })}
@@ -150,17 +200,20 @@ const Generic = ({ msg }) => {
                     className="toggle-button"
                   >
                     {hideEmptyFields
-                      ? "Mostra todo campos"
-                      : "Nasconder campos vacio"}
+                      ? "Mostrar todos los campos "
+                      : "Ocultar campos vacíos"}
+                  </button>
+                  <button onClick={toggleAllSections} className="toggle-button">
+                    {allSectionsOpen ? "Cerrar secciones" : "Abrir secciones"}
                   </button>
                   <button onClick={handleCheckMail} className="toggle-button">
-                    Controlar Correo
+                    Correo
                   </button>
                   <button
                     onClick={() => handleOpenFolder(item.folderDocument)}
                     className="toggle-button"
                   >
-                    Abrir carpeta Documents
+                    Documents
                   </button>
                 </div>
               </div>

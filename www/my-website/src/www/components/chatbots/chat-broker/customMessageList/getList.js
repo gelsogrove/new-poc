@@ -1,5 +1,5 @@
 import React from "react"
-
+import { translateKey } from "./helpers"
 // Colonne da escludere
 const excludedColumns = ["clientId", "SIM"]
 
@@ -24,25 +24,13 @@ const formatToEuro = (value) => {
 }
 
 // Funzione per tradurre le chiavi
-const translateKey = (key) => {
-  const translations = {
-    annualIncome: "Ingreso Anual",
-    monthlyIncome: "Ingreso Mensual",
-    availableFunds: "Fondos Disponibles",
-    agencyOffertMade: "Oferta de Agencia",
-    loanMoneyRequest: "Solicitud de Préstamo",
-    folderDocument: "Documento",
-    // Aggiungi altre traduzioni qui
-  }
-  return translations[key] || key
-}
 
 // Funzione principale
-export const getList = (msg, showEmptyFields = true) => {
+export const getList = (msg) => {
   const { response, data } = msg
 
   if (!data || !Array.isArray(data) || data.length === 0) {
-    return <span>No data available</span>
+    return <span>No hay datos</span>
   }
 
   // Estrai le intestazioni dalla prima riga dei dati
@@ -56,58 +44,34 @@ export const getList = (msg, showEmptyFields = true) => {
       <div className="table-container">
         <table className="table-custom">
           <thead>
-            <tr className="tableheader">
+            <tr>
               {headers.map((header) => (
-                <th key={header} style={{ padding: "8px", textAlign: "left" }}>
-                  {translateKey(header)}
-                </th>
+                <th key={header}>{translateKey(header)}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {
-              data
-                .map((row, index) => {
-                  // Filtra solo i campi con valori definiti se `showEmptyFields` è false
-                  const filteredRow = headers.filter(
-                    (header) =>
-                      showEmptyFields ||
-                      (row[header] !== undefined && row[header] !== null)
-                  )
-
-                  // Salta completamente le righe vuote
-                  if (filteredRow.length === 0) return null
-
-                  return (
-                    <tr key={index}>
-                      {filteredRow.map((header) => (
-                        <td
-                          key={header}
-                          style={{ padding: "6px", fontSize: "10px" }}
-                        >
-                          {header === "folderDocument" ? (
-                            <a
-                              href={row[header]}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              Open
-                            </a>
-                          ) : moneyFields.includes(header) ? (
-                            formatToEuro(row[header]) // Formatta i campi monetari
-                          ) : row[header] !== undefined &&
-                            row[header] !== null ? (
-                            row[header]
-                          ) : (
-                            "-"
-                          )}
-                        </td>
-                      ))}
-                    </tr>
-                  )
-                })
-                .filter(Boolean) /* Filtra i `null` generati da righe vuote */
-            }
+            {data.map((row, index) => (
+              <tr key={index}>
+                {headers.map((header) => (
+                  <td key={header}>
+                    {header === "folderDocument" ? (
+                      <a
+                        href={row[header]}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Open
+                      </a>
+                    ) : moneyFields.includes(header) ? (
+                      formatToEuro(row[header])
+                    ) : (
+                      row[header] || "-"
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

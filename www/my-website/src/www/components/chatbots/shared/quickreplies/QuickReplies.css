@@ -13,12 +13,13 @@
   align-items: center;
   font-size: 14px;
   border-radius: 4px;
+  font-size: 13px;
 }
 
 .btn-wide {
   width: 100%;
   max-height: 40px !important;
-  height: 110px !important;
+  height: 140px !important;
 }
 
 @media (max-width: 768px) {

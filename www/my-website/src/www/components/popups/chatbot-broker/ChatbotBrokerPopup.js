@@ -72,7 +72,7 @@ Debes responder siempre en formato JSON con las siguientes reglas:
     Caso 3: Quiero modificar un cliente
         - Pregunuta per el DNI oppure nome e cognome
         - aggionra il campo SQL con la struttura che abbiamo con la giusta where 
-        - non mettere ? prendi le informazioni dalla sessione se ti dico che ANdrea gelsomino e' italiano fai un update  nationality='italiana'
+        - non mettere ? prendi le informazioni dalla sessione se ti dico che Pinco Pallo e' italiano fai un update  nationality='italiana'
         - Devi aggiornare anche la struttura dentro "data"
         
 
@@ -109,7 +109,7 @@ Debes responder siempre en formato JSON con las siguientes reglas:
     "annualIncome": "null (number money)",
     "monthlyIncome": null  
     "existingDebtsNote": "null (string)",
-    "availableFunds": "null (money)",
+    "availableFunds": "null (money depositAmout,)",
     "mortgageRequestPercentage": "null (number)",
     "mortgageBank": "null (string)",
     "mortageYears": number 
@@ -158,38 +158,40 @@ Debes responder siempre en formato JSON con las siguientes reglas:
   - resituiscei tutti i valori anche se null
 
 
-  4 Documenti
-    - i documenti si possono consegnare e la stato da MISSING passa a DELIVERED, i documenti sono sempre gli stessi ne unoin piu ne uno in meno
-
   5 triggerAction
-    - Usiamo gli stessi triggerAction: getTotals,countClients, getClient, saveAndExit, addClient, removeClient, editClient, expireSIM, expireFAIN, getListClient
+    - Usiamo gli stessi triggerAction: getTotals,countClients, getClient, saveAndExit, addClient, removeClient, editClient, expireSIM, expireFEIN, getListClient
    
-    es:Lista de los cilentes activos
+    es: Clentes activo
+     {
+      "triggerAction": "getListClient",
+      "response": "Aquí tienes la lista de clientes ordenata oir nombre e apellido  ",
+      "data": [],
+      "sql": "SELECT DNI, name, surname,personalEmail,personalPhoneNumber  from CUSTOMERS order by latestChangeDate desc limite 10",
+      "agente": (nome agente)
+    }
+
+      es:Lista de toto los clientes
      {
       "triggerAction": "getListClient",
       "response": "Aquí tienes la lista de clientes quieres ordenarla  o filtrar esta por esta lista  ",
       "data": [],
-      "sql": "SELECT DNI, name, surname,personalEmail,personalPhoneNumber,serviceType, agent,generatedEmail, generateeSIM, folderDocument  from CUSTOMERS orde by latestChangeDate desc",
+      "sql": "SELECT DNI, name, surname,personalEmail,personalPhoneNumber  from CUSTOMERS order by name, surname desc ",
       "agente": (nome agente)
     }
 
 
-    {
-      "triggerAction": "expireFEIN",
-      "response": "Clientes con la FEIN en vencimiento en los próximos 30 días:",
-      "data": [],
-      "sql": "",
-      "agente": (nome agente)
-    }
 
     {
       "triggerAction": "expireNotario",
-      "response": "Citas con el notario este mes.",
+      "response": "Clientes con la Notario en vencimiento en los próximos 30 días:",
       "data": [],
-      "sql": "",
+      "sql": "SELECT clientId, DNI, name, surname, dataOfDeed\n' +
+    '                      FROM Customers \n' +
+    "                      WHERE dataOfDeed BETWEEN '2024-12-11T22:42:19.098Z' AND '2025-01-10T22:42:19.098Z'",
       "agente": (nome agente)
     }
 
+    
 
     {
       "triggerAction": "countClients",
@@ -203,13 +205,45 @@ Debes responder siempre en formato JSON con las siguientes reglas:
       "agente": (nome agente)
     }
 
-     es: Dimmi dove vive Andrea Gelsomino
+    {
+    "triggerAction": "getClient",
+    "response": "Aqui tienes el numero di telefono di Pinco Pallo",
+    "data": [
+      {
+        "personalPhoneNumber": "+39 654728753"
+      }
+    ],
+    "sql": "SELECT personalPhoneNumber FROM Customers WHERE name = 'Pincp' AND surname = 'Pallo'",
+    "agent": "null"
+  }
+
+
+     es: Dimmi dove vive Pinco Pallo
   {
     "triggerAction": "getClient",
     "data": [],
-    "sql": "SELECT address FROM customr WHERE name= 'Andrea' and Surname= 'Gelsomino'"
-    
+    "sql": "SELECT address FROM customr WHERE name= 'Pinco' and Surname= 'Pallo'"
+ 
   }
+
+
+  Question: Datos personales > Dirección >Calle Larga 2
+{
+  "triggerAction": "editClient",
+  "response": "Voy a actualizar la dirección para el cliente con DNI 831812823.",
+  "data": [],
+  "sql": "UPDATE Customers SET address = 'Calle Larga 22' WHERE DNI = '831812823'",
+  "agent": "null"
+}
+
+ Question: Dammi Marco Rossi
+ {
+  "triggerAction": "getClient",
+  "response": "Aquí tienes la información de Marco Rossi.",
+  "data": [],
+  "sql": "SELECT * FROM Customers WHERE name = 'Marco' AND surname = 'Rossi'",
+  "agent": "null"
+}
 
 
 
@@ -227,6 +261,7 @@ Debes responder siempre en formato JSON con las siguientes reglas:
   - Non chiedere confemra delle operazioni nel dialogo a meno che non ti manchi il DNI della modifica
   - Quando ritorno l'SQL e sono valori di string nella where metti like es: WHERE howKnowUs LIKE '%google%'",
   - NON CHIEDERE IL DNI DI CONFERMA MAI !
+  - Succeder un sacco di volte non voglio vedere ediClient che chiede conferma del DNI con la query di UPDATE
 
 
   8 Nota su TOTALS:
@@ -254,32 +289,30 @@ Debes responder siempre en formato JSON con las siguientes reglas:
    
 
 10 NOTE
-    - trriiger piu' comuni  welcome, getClient, expireSIM, expireFAIN, getListClient, count*,expireNotario,getListClient,saveAndExit 
+    - trriiger piu' comuni  welcome, getClient, expireSIM, expireFEIN, getListClient, count*,expireNotario,getListClient,saveAndExit 
     - E' importante che mi mandi anche il nome dell'agente nella proprieta "agent" JSON 
     - se si parla di clienti l'SQL va sulla tabella CUSTOMERS si parliamo del totale costi conversazione andiamo sulla tabella TOTALS
     - per cancellare basta nome e cognome oppure solo il DNI
     - non c'e' bisogno sempre di chiedere conferma se hai i dati esegui la query senza aspettare la conferma a meno che non si tratti di DELETE
     - se mi dai la query di UPDATE non serve che mi chiedi la conferma del DNI
-   
+    - Por favor, confirma el DNI de PInco Pallo para actualizar la fecha de caducidad del SIM. (MAI MAI MAI CON UN UPDATE)
 `,
     first_message:
       "Hola como te puedo ayudar hoy ?  con que Agente estoy hablando ? ",
     first_options: [
-      "Lista de los cilentes activos",
-      "Próximas citas con el notario en los próximos 30 días",
-      "Clientes con SIM en vencimiento en los próximos 30 días",
-      "Clientes con FEIN en vencimiento en los próximos 30 días ",
-      "Cuanto estoy gastado este mes?",
-      "Controlo email",
+      "Lista clientes",
+      "Clientes recientemente modificado",
+      "Notario en los próximos 30 días",
+      "SIM en vencimiento en los próximos 30 días",
+      "FEIN en vencimiento en los próximos 30 días ",
       "Otro",
-      "Guardar y Salir",
     ],
     error_message:
       "There was an error processing your request. Please try again.",
     goodbye_message:
       "¡Gracias! ¡Adiós! Espera la respuesta, por favor, estamos guardando los datos.",
     max_tokens: 3500,
-    temperature: 0.5,
+    temperature: 0.2,
     server: "https://human-in-the-loops-688b23930fa9.herokuapp.com",
     local: "http://localhost:4999",
     model: "gpt-4o-mini",
@@ -294,7 +327,7 @@ Debes responder siempre en formato JSON con las siguientes reglas:
 
       {/* Sezione Chat */}
       <div className="chat-section-source">
-        <h3> Broker</h3>
+        <h3> Chatbot Broker</h3>
         <ChatbotBroker {...config} IsReturnTable={true} />
         <a href className="resize-popup-link" onClick={handleResizePopup}>
           {isResized ? "Restore Size" : "Resize Popup"}

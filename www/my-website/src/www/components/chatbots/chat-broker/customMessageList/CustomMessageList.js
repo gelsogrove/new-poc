@@ -1,15 +1,34 @@
-import React from "react"
+import React, { useState } from "react"
 import "./CustomMessageList.css"
 import Generic from "./Generic"
 import { getList } from "./getList"
 
 const CustomMessageList = ({ messages }) => {
+  const [debuggerState, setDebuggerState] = useState({}) // Mantieni lo stato di debug per ogni messaggio
+
+  const toggleDebugger = (id) => {
+    setDebuggerState((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id], // Inverti lo stato del debug per il messaggio con questo ID
+    }))
+  }
+
   const actionHandlers = {
     default: (msg) => {
       try {
         const parsedText = JSON.parse(msg.text)
         const { triggerAction } = parsedText
 
+        if (debuggerState[msg.id]) {
+          // Mostra il JSON se il debugger è attivo
+          return (
+            <pre className="debug-json">
+              {JSON.stringify(parsedText, null, 2)}
+            </pre>
+          )
+        }
+
+        // Mostra la UI basata sul triggerAction
         switch (triggerAction) {
           case "welcome":
           case "removeClient":
@@ -56,12 +75,11 @@ const CustomMessageList = ({ messages }) => {
                 <div className="like-unlike-icons" style={{ float: "right" }}>
                   <span
                     role="img"
-                    aria-label="unlike"
-                    onClick={() => handleUnlike(msg.id)}
-                    title="Unlike"
+                    aria-label="debug"
+                    onClick={() => toggleDebugger(msg.id)} // Toggle debugger
+                    title="Debug"
                   >
-                    👎
-                    <div className="icon-label">Unlike</div>
+                    🐞
                   </span>
                 </div>
               )}

@@ -45,7 +45,7 @@ export const translations = {
   agency: "Agencia",
   agencyAgent: "Agente de la Agencia",
   agencyOffertMade: "Oferta Realizada por la Agencia",
-  agencyOffertAccepted: "Oferta Aceptada por la Agencia",
+  agencyOffertAcceptedFromTheOWner: "Oferta aceptada",
   loanCompany: "Empresa de Préstamo",
   loanMoneyRequest: "Monto del Préstamo",
   loanMoneyRequestDate: "Fecha de Solicitud del Préstamo",

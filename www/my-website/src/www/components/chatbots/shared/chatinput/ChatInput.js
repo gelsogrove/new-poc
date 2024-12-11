@@ -14,6 +14,11 @@ const ChatInput = ({
   const [countdown, setCountdown] = useState(5)
   const [, setTranscript] = useState("")
 
+  const stopListening = () => {
+    setIsRecording(false)
+    // Non è necessario fermare il riconoscimento qui, poiché gestiamo l'evento onend
+  }
+
   const startListening = () => {
     const recognition = new (window.SpeechRecognition ||
       window.webkitSpeechRecognition)()
@@ -23,7 +28,6 @@ const ChatInput = ({
 
     recognition.onresult = (event) => {
       const result = event.results[0][0].transcript // Ottieni il testo trascritto
-
       handleSend(result) // Aggiorna il campo di input con la trascrizione
     }
 
@@ -32,16 +36,16 @@ const ChatInput = ({
     }
 
     recognition.onend = () => {
-      setIsRecording(false)
+      if (isRecording) {
+        // Riavvia il riconoscimento se è ancora in corso la registrazione
+        recognition.start()
+      } else {
+        setIsRecording(false) // Assicurati di aggiornare lo stato se l'utente ha fermato manualmente
+      }
     }
 
     recognition.start()
     setIsRecording(true)
-  }
-
-  const stopListening = () => {
-    setIsRecording(false)
-    // Non è necessario fermare il riconoscimento qui, poiché gestiamo l'evento onend
   }
 
   const handleMicroClick = () => {
@@ -51,7 +55,7 @@ const ChatInput = ({
       stopListening()
     } else {
       startListening()
-      setCountdown(15)
+      setCountdown(60)
       const interval = setInterval(() => {
         setCountdown((prev) => {
           if (prev <= 1) {
