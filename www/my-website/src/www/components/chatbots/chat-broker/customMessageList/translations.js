@@ -15,7 +15,7 @@ export const translations = {
   autonomo: "Autónomo",
   taxId: "Número de Identificación Fiscal",
   jobTitle: "Título del Trabajo",
-  employmentStartDate: "Fecha de Inicio del Empleo",
+  employmentStartYear: "Año de Inicio del Empleo",
   authorizedRepresentative: "Representante Autorizado",
   annualIncome: "Ingreso Anual",
   monthlyIncome: "Ingreso Mensual",
