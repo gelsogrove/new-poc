@@ -104,6 +104,8 @@ const Usage = () => {
       <br />
       Monthly usage:
       <Bar data={barData} options={barOptions} style={{ marginTop: "20px" }} />
+      <br />
+      Last update: 01-02-2025
     </div>
   )
 }

@@ -58,7 +58,7 @@ const Pulling = () => {
       </Popup>
 
       <div className="home-container">
-        <h1 className="ourservice">Poulin Grain Demo </h1>
+        <h1 className="ourservice">Poulin Grain </h1>
         <br />
         <section className="features">
           <div
@@ -84,7 +84,7 @@ const Pulling = () => {
               onClick={() => openPopup("chatbotsource")}
             >
               <img
-                src="../images/sales-reader.webp"
+                src="../images/chatbot.webp"
                 alt={t("home.features.chatbot.title")}
                 className="feature-image"
               />
@@ -102,19 +102,14 @@ const Pulling = () => {
               <button className="btn">
                 <i className="fas fa-cogs"></i>{" "}
                 {/* Icona per "Prompt settings" */}
-                <div className="tooltip">Prompt settings</div>{" "}
+                <div className="tooltip">Prompts</div>{" "}
                 {/* Tooltip per Prompt settings */}
               </button>
               <button className="btn">
                 <i className="fas fa-history"></i>{" "}
                 {/* Icona per "Unliked conversation" */}
-                <div className="tooltip">Unliked conversation</div>{" "}
+                <div className="tooltip">Unliked</div>{" "}
                 {/* Tooltip per Unliked conversation */}
-              </button>
-              <button className="btn">
-                <i className="fas fa-sign-out-alt"></i>{" "}
-                {/* Icona per "Logout" */}
-                <div className="tooltip">Logout</div> {/* Tooltip per Logout */}
               </button>
             </div>
           </div>

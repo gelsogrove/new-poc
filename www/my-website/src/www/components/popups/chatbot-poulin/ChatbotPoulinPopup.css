@@ -35,10 +35,11 @@
   position: relative;
   left: 94%;
   height: 30px;
-  top: 15px;
+  top: 19px;
   z-index: 99;
   margin-bottom: 8px;
   background-color: none;
+  margin-left: -10px;
 }
 
 .close-button-1 {

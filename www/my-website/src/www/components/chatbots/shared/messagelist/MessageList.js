@@ -43,21 +43,11 @@ const MessageList = ({ messages, IsReturnTable }) => {
               <div className="like-unlike-icons" style={{ float: "right" }}>
                 <span
                   role="img"
-                  aria-label="like"
-                  onClick={() => handleLike(msg.id)}
-                  title="Like"
-                >
-                  👍
-                  <div className="icon-label">Like</div>
-                </span>
-                <span
-                  role="img"
                   aria-label="unlike"
                   onClick={() => handleUnlike(msg.id)}
                   title="Unlike"
                 >
                   👎
-                  <div className="icon-label">Unlike</div>
                 </span>
               </div>
             )}
@@ -65,10 +55,6 @@ const MessageList = ({ messages, IsReturnTable }) => {
         ))}
     </div>
   )
-}
-
-const handleLike = (id) => {
-  console.log(`Liked message with id: ${id}`)
 }
 
 const handleUnlike = (id) => {

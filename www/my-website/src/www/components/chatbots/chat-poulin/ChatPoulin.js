@@ -174,23 +174,25 @@ const ChatPoulin = ({
     <div className="chat-poulin">
       <br />
       <div className="chat-poulin-main">
-        <MessageList messages={messages} IsReturnTable={true} />
-
-        <ChatInput
-          inputValue={inputValue}
-          setInputValue={setInputValue}
-          isLoading={isLoading}
-          handleSend={handleSend}
-          isMenuVisible={false}
-          onClickMicro={handleMicrophoneClick}
-        />
-
-        <div ref={messagesEndRef} />
+        <div className="chat-poulin-main-messages">
+          <MessageList messages={messages} IsReturnTable={true} />
+          <div ref={messagesEndRef} />
+        </div>
+        <div>
+          <ChatInput
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            isLoading={isLoading}
+            handleSend={handleSend}
+            isMenuVisible={false}
+            onClickMicro={handleMicrophoneClick}
+          />
+        </div>
       </div>
       <div
         className="chat-poulin-right"
         style={{
-          width: openPanel ? "20%" : "0%",
+          width: openPanel ? "30%" : "0%",
           transition: "width 0.3s ease",
           padding: openPanel ? "20px" : "0px",
         }}
