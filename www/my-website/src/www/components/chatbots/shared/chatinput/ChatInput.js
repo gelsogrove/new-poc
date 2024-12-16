@@ -9,6 +9,7 @@ const ChatInput = ({
   handleSend,
   handleQuickReply,
   onClickMicro,
+  isMenuVisible,
 }) => {
   const [isRecording, setIsRecording] = useState(false)
   const [countdown, setCountdown] = useState(5)
@@ -112,12 +113,15 @@ const ChatInput = ({
             )}
           </button>
         </div>
-        <button
-          className="btn btn-primary btn-wide btn-menu"
-          onClick={() => handleQuickReply("Menu")}
-        >
-          Menu
-        </button>
+
+        {isMenuVisible && (
+          <button
+            className="btn btn-primary btn-wide btn-menu"
+            onClick={() => handleQuickReply("Menu")}
+          >
+            Menu
+          </button>
+        )}
       </div>
     </div>
   )

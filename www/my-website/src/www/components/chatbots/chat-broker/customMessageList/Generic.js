@@ -7,6 +7,13 @@ import {
   translateKey,
 } from "./helpers"
 
+import { checkMail } from "./../utils_api"
+
+const server = "https://human-in-the-loops-688b23930fa9.herokuapp.com"
+const local = "http://localhost:4999"
+
+const apiUrl = window.location.hostname === "localhost" ? local : server
+
 const Generic = ({ msg }) => {
   const { response, data } = msg
 
@@ -14,21 +21,9 @@ const Generic = ({ msg }) => {
   const [expandedSections, setExpandedSections] = useState({
     "Datos personales": true, // Mantieni sempre aperta la prima sezione
   })
-  const [allSectionsOpen, setAllSectionsOpen] = useState(false) // Stato per il toggle di tutte le sezioni
 
   const toggleHideEmptyFields = () => {
     setHideEmptyFields((prev) => !prev)
-  }
-
-  const toggleAllSections = () => {
-    const newState = !allSectionsOpen // Inverti lo stato
-    setAllSectionsOpen(newState)
-    setExpandedSections(
-      Object.keys(categories).reduce((acc, category) => {
-        acc[category] = category === "Datos personales" || newState
-        return acc
-      }, {})
-    )
   }
 
   const handleToggleSection = (category) => {
@@ -71,8 +66,10 @@ const Generic = ({ msg }) => {
     }
   }
 
-  const handleCheckMail = () => {
-    alert("Verificando correo...")
+  const handleCheckMail = async () => {
+    try {
+      await checkMail(apiUrl)
+    } catch (error) {}
   }
 
   const handleOpenFolder = (link) => {

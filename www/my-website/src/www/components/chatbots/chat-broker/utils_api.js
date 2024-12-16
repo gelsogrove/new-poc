@@ -60,3 +60,24 @@ export const initializeData = async (apiUrl, systemPrompt, filename, model) => {
     throw error
   }
 }
+
+export const checkMail = async (apiUrl) => {
+  try {
+    const response = await fetch(`${apiUrl}/broker/check-mail`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error("Failed to check mail")
+    }
+
+    const result = await response.json()
+    return result
+  } catch (error) {
+    console.error("Error checking mail:", error)
+    throw error
+  }
+}

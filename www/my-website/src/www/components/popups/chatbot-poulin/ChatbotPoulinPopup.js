@@ -1,27 +1,13 @@
 // src/components/popups/chatbot/ChatbotPopup.js
 
-import React, { useState } from "react"
+import React from "react"
 
 import { getCookie, navigateToPDFPage } from "../../chatbots/chat-embed/utils"
 import ChatPoulin from "../../chatbots/chat-poulin/ChatPoulin"
 import "./ChatbotPoulinPopup.css"
 
 const ChatbotPoulinPopup = ({ onClose }) => {
-  const [isResized, setIsResized] = useState(false)
-
   const handleNavigateToPage = (pageNumber) => navigateToPDFPage(pageNumber)
-
-  const handleResizePopup = () => {
-    const popup = document.querySelector(".chatbot-popup-poulin")
-    if (popup) {
-      if (isResized) {
-        popup.style.width = "35vw"
-      } else {
-        popup.style.width = "90vw"
-      }
-      setIsResized(!isResized)
-    }
-  }
 
   // Crea l'oggetto config
   const config = {
@@ -132,10 +118,6 @@ When asked for clients, respond with their full details, including names and rel
         <div className="chat-section-source">
           <h3>Sales reader Chatbot</h3>
           <ChatPoulin {...config} onNavigateToPage={handleNavigateToPage} />
-
-          <a href className="resize-popup-link" onClick={handleResizePopup}>
-            {isResized ? "Restore Size" : "Resize Popup"}
-          </a>
         </div>
       </div>
     </div>

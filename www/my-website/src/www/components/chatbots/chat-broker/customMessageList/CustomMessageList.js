@@ -90,8 +90,4 @@ const CustomMessageList = ({ messages }) => {
   )
 }
 
-const handleUnlike = (id) => {
-  console.log(`Unliked message with id: ${id}`)
-}
-
 export default CustomMessageList

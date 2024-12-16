@@ -1,8 +1,7 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { v4 as uuidv4 } from "uuid"
 import ChatInput from "../shared/chatinput/ChatInput"
 import MessageList from "../shared/messagelist/MessageList"
-import QuickReplies from "../shared/quickreplies/QuickReplies"
 import "./ChatPoulin.css"
 import {
   addBotLoadingMessage,
@@ -13,6 +12,30 @@ import {
   replaceBotMessageWithError,
 } from "./utils"
 import { generateResponseWithContext, initializeData } from "./utils_api"
+
+import {
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+} from "chart.js"
+import { Bar, Line } from "react-chartjs-2"
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+)
 
 const ChatPoulin = ({
   first_message,
@@ -30,35 +53,33 @@ const ChatPoulin = ({
 }) => {
   const [inputValue, setInputValue] = useState("")
   const [, setVoiceMessage] = useState(null)
-  const [, setIsVoiceInput] = useState(false)
+  const [isVoiceInput, setIsVoiceInput] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [isCustomInput, setIsCustomInput] = useState(false)
-  const [total, setTotal] = useState(0)
+  const [, setIsCustomInput] = useState(false)
+
   const [messages, setMessages] = useState([
     { id: uuidv4(), sender: "bot", text: first_message },
   ])
   const [conversationHistory, setConversationHistory] = useState([
     { role: "assistant", content: first_message },
   ])
-  const [quickReplies, setQuickReplies] = useState(first_options)
+  const [, setQuickReplies] = useState(first_options)
+
+  const messagesEndRef = useRef(null)
 
   const apiUrl = window.location.hostname === "localhost" ? local : server
 
-  // Funzione per controllare e aggiornare il totale
-  const checkAndUpdateTotal = (cleanedResponse) => {
-    if (
-      cleanedResponse.includes("total") ||
-      cleanedResponse.includes("summary") ||
-      cleanedResponse.includes("table-header")
-    ) {
-      setTotal((prevTotal) => prevTotal + 0.2) // Aggiungi 20 centesimi
-    }
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
 
   const handleSend = async (message) => {
     if (typeof message !== "string" || !message.trim()) return
 
-    // Inizializza i dati solo alla prima richiesta
     if (conversationHistory.length === 1) {
       try {
         const data = await initializeData(apiUrl, systemPrompt, filename, model)
@@ -103,16 +124,14 @@ const ChatPoulin = ({
       let cleanedResponse = cleanText(formattedResponse)
       cleanedResponse = formatBoldText(cleanedResponse)
 
-      // Assicurati che cleanedResponse sia una stringa HTML
       setMessages((prevMessages) =>
         prevMessages.slice(0, -1).concat({
           id: uuidv4(),
           sender: "bot",
-          text: <div dangerouslySetInnerHTML={{ __html: cleanedResponse }} />, // Renderizza HTML
+          text: <div dangerouslySetInnerHTML={{ __html: cleanedResponse }} />,
         })
       )
 
-      // set voice message
       setVoiceMessage(cleanedResponse.replace(/<[^>]+>/g, ""))
 
       setConversationHistory((prev) => [
@@ -121,10 +140,6 @@ const ChatPoulin = ({
         { role: "assistant", content: botResponse },
       ])
 
-      // totale aggiornato
-      checkAndUpdateTotal(cleanedResponse)
-
-      // set quick replies
       setLanguageOptions(options)
     } catch (error) {
       console.error("Error in handling send:", error)
@@ -162,37 +177,113 @@ const ChatPoulin = ({
       it: [...options, "Altro", "Menu"],
       en: [...options, "Other", "Menu"],
     }
-    setQuickReplies(languageOptions[language] || options) // Default to options if language not found
+    setQuickReplies(languageOptions[language] || options)
   }
 
   const handleMicrophoneClick = () => {
-    setIsVoiceInput(true)
+    setIsVoiceInput((prev) => !prev)
+    console.log(isVoiceInput ? "Microfono disattivato" : "Microfono attivato")
+  }
+
+  // Dati statici per i grafici
+  const lineData = {
+    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    datasets: [
+      {
+        label: "Spese settimanali ($)",
+        data: [10, 20, 15, 30, 25, 10, 5],
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "rgba(75,192,192,1)",
+        borderWidth: 2,
+        fill: true,
+      },
+    ],
+  }
+
+  const barData = {
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    datasets: [
+      {
+        label: "Spese mensili ($)",
+        data: [300, 250, 400, 450, 500, 350, 600, 700, 500, 400, 300, 450],
+        backgroundColor: "rgba(153,102,255,0.6)",
+        borderColor: "rgba(153,102,255,1)",
+        borderWidth: 1,
+      },
+    ],
+  }
+
+  const lineOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  }
+
+  const barOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
   }
 
   return (
     <div className="chat-poulin">
-      {ispay && <h1 className="total">{total.toFixed(2)} $</h1>}
-      <MessageList messages={messages} IsReturnTable={true} />
+      <div className="chat-poulin-main">
+        <MessageList messages={messages} IsReturnTable={true} />
+        <div ref={messagesEndRef} />
 
-      {!isCustomInput && (
-        <>
-          <QuickReplies
-            quickReplies={quickReplies}
-            handleQuickReply={handleQuickReply}
-          />
-        </>
-      )}
-
-      {isCustomInput && (
         <ChatInput
           inputValue={inputValue}
           setInputValue={setInputValue}
           isLoading={isLoading}
           handleSend={handleSend}
+          isMenuVisible={false}
           handleQuickReply={handleQuickReply}
           onClickMicro={handleMicrophoneClick}
         />
-      )}
+      </div>
+      <div className="chat-poulin-right" style={{ height: "500px" }}>
+        <div className="title-usage">Usage</div>
+        <br />
+        Weekly usage:
+        <br />
+        <Line data={lineData} options={lineOptions} />
+        <br />
+        Monthly usage:
+        <Bar
+          data={barData}
+          options={barOptions}
+          style={{ marginTop: "20px" }}
+        />
+      </div>
     </div>
   )
 }

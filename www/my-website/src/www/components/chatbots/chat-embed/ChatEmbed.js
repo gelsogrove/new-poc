@@ -39,7 +39,7 @@ const ChatEmbed = ({
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [isCustomInput, setIsCustomInput] = useState(false)
-  const [total, setTotal] = useState(0)
+  const [, setTotal] = useState(0)
   const [isVoiceInput, setIsVoiceInput] = useState(false)
   const [messages, setMessages] = useState([
     { id: uuidv4(), sender: "bot", text: first_message },
@@ -221,8 +221,6 @@ const ChatEmbed = ({
   return (
     <div className="chat-embed">
       <h3>{title}</h3>
-
-      <h1 className="total">{total.toFixed(2)} $</h1>
 
       <MessageList messages={messages} IsReturnTable={false} />
 
