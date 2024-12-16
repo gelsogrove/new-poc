@@ -6,16 +6,16 @@
 }
 
 .chat-poulin-main {
-  flex: 4;
   overflow-y: auto;
+  width: 100%;
 }
 
 .chat-poulin-right {
-  flex: 1;
   padding: 20px;
-
+  background-color: #efe5e5;
   border-left: 1px solid #ddd;
   overflow-y: auto;
+  max-height: 78vh;
 }
 
 .chat-input {
@@ -38,5 +38,5 @@
 }
 
 .chat-messages {
-  min-height: 580px;
+  min-height: 70vh;
 }

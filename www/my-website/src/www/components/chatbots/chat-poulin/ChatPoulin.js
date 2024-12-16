@@ -24,7 +24,8 @@ import {
   Title,
   Tooltip,
 } from "chart.js"
-import { Bar, Line } from "react-chartjs-2"
+
+import Usage from "./usage/Usage.js"
 
 ChartJS.register(
   CategoryScale,
@@ -50,12 +51,12 @@ const ChatPoulin = ({
   systemPrompt,
   local,
   server,
+  openPanel,
 }) => {
   const [inputValue, setInputValue] = useState("")
   const [, setVoiceMessage] = useState(null)
   const [isVoiceInput, setIsVoiceInput] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [, setIsCustomInput] = useState(false)
 
   const [messages, setMessages] = useState([
     { id: uuidv4(), sender: "bot", text: first_message },
@@ -154,22 +155,6 @@ const ChatPoulin = ({
     }
   }
 
-  const handleQuickReply = (text) => {
-    if (text === "Other") {
-      setIsCustomInput(true)
-    } else if (text === "Menu") {
-      setQuickReplies(first_options)
-      setIsCustomInput(false)
-    } else if (text === "Exit") {
-      handleSend(goodbye_message)
-      setIsCustomInput(true)
-    } else {
-      setInputValue(text)
-      handleSend(text)
-      setIsCustomInput(true)
-    }
-  }
-
   const setLanguageOptions = (options) => {
     let language = getCookie("selectedLanguage") || "en"
     const languageOptions = {
@@ -185,80 +170,11 @@ const ChatPoulin = ({
     console.log(isVoiceInput ? "Microfono disattivato" : "Microfono attivato")
   }
 
-  // Dati statici per i grafici
-  const lineData = {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    datasets: [
-      {
-        label: "Spese settimanali ($)",
-        data: [10, 20, 15, 30, 25, 10, 5],
-        backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
-        borderWidth: 2,
-        fill: true,
-      },
-    ],
-  }
-
-  const barData = {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
-    datasets: [
-      {
-        label: "Spese mensili ($)",
-        data: [300, 250, 400, 450, 500, 350, 600, 700, 500, 400, 300, 450],
-        backgroundColor: "rgba(153,102,255,0.6)",
-        borderColor: "rgba(153,102,255,1)",
-        borderWidth: 1,
-      },
-    ],
-  }
-
-  const lineOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  }
-
-  const barOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  }
-
   return (
     <div className="chat-poulin">
+      <br />
       <div className="chat-poulin-main">
         <MessageList messages={messages} IsReturnTable={true} />
-        <div ref={messagesEndRef} />
 
         <ChatInput
           inputValue={inputValue}
@@ -266,23 +182,20 @@ const ChatPoulin = ({
           isLoading={isLoading}
           handleSend={handleSend}
           isMenuVisible={false}
-          handleQuickReply={handleQuickReply}
           onClickMicro={handleMicrophoneClick}
         />
+
+        <div ref={messagesEndRef} />
       </div>
-      <div className="chat-poulin-right" style={{ height: "500px" }}>
-        <div className="title-usage">Usage</div>
-        <br />
-        Weekly usage:
-        <br />
-        <Line data={lineData} options={lineOptions} />
-        <br />
-        Monthly usage:
-        <Bar
-          data={barData}
-          options={barOptions}
-          style={{ marginTop: "20px" }}
-        />
+      <div
+        className="chat-poulin-right"
+        style={{
+          width: openPanel ? "20%" : "0%",
+          transition: "width 0.3s ease",
+          padding: openPanel ? "20px" : "0px",
+        }}
+      >
+        {openPanel && <Usage />}
       </div>
     </div>
   )

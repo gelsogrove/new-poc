@@ -1,20 +1,22 @@
-// src/components/popups/chatbot/ChatbotPopup.js
-
-import React from "react"
-
+import React, { useState } from "react"
 import { getCookie, navigateToPDFPage } from "../../chatbots/chat-embed/utils"
 import ChatPoulin from "../../chatbots/chat-poulin/ChatPoulin"
 import "./ChatbotPoulinPopup.css"
 
 const ChatbotPoulinPopup = ({ onClose }) => {
+  const [openPanel, setOpenPanel] = useState(true) // Usa useState per gestire lo stato del pannello
+
   const handleNavigateToPage = (pageNumber) => navigateToPDFPage(pageNumber)
+
+  const onTogglePanel = () => {
+    setOpenPanel((prev) => !prev) // Cambia lo stato del pannello
+  }
 
   // Crea l'oggetto config
   const config = {
     title: "Generative AI ChatBot",
     filename: "./source/data.json",
     systemPrompt: `
-       
 Your role is to:
 - Ask users clear and simple questions to narrow down their requests, such as "What product?" or "Which farm?".
 - Use filtering options such as date ranges, specific customers, specific products, quantities, or prices.
@@ -24,7 +26,7 @@ Your role is to:
 - Communicate with kindness and clarity.
 
 When asked for clients, respond with their full details, including names and relevant information
- 
+
 **Capabilities:**
 - If the customer asks for top clients or top products, ask for the order: alphabetical or by revenue of the months or years
 - Retrieve specific orders or clients or products
@@ -107,9 +109,14 @@ When asked for clients, respond with their full details, including names and rel
     config.error_message =
       "Se ha producido un error durante el procesamiento de su solicitud. Por favor, inténtelo de nuevo."
   }
+
   return (
     <div>
       <div className="chatbot-popup-poulin">
+        <button className="visible-panel" onClick={onTogglePanel}>
+          {openPanel ? ">>" : "<<"}
+        </button>
+
         <button className="close-button" onClick={onClose}>
           ×
         </button>
@@ -117,7 +124,11 @@ When asked for clients, respond with their full details, including names and rel
         {/* Sezione Chat */}
         <div className="chat-section-source">
           <h3>Sales reader Chatbot</h3>
-          <ChatPoulin {...config} onNavigateToPage={handleNavigateToPage} />
+          <ChatPoulin
+            {...config}
+            openPanel={openPanel} // Passa il parametro openPanel come stato
+            onNavigateToPage={handleNavigateToPage}
+          />
         </div>
       </div>
     </div>

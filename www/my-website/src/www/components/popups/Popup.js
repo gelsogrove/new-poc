@@ -8,12 +8,7 @@ const Popup = ({ isOpen, onClose, children }) => {
 
   return (
     <div className="popup-overlay">
-      <div className="popup-content">
-        <button className="close-button" onClick={onClose}>
-          ×
-        </button>
-        {children}
-      </div>
+      <div className="popup-content">{children}</div>
     </div>
   )
 }
