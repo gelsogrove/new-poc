@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { Helmet } from "react-helmet" // Importa Helmet
 import { useTranslation } from "react-i18next"
 import ChatbotEmbed from "../../../components/popups/chatbot-embed/ChatbotEmbedPopup"
 import ChatbotSource from "../../../components/popups/chatbot-poulin/ChatbotPoulinPopup"
@@ -37,6 +38,13 @@ const Pulling = () => {
 
   return (
     <div>
+      <Helmet>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
+      </Helmet>
+
       <Popup isOpen={activePopup === "customVision"} onClose={closePopup}>
         <CustomVisionPopup onClose={closePopup} />
       </Popup>
@@ -53,7 +61,10 @@ const Pulling = () => {
         <h1 className="ourservice">Poulin Grain Demo </h1>
         <br />
         <section className="features">
-          <div className="feature-item" onClick={() => openPopup("chatbot")}>
+          <div
+            className="feature-item hidden"
+            onClick={() => openPopup("chatbot")}
+          >
             <div className="image-container">
               <img
                 src="../images/chatbot.webp"
@@ -67,11 +78,11 @@ const Pulling = () => {
             </div>
           </div>
 
-          <div
-            className="feature-item"
-            onClick={() => openPopup("chatbotsource")}
-          >
-            <div className="image-container">
+          <div className="feature-item">
+            <div
+              className="image-container"
+              onClick={() => openPopup("chatbotsource")}
+            >
               <img
                 src="../images/sales-reader.webp"
                 alt={t("home.features.chatbot.title")}
@@ -82,10 +93,34 @@ const Pulling = () => {
                 <div className="subtitle"> </div>
               </div>
             </div>
+
+            <div className="actions">
+              <button className="btn">
+                <i className="fas fa-users"></i> {/* Icona per "Users" */}
+                <div className="tooltip">Users</div> {/* Tooltip per Users */}
+              </button>
+              <button className="btn">
+                <i className="fas fa-cogs"></i>{" "}
+                {/* Icona per "Prompt settings" */}
+                <div className="tooltip">Prompt settings</div>{" "}
+                {/* Tooltip per Prompt settings */}
+              </button>
+              <button className="btn">
+                <i className="fas fa-history"></i>{" "}
+                {/* Icona per "Unliked conversation" */}
+                <div className="tooltip">Unliked conversation</div>{" "}
+                {/* Tooltip per Unliked conversation */}
+              </button>
+              <button className="btn">
+                <i className="fas fa-sign-out-alt"></i>{" "}
+                {/* Icona per "Logout" */}
+                <div className="tooltip">Logout</div> {/* Tooltip per Logout */}
+              </button>
+            </div>
           </div>
 
           <div
-            className="feature-item"
+            className="feature-item hidden"
             onClick={() => openPopup("customVision")}
           >
             <div className="image-container">
