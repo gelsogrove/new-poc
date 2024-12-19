@@ -61,10 +61,7 @@ const Pulling = () => {
         <h1 className="ourservice">Poulin Grain </h1>
         <br />
         <section className="features">
-          <div
-            className="feature-item hidden"
-            onClick={() => openPopup("chatbot")}
-          >
+          <div className="feature-item" onClick={() => openPopup("chatbot")}>
             <div className="image-container">
               <img
                 src="../images/chatbot.webp"
@@ -94,7 +91,7 @@ const Pulling = () => {
               </div>
             </div>
 
-            <div className="actions">
+            <div className="actions hidden">
               <button className="btn">
                 <i className="fas fa-users"></i> {/* Icona per "Users" */}
                 <div className="tooltip">Users</div> {/* Tooltip per Users */}
@@ -115,7 +112,7 @@ const Pulling = () => {
           </div>
 
           <div
-            className="feature-item hidden"
+            className="feature-item"
             onClick={() => openPopup("customVision")}
           >
             <div className="image-container">
@@ -131,14 +128,12 @@ const Pulling = () => {
             </div>
           </div>
         </section>
+        <button href onClick={clearAllCookies} className="logout-link">
+          Logout
+        </button>
       </div>
 
       {/* Link Logout */}
-      <div className="logout-container">
-        <a href onClick={clearAllCookies} className="logout-link">
-          Logout
-        </a>
-      </div>
     </div>
   )
 }

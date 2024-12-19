@@ -22,6 +22,14 @@
   transition: opacity 0.3s ease, visibility 0s linear 0s; /* Tooltip visibile al passaggio del mouse */
 }
 
+.logout-link {
+  position: relative;
+  top: -710px;
+  left: 800px;
+  text-align: right;
+  border: 1px solid red;
+}
+
 /* Bottoni - Stile */
 .actions {
   display: flex;
